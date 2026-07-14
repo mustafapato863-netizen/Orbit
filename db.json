@@ -1,0 +1,82 @@
+{
+  "milestones": [
+    {
+      "id": "ms_requirements",
+      "projectId": "proj_delivery",
+      "name": "Requirements discovery",
+      "startDate": "2026-06-24",
+      "endDate": "2026-07-02",
+      "risk": "low",
+      "status": "done",
+      "progress": 100,
+      "note": "",
+      "subMilestones": [
+        { "id": "sub_interviews", "name": "Stakeholder interviews", "done": true },
+        { "id": "sub_scope", "name": "Approve MVP scope", "done": true }
+      ]
+    },
+    {
+      "id": "ms_design",
+      "projectId": "proj_delivery",
+      "name": "Interface design",
+      "startDate": "2026-07-02",
+      "endDate": "2026-07-16",
+      "risk": "medium",
+      "status": "inprogress",
+      "progress": 60,
+      "note": "Client review is required before the team can finalize the design.",
+      "subMilestones": [
+        { "id": "sub_wireframes", "name": "Complete wireframes", "done": true },
+        { "id": "sub_prototype", "name": "Validate prototype", "done": false }
+      ]
+    },
+    {
+      "id": "ms_payment",
+      "projectId": "proj_delivery",
+      "name": "Payment integration",
+      "startDate": "2026-07-16",
+      "endDate": "2026-08-01",
+      "risk": "high",
+      "status": "pending",
+      "progress": 15,
+      "note": "The schedule depends on bank approval and may shift.",
+      "subMilestones": []
+    },
+    {
+      "id": "ms_launch",
+      "projectId": "proj_delivery",
+      "name": "Quality assurance and launch",
+      "startDate": "2026-08-01",
+      "endDate": "2026-08-23",
+      "risk": "medium",
+      "status": "pending",
+      "progress": 0,
+      "note": "",
+      "subMilestones": []
+    },
+    {
+      "id": "ms_identity",
+      "projectId": "proj_website",
+      "name": "Visual identity direction",
+      "startDate": "2026-07-09",
+      "endDate": "2026-07-19",
+      "risk": "low",
+      "status": "inprogress",
+      "progress": 45,
+      "note": "",
+      "subMilestones": []
+    },
+    {
+      "id": "ms_booking",
+      "projectId": "proj_website",
+      "name": "Booking platform build",
+      "startDate": "2026-07-19",
+      "endDate": "2026-08-08",
+      "risk": "high",
+      "status": "pending",
+      "progress": 10,
+      "note": "The integration uses a new library and needs an early technical spike.",
+      "subMilestones": []
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111f">
+  <meta name="description" content="Orbit is a focused project and milestone dashboard for modern teams.">
+  <title>Orbit — Project Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="shortcut icon" href="lightning.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Roboto+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Project navigation">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">O</span>
+        <div class="brand-text">
+          <h1>Orbit</h1>
+          <p>Project command center</p>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="newProjectBtn">
+        <span class="icon" aria-hidden="true">+</span> New project
+      </button>
+
+      <div class="sidebar-summary" id="sidebarSummary" aria-label="Workspace summary"></div>
+      <div class="project-list" id="projectList" aria-label="Projects"></div>
+    </aside>
+
+    <main class="main">
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon" aria-hidden="true">◎</div>
+        <p class="empty-kicker">Your workspace is ready</p>
+        <h2>No project selected</h2>
+        <p>Choose a project from the list or create a new one to start tracking milestones, progress, and risk.</p>
+        <button class="btn btn-primary" id="emptyNewProjectBtn">+ Create a project</button>
+      </div>
+
+      <div id="projectView" class="project-view hidden">
+        <header class="project-header">
+          <div class="project-header-top">
+            <div class="project-heading">
+              <div class="eyebrow" id="projectStatusBadge"></div>
+              <h2 id="projectName"></h2>
+              <p id="projectDesc" class="muted"></p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-ghost" id="editProjectBtn">Edit</button>
+              <button class="btn btn-ghost btn-danger" id="deleteProjectBtn">Delete</button>
+            </div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-card">
+              <span class="stat-icon" aria-hidden="true">◷</span>
+              <span class="stat-value" id="statDuration">—</span>
+              <span class="stat-label">Project days</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon" aria-hidden="true">◇</span>
+              <span class="stat-value" id="statMilestones">0</span>
+              <span class="stat-label">Milestones</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon" aria-hidden="true">✓</span>
+              <span class="stat-value" id="statDone">0</span>
+              <span class="stat-label">Overall progress</span>
+            </div>
+            <div class="stat-card risk-card">
+              <span class="stat-icon" aria-hidden="true">△</span>
+              <div class="risk-mix" id="riskMix"></div>
+              <span class="stat-label">Risk distribution</span>
+            </div>
+          </div>
+        </header>
+
+        <section class="timeline-section">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Schedule</p>
+              <h3>Project timeline</h3>
+            </div>
+            <button class="btn btn-primary btn-sm" id="newMilestoneBtn">+ Add milestone</button>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section class="milestone-section">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Execution</p>
+              <h3>Milestone details</h3>
+            </div>
+          </div>
+          <div class="milestone-list" id="milestoneList"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="projectModalOverlay" role="presentation">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+      <div class="modal-head">
+        <div>
+          <p class="modal-kicker">Project details</p>
+          <h3 id="projectModalTitle">New project</h3>
+        </div>
+        <button class="icon-btn" id="closeProjectModal" aria-label="Close project dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <label class="field">
+          <span>Project name</span>
+          <input type="text" id="pmName" placeholder="e.g. Mobile app redesign" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Short description</span>
+          <textarea id="pmDesc" rows="3" placeholder="What is this project aiming to achieve?"></textarea>
+        </label>
+        <div class="field-row">
+          <label class="field"><span>Start date</span><input type="date" id="pmStart"></label>
+          <label class="field"><span>End date</span><input type="date" id="pmEnd"></label>
+        </div>
+        <label class="field">
+          <span>Project status</span>
+          <select id="pmStatus">
+            <option value="planning">Planning</option>
+            <option value="active" selected>Active</option>
+            <option value="onhold">On hold</option>
+            <option value="done">Completed</option>
+          </select>
+        </label>
+        <p class="field-error hidden" id="pmError" role="alert"></p>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="cancelProjectModal">Cancel</button>
+        <button class="btn btn-primary" id="saveProjectBtn">Save project</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="milestoneModalOverlay" role="presentation">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="milestoneModalTitle">
+      <div class="modal-head">
+        <div>
+          <p class="modal-kicker">Delivery checkpoint</p>
+          <h3 id="milestoneModalTitle">New milestone</h3>
+        </div>
+        <button class="icon-btn" id="closeMilestoneModal" aria-label="Close milestone dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <label class="field">
+          <span>Milestone name</span>
+          <input type="text" id="mmName" placeholder="e.g. Interface design" autocomplete="off">
+        </label>
+        <div class="field-row">
+          <label class="field"><span>Start date</span><input type="date" id="mmStart"></label>
+          <label class="field"><span>End date</span><input type="date" id="mmEnd"></label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span>Risk level</span>
+            <select id="mmRisk">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Status</span>
+            <select id="mmStatus">
+              <option value="pending">Not started</option>
+              <option value="inprogress" selected>In progress</option>
+              <option value="done">Completed</option>
+              <option value="blocked">Blocked</option>
+            </select>
+          </label>
+        </div>
+        <label class="field">
+          <span>Risk note <em>Optional</em></span>
+          <textarea id="mmNote" rows="3" placeholder="Describe the risk or mitigation plan..."></textarea>
+        </label>
+        <label class="field progress-field">
+          <span>Milestone progress <strong id="mmProgressValue">0%</strong></span>
+          <input type="range" id="mmProgress" min="0" max="100" step="5" value="0">
+        </label>
+        <div class="submilestone-editor">
+          <div class="submilestone-head">
+            <div>
+              <span>Sub-milestones</span>
+              <small>Break this milestone into smaller deliverables.</small>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="addSubMilestoneBtn">+ Add</button>
+          </div>
+          <div class="submilestone-form hidden" id="subMilestoneForm">
+            <input type="text" id="subMilestoneName" placeholder="Sub-milestone name" autocomplete="off">
+            <button class="btn btn-primary btn-sm" type="button" id="saveSubMilestoneBtn">Add</button>
+          </div>
+          <div class="submilestone-list" id="subMilestoneList"></div>
+        </div>
+        <p class="field-error hidden" id="mmError" role="alert"></p>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost btn-danger hidden" id="deleteMilestoneBtn">Delete</button>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost" id="cancelMilestoneModal">Cancel</button>
+        <button class="btn btn-primary" id="saveMilestoneBtn">Save milestone</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+  <script src="main.js"></script>
+</body>
+</html>

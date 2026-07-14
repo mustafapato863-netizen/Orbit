@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "id": "proj_delivery",
+      "name": "Delivery mobile app",
+      "description": "An MVP connecting local restaurants with customers through a faster ordering experience.",
+      "startDate": "2026-06-24",
+      "endDate": "2026-08-23",
+      "status": "active"
+    },
+    {
+      "id": "proj_website",
+      "name": "Company website refresh",
+      "description": "Redesign the corporate website and connect it to the new booking platform.",
+      "startDate": "2026-07-09",
+      "endDate": "2026-08-08",
+      "status": "planning"
+    }
+  ]
+}
