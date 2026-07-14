@@ -18,6 +18,8 @@ let state = { projects: [], milestones: [], selectedProjectId: null };
 let editingProjectId = null;
 let editingMilestoneId = null;
 let subMilestoneDraft = [];
+let confirmationResolver = null;
+let confirmationTrigger = null;
 
 function uid(prefix) {
   return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
@@ -34,15 +36,20 @@ async function loadState() {
   if (!response.ok) throw new Error('Could not load project data');
   const saved = await response.json();
   state.projects = saved.projects;
-  state.milestones = saved.milestones.map(milestone => ({
-    ...milestone,
-    progress: Number(milestone.progress) || 0,
-    subMilestones: Array.isArray(milestone.subMilestones) ? milestone.subMilestones : []
-  }));
+  state.milestones = saved.milestones.map(milestone => {
+    const normalized = {
+      ...milestone,
+      subMilestones: Array.isArray(milestone.subMilestones) ? milestone.subMilestones : []
+    };
+    return { ...normalized, progress: milestoneProgress(normalized) };
+  });
   state.selectedProjectId = state.projects[0]?.id || null;
 }
 
 async function persistState() {
+  state.milestones.forEach(milestone => {
+    milestone.progress = milestoneProgress(milestone);
+  });
   const response = await fetch('/api/state', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -82,7 +89,13 @@ function highestRisk(milestones) {
 
 function projectProgress(milestones) {
   if (!milestones.length) return 0;
-  return Math.round(milestones.reduce((sum, item) => sum + (Number(item.progress) || 0), 0) / milestones.length);
+  return Math.round(milestones.reduce((sum, item) => sum + milestoneProgress(item), 0) / milestones.length);
+}
+
+function milestoneProgress(milestone) {
+  const items = Array.isArray(milestone.subMilestones) ? milestone.subMilestones : [];
+  if (!items.length) return milestone.status === 'done' ? 100 : 0;
+  return Math.round((items.filter(item => item.done).length / items.length) * 100);
 }
 
 function escapeHtml(value) {
@@ -104,6 +117,29 @@ function setModalVisibility(overlayId, visible) {
   const anyModalOpen = [...document.querySelectorAll('.modal-overlay')]
     .some(overlay => !overlay.classList.contains('hidden'));
   document.body.classList.toggle('modal-open', anyModalOpen);
+}
+
+function requestConfirmation({ title, message, confirmLabel = 'Delete' }) {
+  if (confirmationResolver) return Promise.resolve(false);
+  confirmationTrigger = document.activeElement;
+  document.getElementById('confirmModalTitle').textContent = title;
+  document.getElementById('confirmModalMessage').textContent = message;
+  document.getElementById('acceptConfirmBtn').textContent = confirmLabel;
+  setModalVisibility('confirmModalOverlay', true);
+  requestAnimationFrame(() => document.getElementById('acceptConfirmBtn').focus());
+  return new Promise(resolve => {
+    confirmationResolver = resolve;
+  });
+}
+
+function resolveConfirmation(accepted) {
+  if (!confirmationResolver) return;
+  const resolve = confirmationResolver;
+  confirmationResolver = null;
+  setModalVisibility('confirmModalOverlay', false);
+  resolve(accepted);
+  if (confirmationTrigger?.focus) confirmationTrigger.focus();
+  confirmationTrigger = null;
 }
 
 function renderSidebar() {
@@ -231,20 +267,22 @@ function renderMilestoneList(milestones) {
     return;
   }
 
-  list.innerHTML = milestones.map(milestone => `
+  list.innerHTML = milestones.map(milestone => {
+    const progress = milestoneProgress(milestone);
+    return `
     <button class="milestone-card" data-id="${milestone.id}">
       <span class="ms-copy">
         <span class="ms-name">${escapeHtml(milestone.name)}</span>
         ${milestone.note ? `<span class="ms-note">${escapeHtml(milestone.note)}</span>` : ''}
         ${milestone.subMilestones.length ? `<span class="sub-count">${milestone.subMilestones.filter(item => item.done).length}/${milestone.subMilestones.length} sub-milestones</span>` : ''}
-        <span class="ms-progress"><span style="width:${milestone.progress}%"></span></span>
+        <span class="ms-progress"><span style="width:${progress}%"></span></span>
       </span>
       <span class="ms-dates">${formatDate(milestone.startDate)} — ${formatDate(milestone.endDate)}</span>
-      <span class="ms-duration">${milestone.progress}%</span>
+      <span class="ms-duration">${progress}%</span>
       <span class="badge badge-${milestone.risk}">${RISK_LABEL[milestone.risk]} risk</span>
       <span class="status-pill st-${milestone.status}">${STATUS_LABEL[milestone.status]}</span>
-    </button>
-  `).join('');
+    </button>`;
+  }).join('');
 
   list.querySelectorAll('.milestone-card').forEach(card => {
     card.addEventListener('click', () => openMilestoneModal(card.dataset.id));
@@ -307,7 +345,14 @@ async function saveProject() {
 }
 
 async function deleteProject() {
-  if (!state.selectedProjectId || !confirm('Delete this project and all of its milestones? This cannot be undone.')) return;
+  if (!state.selectedProjectId) return;
+  const project = getProject(state.selectedProjectId);
+  const accepted = await requestConfirmation({
+    title: `Delete ${project.name}?`,
+    message: 'This will permanently delete the project and all of its milestones. This action cannot be undone.',
+    confirmLabel: 'Delete project'
+  });
+  if (!accepted) return;
   const id = state.selectedProjectId;
   state.projects = state.projects.filter(project => project.id !== id);
   state.milestones = state.milestones.filter(milestone => milestone.projectId !== id);
@@ -335,12 +380,11 @@ function openMilestoneModal(milestoneId) {
   document.getElementById('mmRisk').value = milestone?.risk || 'medium';
   document.getElementById('mmStatus').value = milestone?.status || 'pending';
   document.getElementById('mmNote').value = milestone?.note || '';
-  document.getElementById('mmProgress').value = milestone?.progress || 0;
-  document.getElementById('mmProgressValue').textContent = `${milestone?.progress || 0}%`;
   subMilestoneDraft = structuredClone(milestone?.subMilestones || []);
   document.getElementById('subMilestoneForm').classList.add('hidden');
   document.getElementById('subMilestoneName').value = '';
   renderSubMilestoneEditor();
+  updateDraftProgress();
   document.getElementById('deleteMilestoneBtn').classList.toggle('hidden', !milestone);
   setModalVisibility('milestoneModalOverlay', true);
   document.getElementById('mmName').focus();
@@ -363,14 +407,25 @@ function renderSubMilestoneEditor() {
     input.addEventListener('change', () => {
       const item = subMilestoneDraft.find(entry => entry.id === input.dataset.subToggle);
       if (item) item.done = input.checked;
+      updateDraftProgress();
     });
   });
   list.querySelectorAll('[data-sub-delete]').forEach(button => {
     button.addEventListener('click', () => {
       subMilestoneDraft = subMilestoneDraft.filter(item => item.id !== button.dataset.subDelete);
       renderSubMilestoneEditor();
+      updateDraftProgress();
     });
   });
+}
+
+function updateDraftProgress() {
+  const progress = milestoneProgress({
+    status: document.getElementById('mmStatus').value,
+    subMilestones: subMilestoneDraft
+  });
+  document.getElementById('mmProgressValue').textContent = `${progress}%`;
+  document.getElementById('mmProgressBar').style.width = `${progress}%`;
 }
 
 function addSubMilestone() {
@@ -380,6 +435,7 @@ function addSubMilestone() {
   subMilestoneDraft.push({ id: uid('sub'), name, done: false });
   input.value = '';
   renderSubMilestoneEditor();
+  updateDraftProgress();
   input.focus();
 }
 
@@ -390,7 +446,7 @@ async function saveMilestone() {
   const risk = document.getElementById('mmRisk').value;
   const status = document.getElementById('mmStatus').value;
   const note = document.getElementById('mmNote').value.trim();
-  const progress = Number(document.getElementById('mmProgress').value);
+  const progress = milestoneProgress({ status, subMilestones: subMilestoneDraft });
   const error = document.getElementById('mmError');
 
   if (!name) return showFormError(error, 'Enter a milestone name.');
@@ -423,7 +479,14 @@ function showFormError(element, message) {
 }
 
 async function deleteMilestone() {
-  if (!editingMilestoneId || !confirm('Delete this milestone? This cannot be undone.')) return;
+  if (!editingMilestoneId) return;
+  const milestone = state.milestones.find(item => item.id === editingMilestoneId);
+  const accepted = await requestConfirmation({
+    title: `Delete ${milestone.name}?`,
+    message: 'This will permanently delete the milestone and its sub-milestones. This action cannot be undone.',
+    confirmLabel: 'Delete milestone'
+  });
+  if (!accepted) return;
   state.milestones = state.milestones.filter(item => item.id !== editingMilestoneId);
   try {
     await persistState();
@@ -458,9 +521,9 @@ async function init() {
   document.getElementById('cancelMilestoneModal').addEventListener('click', closeMilestoneModal);
   document.getElementById('saveMilestoneBtn').addEventListener('click', saveMilestone);
   document.getElementById('deleteMilestoneBtn').addEventListener('click', deleteMilestone);
-  document.getElementById('mmProgress').addEventListener('input', event => {
-    document.getElementById('mmProgressValue').textContent = `${event.target.value}%`;
-  });
+  document.getElementById('cancelConfirmBtn').addEventListener('click', () => resolveConfirmation(false));
+  document.getElementById('acceptConfirmBtn').addEventListener('click', () => resolveConfirmation(true));
+  document.getElementById('mmStatus').addEventListener('change', updateDraftProgress);
   document.getElementById('addSubMilestoneBtn').addEventListener('click', () => {
     document.getElementById('subMilestoneForm').classList.toggle('hidden');
     document.getElementById('subMilestoneName').focus();
@@ -473,12 +536,18 @@ async function init() {
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', event => {
       if (event.target !== overlay) return;
-      overlay.id === 'projectModalOverlay' ? closeProjectModal() : closeMilestoneModal();
+      if (overlay.id === 'projectModalOverlay') closeProjectModal();
+      if (overlay.id === 'milestoneModalOverlay') closeMilestoneModal();
+      if (overlay.id === 'confirmModalOverlay') resolveConfirmation(false);
     });
   });
 
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
+      if (!document.getElementById('confirmModalOverlay').classList.contains('hidden')) {
+        resolveConfirmation(false);
+        return;
+      }
       closeProjectModal();
       closeMilestoneModal();
     }

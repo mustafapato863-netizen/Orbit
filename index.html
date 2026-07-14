@@ -183,10 +183,11 @@
           <span>Risk note <em>Optional</em></span>
           <textarea id="mmNote" rows="3" placeholder="Describe the risk or mitigation plan..."></textarea>
         </label>
-        <label class="field progress-field">
-          <span>Milestone progress <strong id="mmProgressValue">0%</strong></span>
-          <input type="range" id="mmProgress" min="0" max="100" step="5" value="0">
-        </label>
+        <div class="calculated-progress">
+          <span>Calculated progress <strong id="mmProgressValue">0%</strong></span>
+          <div class="calculated-progress-track"><span id="mmProgressBar"></span></div>
+          <small>Based on completed sub-milestones.</small>
+        </div>
         <div class="submilestone-editor">
           <div class="submilestone-head">
             <div>
@@ -208,6 +209,20 @@
         <div class="spacer"></div>
         <button class="btn btn-ghost" id="cancelMilestoneModal">Cancel</button>
         <button class="btn btn-primary" id="saveMilestoneBtn">Save milestone</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay confirm-overlay hidden" id="confirmModalOverlay" role="presentation">
+    <div class="modal confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirmModalTitle" aria-describedby="confirmModalMessage">
+      <div class="confirm-icon" aria-hidden="true">!</div>
+      <div class="confirm-copy">
+        <h3 id="confirmModalTitle">Delete item?</h3>
+        <p id="confirmModalMessage">This action cannot be undone.</p>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" id="cancelConfirmBtn">Cancel</button>
+        <button class="btn btn-delete" id="acceptConfirmBtn">Delete</button>
       </div>
     </div>
   </div>

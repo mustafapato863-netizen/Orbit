@@ -45,13 +45,16 @@ function validState(value) {
   if (projectIds.size !== value.projects.length || milestoneIds.size !== value.milestones.length) return false;
   return value.projects.every(project => typeof project.id === 'string' && project.id && typeof project.name === 'string' && project.name.trim())
     && value.milestones.every(milestone => {
-      const progress = Number(milestone.progress);
       return typeof milestone.id === 'string' && milestone.id
         && projectIds.has(milestone.projectId)
-        && Number.isFinite(progress) && progress >= 0 && progress <= 100
         && Array.isArray(milestone.subMilestones)
         && milestone.subMilestones.every(item => typeof item.id === 'string' && typeof item.name === 'string' && typeof item.done === 'boolean');
     });
+}
+
+function milestoneProgress(milestone) {
+  if (!milestone.subMilestones.length) return milestone.status === 'done' ? 100 : 0;
+  return Math.round((milestone.subMilestones.filter(item => item.done).length / milestone.subMilestones.length) * 100);
 }
 
 async function handleApi(request, response, pathname) {
@@ -68,9 +71,13 @@ async function handleApi(request, response, pathname) {
   if (request.method === 'PUT') {
     const state = await readBody(request);
     if (!validState(state)) return send(response, 400, { error: 'Invalid project state' });
+    const milestones = state.milestones.map(milestone => ({
+      ...milestone,
+      progress: milestoneProgress(milestone)
+    }));
     await Promise.all([
       writeJsonAtomic(PROJECTS_FILE, { projects: state.projects }),
-      writeJsonAtomic(DB_FILE, { milestones: state.milestones })
+      writeJsonAtomic(DB_FILE, { milestones })
     ]);
     return send(response, 200, { saved: true });
   }

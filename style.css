@@ -367,9 +367,12 @@ button { -webkit-tap-highlight-color: transparent; }
 .field textarea { min-height: 76px; line-height: 1.5; }
 .field input::placeholder, .field textarea::placeholder { color: #63758e; }
 .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(114, 227, 173, 0.09); }
-.progress-field > span { display: flex; justify-content: space-between; }
-.progress-field strong { color: var(--accent); font: 600 11px var(--font-mono); }
-.field input[type="range"] { min-height: 22px; padding: 0; border: 0; accent-color: var(--accent); box-shadow: none; }
+.calculated-progress { padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: rgba(8, 17, 31, 0.32); }
+.calculated-progress > span { display: flex; justify-content: space-between; color: #b5c3d6; font-size: 11.5px; font-weight: 600; }
+.calculated-progress strong { color: var(--accent); font: 600 11px var(--font-mono); }
+.calculated-progress-track { height: 6px; margin: 9px 0 7px; overflow: hidden; border-radius: 999px; background: var(--surface-3); }
+.calculated-progress-track span { height: 100%; display: block; border-radius: inherit; background: linear-gradient(90deg, var(--accent-strong), var(--accent)); transition: width 180ms ease; }
+.calculated-progress small { color: var(--muted); font-size: 9.5px; }
 .field-row { display: flex; gap: 12px; }
 .submilestone-editor { padding: 13px; border: 1px solid var(--border); border-radius: 12px; background: rgba(8, 17, 31, 0.38); }
 .submilestone-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -389,6 +392,14 @@ button { -webkit-tap-highlight-color: transparent; }
 .field-error { margin: 0; padding: 9px 11px; border-radius: 8px; background: var(--risk-high-soft); color: var(--risk-high); font-size: 11.5px; }
 .modal-foot { padding: 15px 22px; border-top: 1px solid var(--border); display: flex; gap: 9px; }
 .spacer { flex: 1; }
+.confirm-overlay { z-index: 70; }
+.confirm-modal { max-width: 410px; padding: 24px; overflow: visible; display: grid; grid-template-columns: 46px 1fr; gap: 15px; }
+.confirm-icon { width: 46px; height: 46px; border: 1px solid rgba(255, 125, 138, 0.32); border-radius: 14px; display: grid; place-items: center; background: var(--risk-high-soft); color: var(--risk-high); font: 800 20px var(--font-display); }
+.confirm-copy h3 { margin: 1px 0 7px; font: 700 18px var(--font-display); letter-spacing: -0.25px; }
+.confirm-copy p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+.confirm-actions { grid-column: 1 / -1; margin-top: 7px; display: flex; justify-content: flex-end; gap: 9px; }
+.btn-delete { border-color: transparent; background: var(--risk-high); color: #2a070b; }
+.btn-delete:hover { border-color: transparent; background: #ff98a2; box-shadow: 0 8px 24px rgba(255, 125, 138, 0.17); }
 .toast { position: fixed; right: 24px; bottom: 24px; z-index: 100; padding: 11px 16px; border: 1px solid var(--border-strong); border-radius: 12px; background: #1b2c43; color: var(--text); box-shadow: var(--shadow); font-size: 12.5px; animation: toast-in 180ms ease-out; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
 
@@ -443,6 +454,8 @@ button { -webkit-tap-highlight-color: transparent; }
   .section-head .btn { min-height: 35px; padding-inline: 10px; }
   .modal-overlay { padding: 0; align-items: flex-end; }
   .modal { max-height: 94vh; border-radius: 20px 20px 0 0; }
+  .confirm-overlay { padding: 15px; align-items: center; }
+  .confirm-modal { max-width: 410px; border-radius: 18px; padding: 21px; }
   .modal-head, .modal-body, .modal-foot { padding-inline: 17px; }
   .field-row { flex-direction: column; }
   .modal-foot .btn { padding-inline: 12px; }

@@ -11,8 +11,16 @@
       "progress": 100,
       "note": "",
       "subMilestones": [
-        { "id": "sub_interviews", "name": "Stakeholder interviews", "done": true },
-        { "id": "sub_scope", "name": "Approve MVP scope", "done": true }
+        {
+          "id": "sub_interviews",
+          "name": "Stakeholder interviews",
+          "done": true
+        },
+        {
+          "id": "sub_scope",
+          "name": "Approve MVP scope",
+          "done": true
+        }
       ]
     },
     {
@@ -26,8 +34,16 @@
       "progress": 60,
       "note": "Client review is required before the team can finalize the design.",
       "subMilestones": [
-        { "id": "sub_wireframes", "name": "Complete wireframes", "done": true },
-        { "id": "sub_prototype", "name": "Validate prototype", "done": false }
+        {
+          "id": "sub_wireframes",
+          "name": "Complete wireframes",
+          "done": true
+        },
+        {
+          "id": "sub_prototype",
+          "name": "Validate prototype",
+          "done": false
+        }
       ]
     },
     {
