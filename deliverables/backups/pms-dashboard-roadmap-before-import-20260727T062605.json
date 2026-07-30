@@ -1,0 +1,2522 @@
+{
+  "schemaVersion": 1,
+  "exportedAt": "2026-07-27T03:26:04.945Z",
+  "editingNotes": [
+    "Keep project, phase, work-item, and capability codes unique.",
+    "Use YYYY-MM-DD for dates and null when a date is not set.",
+    "Progress must be an integer from 0 to 100.",
+    "Do not rename keys. Edit values or add new phase/work-item objects using the same shape."
+  ],
+  "allowedValues": {
+    "phaseType": [
+      "TECHNICAL",
+      "BUSINESS"
+    ],
+    "status": [
+      "NOT_STARTED",
+      "IN_PROGRESS",
+      "AT_RISK",
+      "BLOCKED",
+      "COMPLETED"
+    ],
+    "riskLevel": [
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "deliveryStage": [
+      "NOT_STARTED",
+      "IN_DEVELOPMENT",
+      "TECHNICAL_VERIFICATION",
+      "BUSINESS_UAT",
+      "STAGING",
+      "CONTROLLED_PILOT",
+      "PRODUCTION"
+    ],
+    "lifecycleStage": [
+      "NS",
+      "IP",
+      "CHK",
+      "RPR",
+      "LIVE"
+    ],
+    "deliveryHealth": [
+      "ON_TRACK",
+      "AT_RISK",
+      "OVERDUE"
+    ],
+    "workstream": [
+      "FRONTEND",
+      "BACKEND",
+      "DATABASE"
+    ],
+    "releaseHorizon": [
+      "RELEASE_1",
+      "PHASE_2"
+    ]
+  },
+  "project": {
+    "code": "PMS",
+    "slug": "pms-dashboard",
+    "name": "PMS Dashboard",
+    "description": "Implementation and business-delivery roadmap for the PMS first release.",
+    "status": "ACTIVE",
+    "progress": 87,
+    "startDate": "2026-06-01",
+    "targetDate": "2026-09-30"
+  },
+  "phases": [
+    {
+      "code": "PH-01",
+      "phaseType": "TECHNICAL",
+      "name": "Foundation & Architecture",
+      "businessPurpose": "Deliver the Foundation & Architecture scope through one accountable phase and its planned work packages.",
+      "status": "AT_RISK",
+      "progress": 82,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 10,
+      "startDate": "2026-06-01",
+      "dueDate": "2026-06-14",
+      "deliveredScope": null,
+      "remainingScope": "Repository audit & implementation baseline; Application shell & responsive navigation; Environment validation & security baseline; Project architecture & implementation documents; Shared UI components & design system",
+      "currentBlockers": "1 work package(s) require attention.",
+      "nextAction": "Freeze the verified implementation baseline.",
+      "firstReleaseImpact": "Foundation & Architecture is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-01.1",
+          "name": "Repository audit & implementation baseline",
+          "description": "Repository audit & implementation baseline · Source workstream: Cross-functional · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-03",
+          "plannedDates": {
+            "start": "2026-05-25",
+            "check": "2026-06-03",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Freeze the verified implementation baseline.",
+          "nextAction": "Freeze the verified implementation baseline.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.2",
+          "name": "Application shell & responsive navigation",
+          "description": "Application shell & responsive navigation · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-15",
+          "plannedDates": {
+            "start": "2026-05-27",
+            "check": "2026-06-03",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm desktop, tablet and mobile navigation states.",
+          "nextAction": "Confirm desktop, tablet and mobile navigation states.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.3",
+          "name": "Environment validation & security baseline",
+          "description": "Environment validation & security baseline · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-15",
+          "plannedDates": {
+            "start": "2026-05-25",
+            "check": "2026-06-03",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Verify environment validation and secret handling.",
+          "nextAction": "Verify environment validation and secret handling.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.4",
+          "name": "Project architecture & implementation documents",
+          "description": "Project architecture & implementation documents · Source workstream: Cross-functional · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "AT_RISK",
+          "progress": 50,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "OVERDUE",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-06",
+          "plannedDates": {
+            "start": "2026-06-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete the remaining architecture and handover documents.",
+          "nextAction": "Complete the remaining architecture and handover documents.",
+          "blocker": "Overdue against the planned end date.",
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.5",
+          "name": "Shared UI components & design system",
+          "description": "Shared UI components & design system · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-02",
+          "dueDate": "2026-06-07",
+          "plannedDates": {
+            "start": "2026-06-02",
+            "check": "2026-06-07",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm reusable component coverage and visual consistency.",
+          "nextAction": "Confirm reusable component coverage and visual consistency.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-02",
+      "phaseType": "TECHNICAL",
+      "name": "Database & Core Models",
+      "businessPurpose": "Deliver the Database & Core Models scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "TECHNICAL_VERIFICATION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 20,
+      "startDate": "2026-06-01",
+      "dueDate": "2026-07-21",
+      "deliveredScope": "Project, milestone & work package schema; Shared capabilities & workstream relations; Lifecycle, health & checkpoint models; Safe migration & Prisma seed; Data integrity & audit history",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance evidence.",
+      "firstReleaseImpact": "Database & Core Models is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-02.1",
+          "name": "Project, milestone & work package schema",
+          "description": "Project, milestone & work package schema · Source workstream: Database · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-07",
+          "plannedDates": {
+            "start": "2026-06-01",
+            "check": "2026-06-07",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate the final schema and relationships.",
+          "nextAction": "Validate the final schema and relationships.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.2",
+          "name": "Shared capabilities & workstream relations",
+          "description": "Shared capabilities & workstream relations · Source workstream: Database · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-05",
+          "dueDate": "2026-06-12",
+          "plannedDates": {
+            "start": "2026-06-05",
+            "check": null,
+            "productionReady": "2026-06-12",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm canonical shared-capability links and counts.",
+          "nextAction": "Confirm canonical shared-capability links and counts.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.3",
+          "name": "Lifecycle, health & checkpoint models",
+          "description": "Lifecycle, health & checkpoint models · Source workstream: Database · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-08",
+          "dueDate": "2026-06-15",
+          "plannedDates": {
+            "start": "2026-06-08",
+            "check": null,
+            "productionReady": "2026-06-15",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Verify lifecycle, health and checkpoint rules.",
+          "nextAction": "Verify lifecycle, health and checkpoint rules.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.4",
+          "name": "Safe migration & Prisma seed",
+          "description": "Safe migration & Prisma seed · Source workstream: Database · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-13",
+          "dueDate": "2026-06-18",
+          "plannedDates": {
+            "start": "2026-06-13",
+            "check": null,
+            "productionReady": "2026-06-18",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate migration safety and repeatable seed execution.",
+          "nextAction": "Validate migration safety and repeatable seed execution.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.5",
+          "name": "Data integrity & audit history",
+          "description": "Data integrity & audit history · Source workstream: Database · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-16",
+          "dueDate": "2026-06-21",
+          "plannedDates": {
+            "start": "2026-06-16",
+            "check": null,
+            "productionReady": "2026-06-21",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm audit history and integrity constraints.",
+          "nextAction": "Confirm audit history and integrity constraints.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-03",
+      "phaseType": "TECHNICAL",
+      "name": "Backend & Business Logic",
+      "businessPurpose": "Deliver the Backend & Business Logic scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 82,
+      "riskLevel": "LOW",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 30,
+      "startDate": "2026-06-08",
+      "dueDate": "2026-08-12",
+      "deliveredScope": null,
+      "remainingScope": "Authentication & role-based access; Project & milestone services; Work package & checkpoint services; Risk, decision & shared capability services; Summary calculations & snapshot report API",
+      "currentBlockers": null,
+      "nextAction": "Complete server-side permission coverage.",
+      "firstReleaseImpact": "Backend & Business Logic is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-03.1",
+          "name": "Authentication & role-based access",
+          "description": "Authentication & role-based access · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-08",
+          "dueDate": "2026-06-18",
+          "plannedDates": {
+            "start": "2026-06-08",
+            "check": "2026-06-18",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete server-side permission coverage.",
+          "nextAction": "Complete server-side permission coverage.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.2",
+          "name": "Project & milestone services",
+          "description": "Project & milestone services · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-15",
+          "dueDate": "2026-06-26",
+          "plannedDates": {
+            "start": "2026-06-15",
+            "check": "2026-06-26",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Run service-level validation and access tests.",
+          "nextAction": "Run service-level validation and access tests.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.3",
+          "name": "Work package & checkpoint services",
+          "description": "Work package & checkpoint services · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-22",
+          "dueDate": "2026-07-03",
+          "plannedDates": {
+            "start": "2026-06-22",
+            "check": "2026-07-03",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Verify checkpoint updates and date ordering.",
+          "nextAction": "Verify checkpoint updates and date ordering.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.4",
+          "name": "Risk, decision & shared capability services",
+          "description": "Risk, decision & shared capability services · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-29",
+          "dueDate": "2026-07-08",
+          "plannedDates": {
+            "start": "2026-06-29",
+            "check": "2026-07-08",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete service regression and authorization checks.",
+          "nextAction": "Complete service regression and authorization checks.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.5",
+          "name": "Summary calculations & snapshot report API",
+          "description": "Summary calculations & snapshot report API · Source workstream: Backend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-27",
+          "dueDate": "2026-08-12",
+          "plannedDates": {
+            "start": "2026-07-27",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Finish summary selectors and snapshot API output.",
+          "nextAction": "Finish summary selectors and snapshot API output.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-04",
+      "phaseType": "TECHNICAL",
+      "name": "PMS Frontend Experience",
+      "businessPurpose": "Deliver the PMS Frontend Experience scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 94,
+      "riskLevel": "LOW",
+      "deliveryStage": "TECHNICAL_VERIFICATION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 40,
+      "startDate": "2026-06-22",
+      "dueDate": "2026-08-02",
+      "deliveredScope": "Executive Overview Dashboard; Work Package Drawer & Responsive States",
+      "remainingScope": "Delivery Roadmap & Milestones Timeline; Milestones & Shared Capabilities Workspace; Technical Workstreams, Risks & Decisions",
+      "currentBlockers": null,
+      "nextAction": "Build the date-driven roadmap and milestone groups.",
+      "firstReleaseImpact": "PMS Frontend Experience is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-04.1",
+          "name": "Executive Overview Dashboard",
+          "description": "Executive Overview Dashboard · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-22",
+          "dueDate": "2026-07-05",
+          "plannedDates": {
+            "start": "2026-06-22",
+            "check": null,
+            "productionReady": "2026-07-05",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete data wiring and final visual review.",
+          "nextAction": "Complete data wiring and final visual review.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.2",
+          "name": "Delivery Roadmap & Milestones Timeline",
+          "description": "Delivery Roadmap & Milestones Timeline · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-07-16",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": "2026-07-16",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Build the date-driven roadmap and milestone groups.",
+          "nextAction": "Build the date-driven roadmap and milestone groups.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.3",
+          "name": "Milestones & Shared Capabilities Workspace",
+          "description": "Milestones & Shared Capabilities Workspace · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-08",
+          "dueDate": "2026-07-22",
+          "plannedDates": {
+            "start": "2026-07-08",
+            "check": "2026-07-22",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Implement milestone and shared-capability management views.",
+          "nextAction": "Implement milestone and shared-capability management views.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.4",
+          "name": "Technical Workstreams, Risks & Decisions",
+          "description": "Technical Workstreams, Risks & Decisions · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-15",
+          "dueDate": "2026-07-27",
+          "plannedDates": {
+            "start": "2026-07-15",
+            "check": "2026-07-27",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Build workstream, risk and decision summaries.",
+          "nextAction": "Build workstream, risk and decision summaries.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.5",
+          "name": "Work Package Drawer & Responsive States",
+          "description": "Work Package Drawer & Responsive States · Source workstream: Frontend · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-23",
+          "dueDate": "2026-08-02",
+          "plannedDates": {
+            "start": "2026-07-23",
+            "check": null,
+            "productionReady": "2026-08-02",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Implement the shared drawer and responsive layouts.",
+          "nextAction": "Implement the shared drawer and responsive layouts.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-05",
+      "phaseType": "TECHNICAL",
+      "name": "Verification & Release Readiness",
+      "businessPurpose": "Deliver the Verification & Release Readiness scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 90,
+      "riskLevel": "LOW",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 50,
+      "startDate": "2026-07-20",
+      "dueDate": "2026-08-18",
+      "deliveredScope": "Typecheck, lint & unit tests; Integration & permission tests; Timeline, counting & overdue validation; Responsive & visual regression tests",
+      "remainingScope": "PDF Snapshot Story verification",
+      "currentBlockers": null,
+      "nextAction": "Validate report content, pagination and secret exclusion.",
+      "firstReleaseImpact": "Verification & Release Readiness is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-05.1",
+          "name": "Typecheck, lint & unit tests",
+          "description": "Typecheck, lint & unit tests · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-20",
+          "dueDate": "2026-07-27",
+          "plannedDates": {
+            "start": "2026-07-20",
+            "check": null,
+            "productionReady": "2026-07-27",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Run and close the baseline quality gates.",
+          "nextAction": "Run and close the baseline quality gates.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.2",
+          "name": "Integration & permission tests",
+          "description": "Integration & permission tests · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-25",
+          "dueDate": "2026-08-03",
+          "plannedDates": {
+            "start": "2026-07-25",
+            "check": null,
+            "productionReady": "2026-08-03",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Verify protected workflows and role restrictions.",
+          "nextAction": "Verify protected workflows and role restrictions.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.3",
+          "name": "Timeline, counting & overdue validation",
+          "description": "Timeline, counting & overdue validation · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-30",
+          "dueDate": "2026-08-07",
+          "plannedDates": {
+            "start": "2026-07-30",
+            "check": null,
+            "productionReady": "2026-08-07",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate timeline positions and project calculations.",
+          "nextAction": "Validate timeline positions and project calculations.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.4",
+          "name": "Responsive & visual regression tests",
+          "description": "Responsive & visual regression tests · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-03",
+          "dueDate": "2026-08-12",
+          "plannedDates": {
+            "start": "2026-08-03",
+            "check": null,
+            "productionReady": "2026-08-12",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Capture and review responsive visual evidence.",
+          "nextAction": "Capture and review responsive visual evidence.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.5",
+          "name": "PDF Snapshot Story verification",
+          "description": "PDF Snapshot Story verification · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-10",
+          "dueDate": "2026-08-18",
+          "plannedDates": {
+            "start": "2026-08-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate report content, pagination and secret exclusion.",
+          "nextAction": "Validate report content, pagination and secret exclusion.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-06",
+      "phaseType": "TECHNICAL",
+      "name": "Deployment & First Release",
+      "businessPurpose": "Deliver the Deployment & First Release scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 58,
+      "riskLevel": "LOW",
+      "deliveryStage": "NOT_STARTED",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 60,
+      "startDate": "2026-08-17",
+      "dueDate": "2026-08-29",
+      "deliveredScope": "Production environment configuration; Application deployment",
+      "remainingScope": "Database migration & seed deployment; Post-deployment smoke verification; First Release handover & sign-off",
+      "currentBlockers": null,
+      "nextAction": "Apply the approved production migration and seed.",
+      "firstReleaseImpact": "Deployment & First Release is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "PH-06.1",
+          "name": "Production environment configuration",
+          "description": "Production environment configuration · Source workstream: DevOps · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-17",
+          "dueDate": "2026-08-21",
+          "plannedDates": {
+            "start": "2026-08-17",
+            "check": null,
+            "productionReady": "2026-08-21",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm production variables and deployment settings.",
+          "nextAction": "Confirm production variables and deployment settings.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.2",
+          "name": "Database migration & seed deployment",
+          "description": "Database migration & seed deployment · Source workstream: Database / DevOps · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-20",
+          "dueDate": "2026-08-24",
+          "plannedDates": {
+            "start": "2026-08-20",
+            "check": "2026-08-24",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Apply the approved production migration and seed.",
+          "nextAction": "Apply the approved production migration and seed.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.3",
+          "name": "Application deployment",
+          "description": "Application deployment · Source workstream: DevOps · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-24",
+          "dueDate": "2026-08-27",
+          "plannedDates": {
+            "start": "2026-08-24",
+            "check": "2026-08-27",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Deploy the approved production build.",
+          "nextAction": "Deploy the approved production build.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.4",
+          "name": "Post-deployment smoke verification",
+          "description": "Post-deployment smoke verification · Source workstream: QA / Verification · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-27",
+          "dueDate": "2026-08-29",
+          "plannedDates": {
+            "start": "2026-08-27",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Verify critical live workflows after deployment.",
+          "nextAction": "Verify critical live workflows after deployment.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.5",
+          "name": "First Release handover & sign-off",
+          "description": "First Release handover & sign-off · Source workstream: Project Management · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Sample planning row — replace operational fields with actual data.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-29",
+          "dueDate": "2026-08-29",
+          "plannedDates": {
+            "start": "2026-08-29",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete release evidence, handover and sign-off.",
+          "nextAction": "Complete release evidence, handover and sign-off.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-01",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Employee Performance",
+      "businessPurpose": "Deliver the Business Delivery — Employee Performance scope through one accountable phase and its planned work packages.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "PRODUCTION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 70,
+      "startDate": "2026-05-25",
+      "dueDate": "2026-08-15",
+      "deliveredScope": "Employee KPI Performance Calculation; Individual Employee Performance Profile; Employee KPI Breakdown & Weighted Score; Employee Grade & Performance Classification; Employee History, Feedback & Follow-up",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance evidence.",
+      "firstReleaseImpact": "Business Delivery — Employee Performance is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "BUS-01.1",
+          "name": "Employee KPI Performance Calculation",
+          "description": "Employee KPI Performance Calculation · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Calculates employee performance from configured KPIs, weights, targets, directions and achievement rules.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-05-25",
+          "dueDate": "2026-06-18",
+          "plannedDates": {
+            "start": "2026-05-25",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-06-18"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm production evidence and operational ownership.",
+          "nextAction": "Confirm production evidence and operational ownership.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.2",
+          "name": "Individual Employee Performance Profile",
+          "description": "Individual Employee Performance Profile · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Employee profile shows identity, team, reporting period, score, grade and performance status.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-26",
+          "plannedDates": {
+            "start": "2026-06-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-06-26"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm profile completeness across teams and periods.",
+          "nextAction": "Confirm profile completeness across teams and periods.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.3",
+          "name": "Employee KPI Breakdown & Weighted Score",
+          "description": "Employee KPI Breakdown & Weighted Score · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Shows actual, target, direction, achievement and weighted KPI contribution.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-10",
+          "dueDate": "2026-06-18",
+          "plannedDates": {
+            "start": "2026-06-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-06-18"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm all KPI calculation details are visible.",
+          "nextAction": "Confirm all KPI calculation details are visible.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.4",
+          "name": "Employee Grade & Performance Classification",
+          "description": "Employee Grade & Performance Classification · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Classifies employee results using the approved grade thresholds and status rules.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-15",
+          "dueDate": "2026-06-30",
+          "plannedDates": {
+            "start": "2026-06-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-06-30"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Freeze the approved grade and classification rules.",
+          "nextAction": "Freeze the approved grade and classification rules.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.5",
+          "name": "Employee History, Feedback & Follow-up",
+          "description": "Employee History, Feedback & Follow-up · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Historical performance and follow-up are available partially.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-08-15",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-15"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete period history, feedback links and follow-up actions.",
+          "nextAction": "Complete period history, feedback links and follow-up actions.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-02",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Team Performance",
+      "businessPurpose": "Deliver the Business Delivery — Team Performance scope through one accountable phase and its planned work packages.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "PRODUCTION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 80,
+      "startDate": "2026-06-10",
+      "dueDate": "2026-08-25",
+      "deliveredScope": "Team Performance Calculation; Team Performance Dashboard; Team KPI Performance Breakdown; Employee Roster & Performance Comparison; Team Trends & Period Comparison",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance evidence.",
+      "firstReleaseImpact": "Business Delivery — Team Performance is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "BUS-02.1",
+          "name": "Team Performance Calculation",
+          "description": "Team Performance Calculation · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Aggregates employee results into team and department performance.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-10",
+          "dueDate": "2026-06-25",
+          "plannedDates": {
+            "start": "2026-06-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-06-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm aggregation rules across all teams.",
+          "nextAction": "Confirm aggregation rules across all teams.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.2",
+          "name": "Team Performance Dashboard",
+          "description": "Team Performance Dashboard · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Shows team score, grade, KPIs, staff count and overall health.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-20",
+          "dueDate": "2026-07-05",
+          "plannedDates": {
+            "start": "2026-06-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-05"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm dashboard data and management usability.",
+          "nextAction": "Confirm dashboard data and management usability.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.3",
+          "name": "Team KPI Performance Breakdown",
+          "description": "Team KPI Performance Breakdown · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Identifies which team KPIs meet targets and which cause underperformance.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-25",
+          "dueDate": "2026-07-10",
+          "plannedDates": {
+            "start": "2026-06-25",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-10"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate underperformance-driver calculations.",
+          "nextAction": "Validate underperformance-driver calculations.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.4",
+          "name": "Employee Roster & Performance Comparison",
+          "description": "Employee Roster & Performance Comparison · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Compares employees and highlights top, bottom and attention-needed staff.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-07-25",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete attention flags and comparison coverage.",
+          "nextAction": "Complete attention flags and comparison coverage.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.5",
+          "name": "Team Trends & Period Comparison",
+          "description": "Team Trends & Period Comparison · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Compares team performance across periods and shows improvement or decline.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-08-25",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete trend coverage and month-to-month validation.",
+          "nextAction": "Complete trend coverage and month-to-month validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-03",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Managerial & Corporate Performance",
+      "businessPurpose": "Deliver the Business Delivery — Managerial & Corporate Performance scope through one accountable phase and its planned work packages.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "PRODUCTION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 90,
+      "startDate": "2026-06-15",
+      "dueDate": "2026-08-31",
+      "deliveredScope": "Managerial Performance Overview; Corporate Performance Overview; Performance Level & Position Views; Balanced Scorecard Perspective Summary; Strategy Map & Strategic Drill-down",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance evidence.",
+      "firstReleaseImpact": "Business Delivery — Managerial & Corporate Performance is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "BUS-03.1",
+          "name": "Managerial Performance Overview",
+          "description": "Managerial Performance Overview · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Provides aggregated performance for assigned teams, positions and scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-15",
+          "dueDate": "2026-07-25",
+          "plannedDates": {
+            "start": "2026-06-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete managerial scope and business validation.",
+          "nextAction": "Complete managerial scope and business validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.2",
+          "name": "Corporate Performance Overview",
+          "description": "Corporate Performance Overview · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Shows overall corporate PMS performance across regions and business areas.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-20",
+          "dueDate": "2026-08-10",
+          "plannedDates": {
+            "start": "2026-06-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-10"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete regional and organisational aggregation.",
+          "nextAction": "Complete regional and organisational aggregation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.3",
+          "name": "Performance Level & Position Views",
+          "description": "Performance Level & Position Views · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Separates Employee, Managerial and Corporate views by role and position.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-08-15",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-15"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete role, position and performance-level coverage.",
+          "nextAction": "Complete role, position and performance-level coverage.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.4",
+          "name": "Balanced Scorecard Perspective Summary",
+          "description": "Balanced Scorecard Perspective Summary · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Summarises strategic performance using approved Balanced Scorecard perspectives.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-08-25",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete perspective calculations and drill-down.",
+          "nextAction": "Complete perspective calculations and drill-down.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.5",
+          "name": "Strategy Map & Strategic Drill-down",
+          "description": "Strategy Map & Strategic Drill-down · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Connects strategy, perspectives, KPIs, teams, positions and ownership.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-15",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-07-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-31"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete strategic links and management validation.",
+          "nextAction": "Complete strategic links and management validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-04",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Insights, Planning & Corrective Action",
+      "businessPurpose": "Deliver the Business Delivery — Insights, Planning & Corrective Action scope through one accountable phase and its planned work packages.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "PRODUCTION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 100,
+      "startDate": "2026-07-01",
+      "dueDate": "2026-08-31",
+      "deliveredScope": "Trend Analytics & Period Comparisons; Performance Insights & Classification; Root Cause Analysis; Performance Planning; Corrective Actions & Follow-up",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance evidence.",
+      "firstReleaseImpact": "Business Delivery — Insights, Planning & Corrective Action is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "BUS-04.1",
+          "name": "Trend Analytics & Period Comparisons",
+          "description": "Trend Analytics & Period Comparisons · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Compares current performance with previous periods and highlights movement.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-08-15",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-15"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete comparison coverage and interpretation.",
+          "nextAction": "Complete comparison coverage and interpretation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.2",
+          "name": "Performance Insights & Classification",
+          "description": "Performance Insights & Classification · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Highlights strong performance, underperformance and relevant exceptions.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-08-20",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-20"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete classification and exception logic.",
+          "nextAction": "Complete classification and exception logic.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.3",
+          "name": "Root Cause Analysis",
+          "description": "Root Cause Analysis · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Records and reviews reasons behind low KPI, employee or team performance.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-15",
+          "dueDate": "2026-08-25",
+          "plannedDates": {
+            "start": "2026-07-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete root-cause capture and reporting.",
+          "nextAction": "Complete root-cause capture and reporting.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.4",
+          "name": "Performance Planning",
+          "description": "Performance Planning · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Creates improvement plans from targets, trends and management priorities.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-20",
+          "dueDate": "2026-08-28",
+          "plannedDates": {
+            "start": "2026-07-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-28"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Creates improvement plans from targets, trends and management priorities.",
+          "nextAction": "Creates improvement plans from targets, trends and management priorities.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.5",
+          "name": "Corrective Actions & Follow-up",
+          "description": "Corrective Actions & Follow-up · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Assigns corrective actions, owners, deadlines and progress tracking.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-25",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-07-25",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-31"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Assigns corrective actions, owners, deadlines and progress tracking.",
+          "nextAction": "Assigns corrective actions, owners, deadlines and progress tracking.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-05",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Reports & Management Review",
+      "businessPurpose": "Deliver the Business Delivery — Reports & Management Review scope through one accountable phase and its planned work packages.",
+      "status": "IN_PROGRESS",
+      "progress": 50,
+      "riskLevel": "LOW",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 110,
+      "startDate": "2026-07-01",
+      "dueDate": "2026-08-31",
+      "deliveredScope": "Standard Performance Reports; Report History, Export & Audit Trail",
+      "remainingScope": "Report Builder; Reusable Report Templates; PDF Snapshot Story",
+      "currentBlockers": null,
+      "nextAction": "Complete report blocks and layout controls.",
+      "firstReleaseImpact": "Business Delivery — Reports & Management Review is part of the Release 1 delivery baseline.",
+      "workItems": [
+        {
+          "code": "BUS-05.1",
+          "name": "Standard Performance Reports",
+          "description": "Standard Performance Reports · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Provides standard employee, team, managerial and corporate reports.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-08-10",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-10"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete report coverage and management validation.",
+          "nextAction": "Complete report coverage and management validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.2",
+          "name": "Report Builder",
+          "description": "Report Builder · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Builds management reports from approved tables, charts and report blocks.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-08-20",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete report blocks and layout controls.",
+          "nextAction": "Complete report blocks and layout controls.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.3",
+          "name": "Reusable Report Templates",
+          "description": "Reusable Report Templates · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Reuses a saved report structure for future reporting periods.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-15",
+          "dueDate": "2026-08-22",
+          "plannedDates": {
+            "start": "2026-07-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete template saving and automatic regeneration.",
+          "nextAction": "Complete template saving and automatic regeneration.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.4",
+          "name": "PDF Snapshot Story",
+          "description": "PDF Snapshot Story · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Generates a clean management PDF story without application navigation.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-20",
+          "dueDate": "2026-08-28",
+          "plannedDates": {
+            "start": "2026-07-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete content, pagination and secure PDF output.",
+          "nextAction": "Complete content, pagination and secure PDF output.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.5",
+          "name": "Report History, Export & Audit Trail",
+          "description": "Report History, Export & Audit Trail · Source workstream: Business · Release 1.",
+          "acceptanceCriteria": "The stated Next Action is completed and the delivery status is supported by reviewable evidence.",
+          "notes": "Retains report versions, generation metadata and audit history.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-25",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-07-25",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-08-31"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete retention, export and historical review.",
+          "nextAction": "Complete retention, export and historical review.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": null,
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    }
+  ],
+  "sharedCapabilities": []
+}

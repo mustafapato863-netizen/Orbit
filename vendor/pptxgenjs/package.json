@@ -1,0 +1,9 @@
+{
+  "name": "pptxgenjs",
+  "version": "4.0.1",
+  "description": "Vendored PptxGenJS server distribution for offline installation.",
+  "main": "dist/pptxgen.cjs.js",
+  "license": "MIT",
+  "type": "commonjs",
+  "types": "types/index.d.ts"
+}

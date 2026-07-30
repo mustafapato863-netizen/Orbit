@@ -1,0 +1,2523 @@
+{
+  "schemaVersion": 1,
+  "exportedAt": "2026-07-27T03:42:28.385Z",
+  "editingNotes": [
+    "Keep project, phase, work-item, and capability codes unique.",
+    "Use YYYY-MM-DD for dates and null when a date is not set.",
+    "Progress must be an integer from 0 to 100.",
+    "Do not rename keys. Edit values or add new phase/work-item objects using the same shape."
+  ],
+  "allowedValues": {
+    "phaseType": [
+      "TECHNICAL",
+      "BUSINESS"
+    ],
+    "status": [
+      "NOT_STARTED",
+      "IN_PROGRESS",
+      "AT_RISK",
+      "BLOCKED",
+      "COMPLETED"
+    ],
+    "riskLevel": [
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "deliveryStage": [
+      "NOT_STARTED",
+      "IN_DEVELOPMENT",
+      "TECHNICAL_VERIFICATION",
+      "BUSINESS_UAT",
+      "STAGING",
+      "CONTROLLED_PILOT",
+      "PRODUCTION"
+    ],
+    "lifecycleStage": [
+      "NS",
+      "IP",
+      "CHK",
+      "RPR",
+      "LIVE"
+    ],
+    "deliveryHealth": [
+      "ON_TRACK",
+      "AT_RISK",
+      "OVERDUE"
+    ],
+    "workstream": [
+      "FRONTEND",
+      "BACKEND",
+      "DATABASE"
+    ],
+    "releaseHorizon": [
+      "RELEASE_1",
+      "PHASE_2"
+    ]
+  },
+  "project": {
+    "code": "PMS",
+    "slug": "pms-dashboard",
+    "name": "PMS Dashboard",
+    "description": "Technical and business-delivery roadmap for PMS Release 1. The completed operational scope covers Offshore Pre-Approvals, Inbound, Outbound and UAE CSR. Managerial, Corporate, Insights, Planning, Corrective Actions, Reports and remaining-team rollout are in progress.",
+    "status": "ACTIVE",
+    "progress": 61,
+    "startDate": "2026-06-01",
+    "targetDate": "2026-09-30"
+  },
+  "phases": [
+    {
+      "code": "PH-01",
+      "phaseType": "TECHNICAL",
+      "name": "Solution Foundation & Architecture",
+      "businessPurpose": "Establish the secure, responsive and documented technical foundation required for all PMS modules.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "STAGING",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 10,
+      "startDate": "2026-06-01",
+      "dueDate": "2026-06-14",
+      "deliveredScope": "Repository audit, stable baseline & delivery plan; Environment configuration, secure secrets & deployment settings; Authentication, session & role foundation; Responsive application shell, navigation & shared UI; Architecture contracts, audit logging & handover documentation",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance and handover evidence.",
+      "firstReleaseImpact": "Provides the stable architecture, environment, authentication foundation and shared UI needed by Release 1.",
+      "workItems": [
+        {
+          "code": "PH-01.1",
+          "name": "Repository audit, stable baseline & delivery plan",
+          "description": "Completed technical baseline: repository audit, scope control, implementation sequence and release governance. Delivery window: 2026-06-01 to 2026-06-04. Source workstream: Cross-functional.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Completed technical baseline: repository audit, scope control, implementation sequence and release governance.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-01",
+          "dueDate": "2026-06-04",
+          "plannedDates": {
+            "start": "2026-06-01",
+            "check": null,
+            "productionReady": "2026-06-04",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Approve baseline and hand over the agreed architecture to the platform build.",
+          "nextAction": "Approve baseline and hand over the agreed architecture to the platform build.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Completed technical baseline: repository audit, scope control, implementation sequence and release governance.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.2",
+          "name": "Environment configuration, secure secrets & deployment settings",
+          "description": "Environment variables, secret handling, runtime validation and deployment configuration prepared. Delivery window: 2026-06-03 to 2026-06-07. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Environment variables, secret handling, runtime validation and deployment configuration prepared.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-03",
+          "dueDate": "2026-06-07",
+          "plannedDates": {
+            "start": "2026-06-03",
+            "check": null,
+            "productionReady": "2026-06-07",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Freeze environment contracts and hand over validated settings to database and API work.",
+          "nextAction": "Freeze environment contracts and hand over validated settings to database and API work.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Environment variables, secret handling, runtime validation and deployment configuration prepared.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.3",
+          "name": "Authentication, session & role foundation",
+          "description": "Authentication, session handling and role foundations prepared for Employee, Managerial and Corporate access. Delivery window: 2026-06-05 to 2026-06-10. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Authentication, session handling and role foundations prepared for Employee, Managerial and Corporate access.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-05",
+          "dueDate": "2026-06-10",
+          "plannedDates": {
+            "start": "2026-06-05",
+            "check": null,
+            "productionReady": "2026-06-10",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm authentication foundation before protected API implementation.",
+          "nextAction": "Confirm authentication foundation before protected API implementation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Authentication, session handling and role foundations prepared for Employee, Managerial and Corporate access.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.4",
+          "name": "Responsive application shell, navigation & shared UI",
+          "description": "Responsive desktop, tablet and mobile shell with reusable navigation and common UI states. Delivery window: 2026-06-07 to 2026-06-12. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Responsive desktop, tablet and mobile shell with reusable navigation and common UI states.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-07",
+          "dueDate": "2026-06-12",
+          "plannedDates": {
+            "start": "2026-06-07",
+            "check": null,
+            "productionReady": "2026-06-12",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Hand over the stable responsive shell to PMS workspace implementation.",
+          "nextAction": "Hand over the stable responsive shell to PMS workspace implementation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Responsive desktop, tablet and mobile shell with reusable navigation and common UI states.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-01.5",
+          "name": "Architecture contracts, audit logging & handover documentation",
+          "description": "Architecture decisions, domain contracts, audit requirements and handover evidence documented. Delivery window: 2026-06-10 to 2026-06-14. Source workstream: Cross-functional.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Architecture decisions, domain contracts, audit requirements and handover evidence documented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-10",
+          "dueDate": "2026-06-14",
+          "plannedDates": {
+            "start": "2026-06-10",
+            "check": "2026-06-14",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Approve architecture documentation and start the data platform phase.",
+          "nextAction": "Approve architecture documentation and start the data platform phase.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Architecture decisions, domain contracts, audit requirements and handover evidence documented.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-02",
+      "phaseType": "TECHNICAL",
+      "name": "Database, KPI Configuration & Upload Platform",
+      "businessPurpose": "Provide the database-backed KPI configuration, historical versioning and controlled multi-period upload platform.",
+      "status": "COMPLETED",
+      "progress": 100,
+      "riskLevel": "LOW",
+      "deliveryStage": "STAGING",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 20,
+      "startDate": "2026-06-10",
+      "dueDate": "2026-06-30",
+      "deliveredScope": "Team and KPI configuration schema with version history; Effective-period configuration resolution & historical lookup; Multi-period Excel intake, staging & validation; Calculation preview, row errors & controlled data promotion; Migration, seed, integrity controls & audit history",
+      "remainingScope": null,
+      "currentBlockers": null,
+      "nextAction": "Confirm phase acceptance and handover evidence.",
+      "firstReleaseImpact": "Makes KPI configuration, upload validation, historical traceability and safe data promotion reliable for Release 1.",
+      "workItems": [
+        {
+          "code": "PH-02.1",
+          "name": "Team and KPI configuration schema with version history",
+          "description": "Database-backed team configuration, KPI definitions, weights, targets and version history implemented. Delivery window: 2026-06-10 to 2026-06-16. Source workstream: Database.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Database-backed team configuration, KPI definitions, weights, targets and version history implemented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-10",
+          "dueDate": "2026-06-16",
+          "plannedDates": {
+            "start": "2026-06-10",
+            "check": null,
+            "productionReady": "2026-06-16",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Publish the approved configuration model for scoring and upload resolution.",
+          "nextAction": "Publish the approved configuration model for scoring and upload resolution.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Database-backed team configuration, KPI definitions, weights, targets and version history implemented.",
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.2",
+          "name": "Effective-period configuration resolution & historical lookup",
+          "description": "Historical month/year lookup and effective configuration coverage implemented. Delivery window: 2026-06-14 to 2026-06-20. Source workstream: Database / Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Historical month/year lookup and effective configuration coverage implemented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-14",
+          "dueDate": "2026-06-20",
+          "plannedDates": {
+            "start": "2026-06-14",
+            "check": null,
+            "productionReady": "2026-06-20",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Hand over period-aware configuration resolution to the scoring services.",
+          "nextAction": "Hand over period-aware configuration resolution to the scoring services.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Historical month/year lookup and effective configuration coverage implemented.",
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.3",
+          "name": "Multi-period Excel intake, staging & validation",
+          "description": "Full-workbook upload, row date detection, staging, team matching and KPI column validation implemented. Delivery window: 2026-06-17 to 2026-06-24. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Full-workbook upload, row date detection, staging, team matching and KPI column validation implemented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-17",
+          "dueDate": "2026-06-24",
+          "plannedDates": {
+            "start": "2026-06-17",
+            "check": null,
+            "productionReady": "2026-06-24",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Approve the intake contract and connect validated rows to calculation preview.",
+          "nextAction": "Approve the intake contract and connect validated rows to calculation preview.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Full-workbook upload, row date detection, staging, team matching and KPI column validation implemented.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.4",
+          "name": "Calculation preview, row errors & controlled data promotion",
+          "description": "Preview calculations, row-level errors, configuration matching and controlled promotion implemented. Delivery window: 2026-06-21 to 2026-06-27. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Preview calculations, row-level errors, configuration matching and controlled promotion implemented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-21",
+          "dueDate": "2026-06-27",
+          "plannedDates": {
+            "start": "2026-06-21",
+            "check": null,
+            "productionReady": "2026-06-27",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Hand over validated promotion flow to the scoring and dashboard services.",
+          "nextAction": "Hand over validated promotion flow to the scoring and dashboard services.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Preview calculations, row-level errors, configuration matching and controlled promotion implemented.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-02.5",
+          "name": "Migration, seed, integrity controls & audit history",
+          "description": "Safe migrations, repeatable seed, integrity constraints and historical traceability implemented. Delivery window: 2026-06-25 to 2026-06-30. Source workstream: Database.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Safe migrations, repeatable seed, integrity constraints and historical traceability implemented.",
+          "status": "IN_PROGRESS",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-25",
+          "dueDate": "2026-06-30",
+          "plannedDates": {
+            "start": "2026-06-25",
+            "check": null,
+            "productionReady": "2026-06-30",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Freeze the data platform and begin full scoring/API integration.",
+          "nextAction": "Freeze the data platform and begin full scoring/API integration.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Safe migrations, repeatable seed, integrity constraints and historical traceability implemented.",
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-03",
+      "phaseType": "TECHNICAL",
+      "name": "Scoring Engine, APIs & Access Control",
+      "businessPurpose": "Deliver the scoring engine, team aggregation, protected APIs and shared calculations used by all PMS workspaces.",
+      "status": "AT_RISK",
+      "progress": 88,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 30,
+      "startDate": "2026-06-24",
+      "dueDate": "2026-07-31",
+      "deliveredScope": "Employee KPI scoring, weights, targets & performance grades; Team aggregation & department performance calculations",
+      "remainingScope": "Team, role and performance-level access-control APIs; Employee and team profile query services; Trend, insight, planning and reporting calculation APIs",
+      "currentBlockers": "1 work item(s) require management attention: Trend, insight, planning and reporting calculation APIs",
+      "nextAction": "Close remaining permission edge cases before broader rollout.",
+      "firstReleaseImpact": "Enables employee and team scoring for the completed operational scope and supplies the APIs required by advanced modules.",
+      "workItems": [
+        {
+          "code": "PH-03.1",
+          "name": "Employee KPI scoring, weights, targets & performance grades",
+          "description": "Employee scores are calculated from KPI actuals, targets, directions, achievements and weighted contributions. Delivery window: 2026-06-24 to 2026-07-03. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee scores are calculated from KPI actuals, targets, directions, achievements and weighted contributions.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-24",
+          "dueDate": "2026-07-03",
+          "plannedDates": {
+            "start": "2026-06-24",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-03"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Monitor the completed scope and reconcile any scoring exceptions.",
+          "nextAction": "Monitor the completed scope and reconcile any scoring exceptions.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee scores are calculated from KPI actuals, targets, directions, achievements and weighted contributions.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.2",
+          "name": "Team aggregation & department performance calculations",
+          "description": "Employee results aggregate into team/department scores, KPI summaries, grades and performance status. Delivery window: 2026-06-29 to 2026-07-08. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee results aggregate into team/department scores, KPI summaries, grades and performance status.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-29",
+          "dueDate": "2026-07-08",
+          "plannedDates": {
+            "start": "2026-06-29",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-08"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate aggregation for the completed Offshore and UAE teams.",
+          "nextAction": "Validate aggregation for the completed Offshore and UAE teams.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee results aggregate into team/department scores, KPI summaries, grades and performance status.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.3",
+          "name": "Team, role and performance-level access-control APIs",
+          "description": "Protected APIs and team-level access foundations support Employee, Managerial and Corporate scopes. Delivery window: 2026-07-04 to 2026-07-15. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Protected APIs and team-level access foundations support Employee, Managerial and Corporate scopes.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "STAGING",
+          "lifecycleStage": "RPR",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-04",
+          "dueDate": "2026-07-15",
+          "plannedDates": {
+            "start": "2026-07-04",
+            "check": null,
+            "productionReady": "2026-07-15",
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Close remaining permission edge cases before broader rollout.",
+          "nextAction": "Close remaining permission edge cases before broader rollout.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Protected APIs and team-level access foundations support Employee, Managerial and Corporate scopes.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.4",
+          "name": "Employee and team profile query services",
+          "description": "APIs provide employee profiles, KPI breakdown, team rosters, comparisons and reporting-period context. Delivery window: 2026-07-10 to 2026-07-22. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "APIs provide employee profiles, KPI breakdown, team rosters, comparisons and reporting-period context.",
+          "status": "IN_PROGRESS",
+          "progress": 90,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-07-22",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": "2026-07-22",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete performance-history queries and hand over to the frontend workspaces.",
+          "nextAction": "Complete performance-history queries and hand over to the frontend workspaces.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "APIs provide employee profiles, KPI breakdown, team rosters, comparisons and reporting-period context.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-03.5",
+          "name": "Trend, insight, planning and reporting calculation APIs",
+          "description": "Advanced period comparison, insight classification, planning and reporting calculations remain in progress. Delivery window: 2026-07-18 to 2026-07-31. Source workstream: Backend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Advanced period comparison, insight classification, planning and reporting calculations remain in progress.",
+          "status": "AT_RISK",
+          "progress": 60,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-18",
+          "dueDate": "2026-07-31",
+          "plannedDates": {
+            "start": "2026-07-18",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete shared calculation selectors for Managerial, Corporate, Insights, Planning and Reports.",
+          "nextAction": "Complete shared calculation selectors for Managerial, Corporate, Insights, Planning and Reports.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Advanced period comparison, insight classification, planning and reporting calculations remain in progress.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-04",
+      "phaseType": "TECHNICAL",
+      "name": "PMS Workspaces & Dashboard Experience",
+      "businessPurpose": "Deliver the employee, team, managerial, corporate, insight, planning and reporting user experiences.",
+      "status": "AT_RISK",
+      "progress": 69,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 40,
+      "startDate": "2026-07-13",
+      "dueDate": "2026-08-31",
+      "deliveredScope": "Employee performance profile & KPI breakdown workspace; Team dashboard, roster & performance comparison",
+      "remainingScope": "Managerial & Corporate performance overview views; Insights, Planning & Corrective Actions workspace; Reports, Report Builder & responsive experience",
+      "currentBlockers": "2 work item(s) require management attention: Insights, Planning & Corrective Actions workspace; Reports, Report Builder & responsive experience",
+      "nextAction": "Complete aggregation, position views, Balanced Scorecard and management validation.",
+      "firstReleaseImpact": "Makes the completed employee and team scope usable while progressing Managerial, Corporate, Insights, Planning and Reports.",
+      "workItems": [
+        {
+          "code": "PH-04.1",
+          "name": "Employee performance profile & KPI breakdown workspace",
+          "description": "Employee identity, reporting period, score, grade, KPI actual/target/achievement and weighted contribution are available. Delivery window: 2026-07-13 to 2026-07-24. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee identity, reporting period, score, grade, KPI actual/target/achievement and weighted contribution are available.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-13",
+          "dueDate": "2026-07-24",
+          "plannedDates": {
+            "start": "2026-07-13",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-24"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Maintain the completed scope and extend coverage to remaining teams.",
+          "nextAction": "Maintain the completed scope and extend coverage to remaining teams.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee identity, reporting period, score, grade, KPI actual/target/achievement and weighted contribution are available.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.2",
+          "name": "Team dashboard, roster & performance comparison",
+          "description": "Team score, KPI breakdown, roster, top/bottom performers and attention indicators are available for current scope. Delivery window: 2026-07-20 to 2026-07-31. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Team score, KPI breakdown, roster, top/bottom performers and attention indicators are available for current scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-20",
+          "dueDate": "2026-07-31",
+          "plannedDates": {
+            "start": "2026-07-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-31"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete trend comparison and extend the dashboard to remaining teams.",
+          "nextAction": "Complete trend comparison and extend the dashboard to remaining teams.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Team score, KPI breakdown, roster, top/bottom performers and attention indicators are available for current scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.3",
+          "name": "Managerial & Corporate performance overview views",
+          "description": "Managerial and Corporate performance views are in progress for the remaining organisational scope. Delivery window: 2026-07-27 to 2026-08-14. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Managerial and Corporate performance views are in progress for the remaining organisational scope.",
+          "status": "IN_PROGRESS",
+          "progress": 60,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-27",
+          "dueDate": "2026-08-14",
+          "plannedDates": {
+            "start": "2026-07-27",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete aggregation, position views, Balanced Scorecard and management validation.",
+          "nextAction": "Complete aggregation, position views, Balanced Scorecard and management validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Managerial and Corporate performance views are in progress for the remaining organisational scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.4",
+          "name": "Insights, Planning & Corrective Actions workspace",
+          "description": "Insights, classification, planning and corrective-action capabilities remain in progress. Delivery window: 2026-08-03 to 2026-08-21. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Insights, classification, planning and corrective-action capabilities remain in progress.",
+          "status": "AT_RISK",
+          "progress": 45,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-03",
+          "dueDate": "2026-08-21",
+          "plannedDates": {
+            "start": "2026-08-03",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete root-cause, planning, ownership, due dates and follow-up workflows.",
+          "nextAction": "Complete root-cause, planning, ownership, due dates and follow-up workflows.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Insights, classification, planning and corrective-action capabilities remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-04.5",
+          "name": "Reports, Report Builder & responsive experience",
+          "description": "Reporting and export capabilities remain in progress while the core operational dashboards are available. Delivery window: 2026-08-10 to 2026-08-31. Source workstream: Frontend.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Reporting and export capabilities remain in progress while the core operational dashboards are available.",
+          "status": "AT_RISK",
+          "progress": 40,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-10",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-08-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Finish report blocks, templates, PDF story, history and final responsive behaviour.",
+          "nextAction": "Finish report blocks, templates, PDF story, history and final responsive behaviour.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Reporting and export capabilities remain in progress while the core operational dashboards are available.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-05",
+      "phaseType": "TECHNICAL",
+      "name": "Verification, Security & Release Readiness",
+      "businessPurpose": "Verify calculation accuracy, permissions, uploads, responsive behaviour, reporting, security and release evidence.",
+      "status": "AT_RISK",
+      "progress": 67,
+      "riskLevel": "HIGH",
+      "deliveryStage": "TECHNICAL_VERIFICATION",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 50,
+      "startDate": "2026-08-17",
+      "dueDate": "2026-09-20",
+      "deliveredScope": null,
+      "remainingScope": "Typecheck, lint & unit test closure; Integration, permission & upload workflow testing; Score reconciliation & historical integrity validation; Responsive, visual, PDF & reporting validation; Security, business review, pilot & release evidence",
+      "currentBlockers": "2 work item(s) require management attention: Responsive, visual, PDF & reporting validation; Security, business review, pilot & release evidence",
+      "nextAction": "Close remaining test failures and provide release evidence.",
+      "firstReleaseImpact": "Reduces production risk and provides the evidence required for Release 1 approval.",
+      "workItems": [
+        {
+          "code": "PH-05.1",
+          "name": "Typecheck, lint & unit test closure",
+          "description": "Static checks and unit coverage validate the shared calculation and UI foundations. Delivery window: 2026-08-17 to 2026-08-24. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Static checks and unit coverage validate the shared calculation and UI foundations.",
+          "status": "IN_PROGRESS",
+          "progress": 85,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-17",
+          "dueDate": "2026-08-24",
+          "plannedDates": {
+            "start": "2026-08-17",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Close remaining test failures and provide release evidence.",
+          "nextAction": "Close remaining test failures and provide release evidence.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Static checks and unit coverage validate the shared calculation and UI foundations.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.2",
+          "name": "Integration, permission & upload workflow testing",
+          "description": "Integration testing covers authentication, permission scope, upload, calculation and promotion flows. Delivery window: 2026-08-21 to 2026-08-31. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Integration testing covers authentication, permission scope, upload, calculation and promotion flows.",
+          "status": "IN_PROGRESS",
+          "progress": 75,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-21",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-08-21",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete protected workflow and multi-period upload regression.",
+          "nextAction": "Complete protected workflow and multi-period upload regression.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Integration testing covers authentication, permission scope, upload, calculation and promotion flows.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.3",
+          "name": "Score reconciliation & historical integrity validation",
+          "description": "Employee/team results are checked against configuration versions, formulas and reporting periods. Delivery window: 2026-08-28 to 2026-09-07. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee/team results are checked against configuration versions, formulas and reporting periods.",
+          "status": "IN_PROGRESS",
+          "progress": 80,
+          "riskLevel": "LOW",
+          "deliveryStage": "TECHNICAL_VERIFICATION",
+          "lifecycleStage": "CHK",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-28",
+          "dueDate": "2026-09-07",
+          "plannedDates": {
+            "start": "2026-08-28",
+            "check": "2026-09-07",
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Reconcile sample calculations and confirm historical configuration traceability.",
+          "nextAction": "Reconcile sample calculations and confirm historical configuration traceability.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee/team results are checked against configuration versions, formulas and reporting periods.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.4",
+          "name": "Responsive, visual, PDF & reporting validation",
+          "description": "Responsive UI, report layouts, PDF output and visual regression remain in progress. Delivery window: 2026-09-04 to 2026-09-13. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Responsive UI, report layouts, PDF output and visual regression remain in progress.",
+          "status": "AT_RISK",
+          "progress": 55,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-04",
+          "dueDate": "2026-09-13",
+          "plannedDates": {
+            "start": "2026-09-04",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete tablet/mobile evidence and report export verification.",
+          "nextAction": "Complete tablet/mobile evidence and report export verification.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Responsive UI, report layouts, PDF output and visual regression remain in progress.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-05.5",
+          "name": "Security, business review, pilot & release evidence",
+          "description": "Final pilot/readiness evidence is required before the complete Release 1 handover. Delivery window: 2026-09-10 to 2026-09-20. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Final pilot/readiness evidence is required before the complete Release 1 handover.",
+          "status": "AT_RISK",
+          "progress": 40,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-10",
+          "dueDate": "2026-09-20",
+          "plannedDates": {
+            "start": "2026-09-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete security review, business validation and release sign-off evidence.",
+          "nextAction": "Complete security review, business validation and release sign-off evidence.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Final pilot/readiness evidence is required before the complete Release 1 handover.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "PH-06",
+      "phaseType": "TECHNICAL",
+      "name": "Production Rollout & Handover",
+      "businessPurpose": "Deploy the approved release, validate the completed operational scope and complete formal handover.",
+      "status": "NOT_STARTED",
+      "progress": 0,
+      "riskLevel": "LOW",
+      "deliveryStage": "NOT_STARTED",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 60,
+      "startDate": "2026-09-21",
+      "dueDate": "2026-09-30",
+      "deliveredScope": null,
+      "remainingScope": "Production environment & database readiness; Production migration, seed, backup & rollback validation; Application deployment & post-deployment smoke testing; Final rollout validation for completed operational scope; First Release handover, sign-off & remaining rollout plan",
+      "currentBlockers": null,
+      "nextAction": "Prepare production variables, database connectivity and runtime health checks.",
+      "firstReleaseImpact": "Moves Release 1 into production and documents the controlled rollout plan for remaining teams and modules.",
+      "workItems": [
+        {
+          "code": "PH-06.1",
+          "name": "Production environment & database readiness",
+          "description": "Planned final production environment preparation for Release 1. Delivery window: 2026-09-21 to 2026-09-23. Source workstream: DevOps.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Planned final production environment preparation for Release 1.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-21",
+          "dueDate": "2026-09-23",
+          "plannedDates": {
+            "start": "2026-09-21",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Prepare production variables, database connectivity and runtime health checks.",
+          "nextAction": "Prepare production variables, database connectivity and runtime health checks.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Planned final production environment preparation for Release 1.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.2",
+          "name": "Production migration, seed, backup & rollback validation",
+          "description": "Planned production database change with recovery validation. Delivery window: 2026-09-22 to 2026-09-25. Source workstream: Database / DevOps.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Planned production database change with recovery validation.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-22",
+          "dueDate": "2026-09-25",
+          "plannedDates": {
+            "start": "2026-09-22",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Apply approved migration and verify backup/rollback evidence.",
+          "nextAction": "Apply approved migration and verify backup/rollback evidence.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Planned production database change with recovery validation.",
+          "primaryWorkstream": "DATABASE",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.3",
+          "name": "Application deployment & post-deployment smoke testing",
+          "description": "Planned production deployment and smoke test for authenticated PMS workflows. Delivery window: 2026-09-24 to 2026-09-27. Source workstream: DevOps.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Planned production deployment and smoke test for authenticated PMS workflows.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-24",
+          "dueDate": "2026-09-27",
+          "plannedDates": {
+            "start": "2026-09-24",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Deploy the approved build and verify critical workflows.",
+          "nextAction": "Deploy the approved build and verify critical workflows.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Planned production deployment and smoke test for authenticated PMS workflows.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.4",
+          "name": "Final rollout validation for completed operational scope",
+          "description": "Final validation of the completed operational teams before formal handover. Delivery window: 2026-09-26 to 2026-09-29. Source workstream: QA / Verification.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Final validation of the completed operational teams before formal handover.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-26",
+          "dueDate": "2026-09-29",
+          "plannedDates": {
+            "start": "2026-09-26",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate Offshore Pre-Approvals, Inbound, Outbound and UAE CSR in the final release.",
+          "nextAction": "Validate Offshore Pre-Approvals, Inbound, Outbound and UAE CSR in the final release.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Final validation of the completed operational teams before formal handover.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "PH-06.5",
+          "name": "First Release handover, sign-off & remaining rollout plan",
+          "description": "Release 1 closes with documented sign-off and a controlled expansion plan. Delivery window: 2026-09-29 to 2026-09-30. Source workstream: Project Management.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Release 1 closes with documented sign-off and a controlled expansion plan.",
+          "status": "NOT_STARTED",
+          "progress": 0,
+          "riskLevel": "LOW",
+          "deliveryStage": "NOT_STARTED",
+          "lifecycleStage": "NS",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-29",
+          "dueDate": "2026-09-30",
+          "plannedDates": {
+            "start": "2026-09-29",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete handover and confirm the roadmap for remaining teams and advanced modules.",
+          "nextAction": "Complete handover and confirm the roadmap for remaining teams and advanced modules.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Release 1 closes with documented sign-off and a controlled expansion plan.",
+          "primaryWorkstream": "BACKEND",
+          "supportingWorkstreams": [
+            "FRONTEND",
+            "DATABASE"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-01",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Employee Performance (Current Scope)",
+      "businessPurpose": "Provide employee performance calculation, individual profiles, KPI breakdowns and grading for the current operational scope.",
+      "status": "IN_PROGRESS",
+      "progress": 94,
+      "riskLevel": "LOW",
+      "deliveryStage": "CONTROLLED_PILOT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 70,
+      "startDate": "2026-06-24",
+      "dueDate": "2026-07-24",
+      "deliveredScope": "Employee KPI Performance Calculation; Individual Employee Performance Profile; Employee KPI Breakdown & Weighted Score; Employee Grade & Performance Classification",
+      "remainingScope": "Employee History, Feedback & Follow-up",
+      "currentBlockers": null,
+      "nextAction": "Complete historical period views, feedback links and action follow-up.",
+      "firstReleaseImpact": "Delivered for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR, with extended history and follow-up continuing.",
+      "workItems": [
+        {
+          "code": "BUS-01.1",
+          "name": "Employee KPI Performance Calculation",
+          "description": "Delivered for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR. Delivery window: 2026-06-24 to 2026-07-03. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Delivered for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-24",
+          "dueDate": "2026-07-03",
+          "plannedDates": {
+            "start": "2026-06-24",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-03"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Maintain the completed scope and onboard remaining teams.",
+          "nextAction": "Maintain the completed scope and onboard remaining teams.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Delivered for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.2",
+          "name": "Individual Employee Performance Profile",
+          "description": "Employee profile displays identity, team, period, score, grade and KPI performance for current scope. Delivery window: 2026-06-29 to 2026-07-08. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee profile displays identity, team, period, score, grade and KPI performance for current scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-06-29",
+          "dueDate": "2026-07-08",
+          "plannedDates": {
+            "start": "2026-06-29",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-08"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate profile coverage across completed teams and reporting periods.",
+          "nextAction": "Validate profile coverage across completed teams and reporting periods.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee profile displays identity, team, period, score, grade and KPI performance for current scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.3",
+          "name": "Employee KPI Breakdown & Weighted Score",
+          "description": "Actual, target, direction, achievement and weighted KPI contribution are available for current scope. Delivery window: 2026-07-04 to 2026-07-12. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Actual, target, direction, achievement and weighted KPI contribution are available for current scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-04",
+          "dueDate": "2026-07-12",
+          "plannedDates": {
+            "start": "2026-07-04",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-12"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Monitor formula consistency and onboard additional KPI configurations.",
+          "nextAction": "Monitor formula consistency and onboard additional KPI configurations.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Actual, target, direction, achievement and weighted KPI contribution are available for current scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.4",
+          "name": "Employee Grade & Performance Classification",
+          "description": "Performance score, grade and classification are available for the completed operational teams. Delivery window: 2026-07-08 to 2026-07-15. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Performance score, grade and classification are available for the completed operational teams.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-08",
+          "dueDate": "2026-07-15",
+          "plannedDates": {
+            "start": "2026-07-08",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-15"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Confirm final grade thresholds and exception handling.",
+          "nextAction": "Confirm final grade thresholds and exception handling.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Performance score, grade and classification are available for the completed operational teams.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-01.5",
+          "name": "Employee History, Feedback & Follow-up",
+          "description": "Current profiles are available; extended history and follow-up remain in progress. Delivery window: 2026-07-13 to 2026-07-24. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Current profiles are available; extended history and follow-up remain in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 70,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-13",
+          "dueDate": "2026-07-24",
+          "plannedDates": {
+            "start": "2026-07-13",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete historical period views, feedback links and action follow-up.",
+          "nextAction": "Complete historical period views, feedback links and action follow-up.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Current profiles are available; extended history and follow-up remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-02",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Team Performance (Current Scope)",
+      "businessPurpose": "Provide team and department performance calculation, KPI visibility, employee comparison and period trends.",
+      "status": "AT_RISK",
+      "progress": 94,
+      "riskLevel": "HIGH",
+      "deliveryStage": "CONTROLLED_PILOT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 80,
+      "startDate": "2026-07-01",
+      "dueDate": "2026-07-31",
+      "deliveredScope": "Team / Department Performance Calculation; Team Performance Dashboard; Team KPI Performance Breakdown; Employee Roster & Performance Comparison",
+      "remainingScope": "Team Trends & Period Comparison",
+      "currentBlockers": "1 work item(s) require management attention: Team Trends & Period Comparison",
+      "nextAction": "Complete historical trend coverage and period comparison validation.",
+      "firstReleaseImpact": "Delivered for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR, with full historical trend coverage continuing.",
+      "workItems": [
+        {
+          "code": "BUS-02.1",
+          "name": "Team / Department Performance Calculation",
+          "description": "Department/team performance is calculated for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR. Delivery window: 2026-07-01 to 2026-07-08. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Department/team performance is calculated for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-01",
+          "dueDate": "2026-07-08",
+          "plannedDates": {
+            "start": "2026-07-01",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-08"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Maintain calculation consistency during additional team onboarding.",
+          "nextAction": "Maintain calculation consistency during additional team onboarding.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Department/team performance is calculated for Offshore Pre-Approvals, Inbound, Outbound and UAE CSR.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.2",
+          "name": "Team Performance Dashboard",
+          "description": "Team score, grade, KPI summary and employee count are available for current scope. Delivery window: 2026-07-06 to 2026-07-15. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Team score, grade, KPI summary and employee count are available for current scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-06",
+          "dueDate": "2026-07-15",
+          "plannedDates": {
+            "start": "2026-07-06",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-15"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Validate dashboard usage with team stakeholders.",
+          "nextAction": "Validate dashboard usage with team stakeholders.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Team score, grade, KPI summary and employee count are available for current scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.3",
+          "name": "Team KPI Performance Breakdown",
+          "description": "Managers can identify strong and underperforming KPIs for completed teams. Delivery window: 2026-07-10 to 2026-07-20. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Managers can identify strong and underperforming KPIs for completed teams.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-10",
+          "dueDate": "2026-07-20",
+          "plannedDates": {
+            "start": "2026-07-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-20"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Continue validating underperformance drivers across reporting periods.",
+          "nextAction": "Continue validating underperformance drivers across reporting periods.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Managers can identify strong and underperforming KPIs for completed teams.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.4",
+          "name": "Employee Roster & Performance Comparison",
+          "description": "Employee roster, individual scores and performance comparisons are available for current scope. Delivery window: 2026-07-15 to 2026-07-25. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Employee roster, individual scores and performance comparisons are available for current scope.",
+          "status": "COMPLETED",
+          "progress": 100,
+          "riskLevel": "LOW",
+          "deliveryStage": "PRODUCTION",
+          "lifecycleStage": "LIVE",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-15",
+          "dueDate": "2026-07-25",
+          "plannedDates": {
+            "start": "2026-07-15",
+            "check": null,
+            "productionReady": null,
+            "goLive": "2026-07-25"
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Refine attention indicators and comparison filters.",
+          "nextAction": "Refine attention indicators and comparison filters.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Employee roster, individual scores and performance comparisons are available for current scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-02.5",
+          "name": "Team Trends & Period Comparison",
+          "description": "Current-period team dashboards are delivered; full historical comparison remains in progress. Delivery window: 2026-07-20 to 2026-07-31. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Current-period team dashboards are delivered; full historical comparison remains in progress.",
+          "status": "AT_RISK",
+          "progress": 70,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-20",
+          "dueDate": "2026-07-31",
+          "plannedDates": {
+            "start": "2026-07-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete historical trend coverage and period comparison validation.",
+          "nextAction": "Complete historical trend coverage and period comparison validation.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Current-period team dashboards are delivered; full historical comparison remains in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-03",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Managerial & Corporate Performance",
+      "businessPurpose": "Provide Managerial and Corporate performance aggregation, position views, Balanced Scorecard and strategy drill-down.",
+      "status": "AT_RISK",
+      "progress": 41,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 90,
+      "startDate": "2026-07-27",
+      "dueDate": "2026-08-31",
+      "deliveredScope": null,
+      "remainingScope": "Managerial Performance Overview; Corporate Performance Overview; Performance Level & Position Views; Balanced Scorecard Perspective Summary; Strategy Map & Strategic Drill-down",
+      "currentBlockers": "2 work item(s) require management attention: Balanced Scorecard Perspective Summary; Strategy Map & Strategic Drill-down",
+      "nextAction": "Complete assigned-scope aggregation and managerial validation.",
+      "firstReleaseImpact": "Required to extend Release 1 beyond the completed operational teams into management and strategic performance views.",
+      "workItems": [
+        {
+          "code": "BUS-03.1",
+          "name": "Managerial Performance Overview",
+          "description": "Managerial views are outside the currently completed operational scope and remain in progress. Delivery window: 2026-07-27 to 2026-08-07. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Managerial views are outside the currently completed operational scope and remain in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-07-27",
+          "dueDate": "2026-08-07",
+          "plannedDates": {
+            "start": "2026-07-27",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete assigned-scope aggregation and managerial validation.",
+          "nextAction": "Complete assigned-scope aggregation and managerial validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Managerial views are outside the currently completed operational scope and remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.2",
+          "name": "Corporate Performance Overview",
+          "description": "Corporate performance is in progress for the remaining organisational scope. Delivery window: 2026-08-03 to 2026-08-14. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Corporate performance is in progress for the remaining organisational scope.",
+          "status": "IN_PROGRESS",
+          "progress": 45,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-03",
+          "dueDate": "2026-08-14",
+          "plannedDates": {
+            "start": "2026-08-03",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete regional, team and organisation-wide aggregation.",
+          "nextAction": "Complete regional, team and organisation-wide aggregation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Corporate performance is in progress for the remaining organisational scope.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.3",
+          "name": "Performance Level & Position Views",
+          "description": "Performance-level and position views remain in progress. Delivery window: 2026-08-07 to 2026-08-19. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Performance-level and position views remain in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-07",
+          "dueDate": "2026-08-19",
+          "plannedDates": {
+            "start": "2026-08-07",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete Employee, Managerial, Corporate and Position-level separation.",
+          "nextAction": "Complete Employee, Managerial, Corporate and Position-level separation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Performance-level and position views remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.4",
+          "name": "Balanced Scorecard Perspective Summary",
+          "description": "Balanced Scorecard summaries are in progress. Delivery window: 2026-08-12 to 2026-08-25. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Balanced Scorecard summaries are in progress.",
+          "status": "AT_RISK",
+          "progress": 35,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-12",
+          "dueDate": "2026-08-25",
+          "plannedDates": {
+            "start": "2026-08-12",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete perspective calculations, drill-down and management review.",
+          "nextAction": "Complete perspective calculations, drill-down and management review.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Balanced Scorecard summaries are in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-03.5",
+          "name": "Strategy Map & Strategic Drill-down",
+          "description": "Strategy-map and strategic drill-down remain in progress. Delivery window: 2026-08-17 to 2026-08-31. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Strategy-map and strategic drill-down remain in progress.",
+          "status": "AT_RISK",
+          "progress": 25,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-17",
+          "dueDate": "2026-08-31",
+          "plannedDates": {
+            "start": "2026-08-17",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete strategic links, ownership and navigation.",
+          "nextAction": "Complete strategic links, ownership and navigation.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Strategy-map and strategic drill-down remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-04",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Insights, Planning & Corrective Action",
+      "businessPurpose": "Provide trend analytics, performance insights, root-cause analysis, planning and corrective-action follow-up.",
+      "status": "AT_RISK",
+      "progress": 37,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 100,
+      "startDate": "2026-08-10",
+      "dueDate": "2026-09-18",
+      "deliveredScope": null,
+      "remainingScope": "Trend Analytics & Period Comparisons; Performance Insights & Classification; Root Cause Analysis; Performance Planning; Corrective Actions & Follow-up",
+      "currentBlockers": "2 work item(s) require management attention: Performance Planning; Corrective Actions & Follow-up",
+      "nextAction": "Complete cross-period trend logic and management interpretation.",
+      "firstReleaseImpact": "Converts performance results into management insight and accountable improvement actions.",
+      "workItems": [
+        {
+          "code": "BUS-04.1",
+          "name": "Trend Analytics & Period Comparisons",
+          "description": "Trend analytics are in progress beyond the current-period completed dashboards. Delivery window: 2026-08-10 to 2026-08-21. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Trend analytics are in progress beyond the current-period completed dashboards.",
+          "status": "IN_PROGRESS",
+          "progress": 50,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-10",
+          "dueDate": "2026-08-21",
+          "plannedDates": {
+            "start": "2026-08-10",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete cross-period trend logic and management interpretation.",
+          "nextAction": "Complete cross-period trend logic and management interpretation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Trend analytics are in progress beyond the current-period completed dashboards.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.2",
+          "name": "Performance Insights & Classification",
+          "description": "Insights and classification remain in progress. Delivery window: 2026-08-14 to 2026-08-28. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Insights and classification remain in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 45,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-14",
+          "dueDate": "2026-08-28",
+          "plannedDates": {
+            "start": "2026-08-14",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete classification, exception and underperformance insight rules.",
+          "nextAction": "Complete classification, exception and underperformance insight rules.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Insights and classification remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.3",
+          "name": "Root Cause Analysis",
+          "description": "Root-cause analysis workflow remains in progress. Delivery window: 2026-08-20 to 2026-09-03. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Root-cause analysis workflow remains in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 35,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-20",
+          "dueDate": "2026-09-03",
+          "plannedDates": {
+            "start": "2026-08-20",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete root-cause capture, review and reporting.",
+          "nextAction": "Complete root-cause capture, review and reporting.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Root-cause analysis workflow remains in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.4",
+          "name": "Performance Planning",
+          "description": "Performance Planning remains in progress. Delivery window: 2026-08-26 to 2026-09-10. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Performance Planning remains in progress.",
+          "status": "AT_RISK",
+          "progress": 30,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-26",
+          "dueDate": "2026-09-10",
+          "plannedDates": {
+            "start": "2026-08-26",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete plan ownership, targets, approvals and follow-up.",
+          "nextAction": "Complete plan ownership, targets, approvals and follow-up.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Performance Planning remains in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-04.5",
+          "name": "Corrective Actions & Follow-up",
+          "description": "Corrective Actions and Follow-up remain in progress. Delivery window: 2026-09-02 to 2026-09-18. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Corrective Actions and Follow-up remain in progress.",
+          "status": "AT_RISK",
+          "progress": 25,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-02",
+          "dueDate": "2026-09-18",
+          "plannedDates": {
+            "start": "2026-09-02",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete action ownership, due dates, progress and feedback tracking.",
+          "nextAction": "Complete action ownership, due dates, progress and feedback tracking.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Corrective Actions and Follow-up remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    },
+    {
+      "code": "BPH-05",
+      "phaseType": "BUSINESS",
+      "name": "Business Delivery — Reports & Management Review",
+      "businessPurpose": "Provide standard reports, Report Builder, reusable templates, PDF stories, export history and auditability.",
+      "status": "AT_RISK",
+      "progress": 41,
+      "riskLevel": "HIGH",
+      "deliveryStage": "IN_DEVELOPMENT",
+      "releaseHorizon": "RELEASE_1",
+      "sortOrder": 110,
+      "startDate": "2026-08-24",
+      "dueDate": "2026-09-30",
+      "deliveredScope": null,
+      "remainingScope": "Standard Performance Reports; Report Builder; Reusable Report Templates; PDF Snapshot Story; Report History, Export & Audit Trail",
+      "currentBlockers": "2 work item(s) require management attention: PDF Snapshot Story; Report History, Export & Audit Trail",
+      "nextAction": "Complete Employee, Team, Managerial and Corporate report coverage.",
+      "firstReleaseImpact": "Completes the management reporting and evidence layer required for Release 1 review and handover.",
+      "workItems": [
+        {
+          "code": "BUS-05.1",
+          "name": "Standard Performance Reports",
+          "description": "Standard Reports remain in progress while core dashboard views are available. Delivery window: 2026-08-24 to 2026-09-04. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Standard Reports remain in progress while core dashboard views are available.",
+          "status": "IN_PROGRESS",
+          "progress": 55,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-24",
+          "dueDate": "2026-09-04",
+          "plannedDates": {
+            "start": "2026-08-24",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete Employee, Team, Managerial and Corporate report coverage.",
+          "nextAction": "Complete Employee, Team, Managerial and Corporate report coverage.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Standard Reports remain in progress while core dashboard views are available.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.2",
+          "name": "Report Builder",
+          "description": "Report Builder remains in progress. Delivery window: 2026-08-31 to 2026-09-11. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Report Builder remains in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 45,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-08-31",
+          "dueDate": "2026-09-11",
+          "plannedDates": {
+            "start": "2026-08-31",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete report blocks, layout controls and management validation.",
+          "nextAction": "Complete report blocks, layout controls and management validation.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Report Builder remains in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.3",
+          "name": "Reusable Report Templates",
+          "description": "Reusable Report Templates remain in progress. Delivery window: 2026-09-07 to 2026-09-18. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Reusable Report Templates remain in progress.",
+          "status": "IN_PROGRESS",
+          "progress": 40,
+          "riskLevel": "LOW",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "ON_TRACK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-07",
+          "dueDate": "2026-09-18",
+          "plannedDates": {
+            "start": "2026-09-07",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete template storage and period-based regeneration.",
+          "nextAction": "Complete template storage and period-based regeneration.",
+          "blocker": null,
+          "blockerSummary": null,
+          "implementationNotes": "Reusable Report Templates remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.4",
+          "name": "PDF Snapshot Story",
+          "description": "PDF Snapshot Story remains in progress. Delivery window: 2026-09-14 to 2026-09-25. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "PDF Snapshot Story remains in progress.",
+          "status": "AT_RISK",
+          "progress": 35,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-14",
+          "dueDate": "2026-09-25",
+          "plannedDates": {
+            "start": "2026-09-14",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete content, pagination, security and management approval.",
+          "nextAction": "Complete content, pagination, security and management approval.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "PDF Snapshot Story remains in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        },
+        {
+          "code": "BUS-05.5",
+          "name": "Report History, Export & Audit Trail",
+          "description": "Report history, export and audit trail remain in progress. Delivery window: 2026-09-21 to 2026-09-30. Source workstream: Business.",
+          "acceptanceCriteria": "The deliverable is implemented for its stated scope, reviewed against the agreed calculation, security and usability requirements, and supported by test, deployment or handover evidence.",
+          "notes": "Report history, export and audit trail remain in progress.",
+          "status": "AT_RISK",
+          "progress": 30,
+          "riskLevel": "HIGH",
+          "deliveryStage": "IN_DEVELOPMENT",
+          "lifecycleStage": "IP",
+          "deliveryHealth": "AT_RISK",
+          "deploymentEnvironment": "LOCAL",
+          "releaseScope": "INTERNAL",
+          "startDate": "2026-09-21",
+          "dueDate": "2026-09-30",
+          "plannedDates": {
+            "start": "2026-09-21",
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "actualDates": {
+            "start": null,
+            "check": null,
+            "productionReady": null,
+            "goLive": null
+          },
+          "nextGate": "Complete retention, export history, metadata and audit review.",
+          "nextAction": "Complete retention, export history, metadata and audit review.",
+          "blocker": "Delivery is at risk and requires management attention.",
+          "blockerSummary": "Delivery is at risk and requires management attention.",
+          "implementationNotes": "Report history, export and audit trail remain in progress.",
+          "primaryWorkstream": "FRONTEND",
+          "supportingWorkstreams": [
+            "BACKEND"
+          ],
+          "owner": null,
+          "checkpoints": []
+        }
+      ],
+      "sharedCapabilities": []
+    }
+  ],
+  "sharedCapabilities": []
+}

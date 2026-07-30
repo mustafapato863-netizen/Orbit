@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+/.playwright/
 
 # next.js
 /.next/
@@ -30,8 +33,15 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# environment files
 .env*
+!.env.example
+
+# generated Prisma Client
+/generated/prisma/
+
+# local pre-implementation source backup
+/backup_before_orbit_implementation/
 
 # vercel
 .vercel

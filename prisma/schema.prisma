@@ -1,0 +1,811 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  ON_HOLD
+  AT_RISK
+  COMPLETED
+  ARCHIVED
+}
+
+enum MilestoneStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  AT_RISK
+  BLOCKED
+  COMPLETED
+  ARCHIVED
+}
+
+enum WorkItemStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  AT_RISK
+  BLOCKED
+  COMPLETED
+  CANCELLED
+  ARCHIVED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RiskStatus {
+  OPEN
+  MITIGATING
+  ACCEPTED
+  CLOSED
+}
+
+enum DeliveryStageCode {
+  NOT_STARTED
+  IN_DEVELOPMENT
+  TECHNICAL_VERIFICATION
+  BUSINESS_UAT
+  STAGING
+  CONTROLLED_PILOT
+  PRODUCTION
+}
+
+enum WorkPackageStage {
+  NS
+  IP
+  CHK
+  RPR
+  LIVE
+}
+
+enum DeploymentEnvironment {
+  LOCAL
+  STAGING
+  PRODUCTION
+}
+
+enum ReleaseScope {
+  INTERNAL
+  PILOT
+  FULL_RELEASE
+}
+
+enum DeliveryHealth {
+  ON_TRACK
+  AT_RISK
+  BLOCKED
+  OVERDUE
+}
+
+enum ReleaseHorizon {
+  RELEASE_1
+  PHASE_2
+}
+
+enum DecisionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DEFERRED
+  SUPERSEDED
+}
+
+enum MembershipRole {
+  PROJECT_MANAGER
+  TECHNICAL_LEAD
+  REVIEWER
+  VIEWER
+}
+
+enum PilotCapabilityDisposition {
+  INCLUDED
+  DEFERRED
+}
+
+enum PilotCriterionType {
+  ENTRY
+  EXIT
+}
+
+enum PilotCriterionStatus {
+  NOT_STARTED
+  MET
+  NOT_MET
+  WAIVED
+}
+
+enum PilotSignOffStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PilotIssueStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id                       String                 @id @default(uuid()) @db.Uuid
+  email                    String                 @db.VarChar(320)
+  normalizedEmail          String                 @unique @db.VarChar(320)
+  displayName              String                 @db.VarChar(160)
+  passwordHash             String?                @db.VarChar(255)
+  mustChangePassword       Boolean                @default(false)
+  isActive                 Boolean                @default(true)
+  passwordChangedAt        DateTime?              @db.Timestamptz(3)
+  lastLoginAt              DateTime?              @db.Timestamptz(3)
+  archivedAt               DateTime?              @db.Timestamptz(3)
+  createdAt                DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt                DateTime               @updatedAt @db.Timestamptz(3)
+  userRoles                UserRole[]             @relation("UserRoles")
+  assignedUserRoles        UserRole[]             @relation("UserRoleAssignedBy")
+  projectMemberships       ProjectMember[]
+  ownedWorkItems           WorkItem[]             @relation("WorkItemOwner")
+  ownedSharedCapabilities  SharedCapability[]     @relation("SharedCapabilityOwner")
+  deliveryStageChanges     DeliveryStageHistory[] @relation("DeliveryStageChangedBy")
+  ownedRisks               Risk[]                 @relation("RiskOwner")
+  ownedDecisions           Decision[]             @relation("DecisionOwner")
+  comments                 Comment[]
+  supportedPilotScopes     PilotScope[]           @relation("PilotSupportOwner")
+  rollbackPilotScopes      PilotScope[]           @relation("PilotRollbackOwner")
+  businessPilotSignOffs    PilotScope[]           @relation("PilotBusinessSignOff")
+  technicalPilotSignOffs   PilotScope[]           @relation("PilotTechnicalSignOff")
+  ledPilotTeams            PilotTeam[]            @relation("PilotTeamLead")
+  pilotTeamMemberships     PilotTeamMember[]
+  reviewedPilotCriteria    PilotCriterion[]       @relation("PilotCriterionReviewer")
+  ownedPilotIssues         PilotIssue[]           @relation("PilotIssueOwner")
+  generatedReportSnapshots ReportSnapshot[]
+  auditLogs                AuditLog[]
+  sessions                 Session[]
+
+  @@index([isActive, archivedAt])
+  @@index([displayName])
+}
+
+model Session {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  tokenHash  String    @unique @db.Char(64)
+  expiresAt  DateTime  @db.Timestamptz(3)
+  lastSeenAt DateTime  @default(now()) @db.Timestamptz(3)
+  revokedAt  DateTime? @db.Timestamptz(3)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(3)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt, expiresAt])
+  @@index([expiresAt])
+}
+
+model Role {
+  id          String           @id @default(uuid()) @db.Uuid
+  name        String           @unique @db.VarChar(80)
+  description String?          @db.VarChar(500)
+  isSystem    Boolean          @default(false)
+  archivedAt  DateTime?        @db.Timestamptz(3)
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime         @updatedAt @db.Timestamptz(3)
+  userRoles   UserRole[]
+  permissions RolePermission[]
+
+  @@index([archivedAt])
+}
+
+model Permission {
+  id          String           @id @default(uuid()) @db.Uuid
+  code        String           @unique @db.VarChar(120)
+  name        String           @db.VarChar(120)
+  description String?          @db.VarChar(500)
+  archivedAt  DateTime?        @db.Timestamptz(3)
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime         @updatedAt @db.Timestamptz(3)
+  roles       RolePermission[]
+
+  @@index([archivedAt])
+}
+
+model UserRole {
+  userId       String   @db.Uuid
+  roleId       String   @db.Uuid
+  assignedById String?  @db.Uuid
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+  user         User     @relation("UserRoles", fields: [userId], references: [id], onDelete: Cascade)
+  role         Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  assignedBy   User?    @relation("UserRoleAssignedBy", fields: [assignedById], references: [id], onDelete: SetNull)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@index([assignedById])
+}
+
+model RolePermission {
+  roleId       String     @db.Uuid
+  permissionId String     @db.Uuid
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(3)
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([permissionId])
+}
+
+model Project {
+  id                 String             @id @default(uuid()) @db.Uuid
+  code               String             @unique @db.VarChar(40)
+  slug               String             @unique @db.VarChar(120)
+  name               String             @db.VarChar(200)
+  description        String?            @db.Text
+  status             ProjectStatus      @default(PLANNING)
+  progress           Int                @default(0)
+  isPrivate          Boolean            @default(false)
+  projectType        String             @default("CUSTOM") @db.VarChar(40)
+  startDate          DateTime?          @db.Date
+  targetDate         DateTime?          @db.Date
+  archivedAt         DateTime?          @db.Timestamptz(3)
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+  members            ProjectMember[]
+  milestones         Milestone[]
+  sharedCapabilities SharedCapability[]
+  risks              Risk[]
+  decisions          Decision[]
+  comments           Comment[]
+  pilotScope         PilotScope?
+  reportSnapshots    ReportSnapshot[]
+  auditLogs          AuditLog[]
+  workstreams        Workstream[]
+
+  @@index([status, archivedAt])
+  @@index([isPrivate, archivedAt])
+  @@index([targetDate])
+}
+
+model ProjectMember {
+  projectId  String         @db.Uuid
+  userId     String         @db.Uuid
+  role       MembershipRole
+  archivedAt DateTime?      @db.Timestamptz(3)
+  createdAt  DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime       @updatedAt @db.Timestamptz(3)
+  project    Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@index([projectId, role, archivedAt])
+  @@index([userId, archivedAt])
+}
+
+model Milestone {
+  id                    String                      @id @default(uuid()) @db.Uuid
+  projectId             String                      @db.Uuid
+  code                  String                      @db.VarChar(40)
+  name                  String                      @db.VarChar(200)
+  businessPurpose       String?                     @db.Text
+  status                MilestoneStatus             @default(NOT_STARTED)
+  progress              Int                         @default(0)
+  riskLevel             RiskLevel                   @default(LOW)
+  deliveryStage         DeliveryStageCode           @default(NOT_STARTED)
+  releaseHorizon        ReleaseHorizon              @default(RELEASE_1)
+  sortOrder             Int                         @default(0)
+  startDate             DateTime?                   @db.Date
+  dueDate               DateTime?                   @db.Date
+  deliveredScope        String?                     @db.Text
+  remainingScope        String?                     @db.Text
+  currentBlockers       String?                     @db.Text
+  nextAction            String?                     @db.Text
+  firstReleaseImpact    String?                     @db.Text
+  archivedAt            DateTime?                   @db.Timestamptz(3)
+  createdAt             DateTime                    @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime                    @updatedAt @db.Timestamptz(3)
+  project               Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItems             WorkItem[]
+  sharedCapabilityLinks MilestoneSharedCapability[]
+  risks                 Risk[]
+  decisions             Decision[]
+  comments              Comment[]
+
+  @@unique([projectId, code])
+  @@unique([id, projectId])
+  @@index([projectId, releaseHorizon, status])
+  @@index([projectId, archivedAt, sortOrder])
+  @@index([projectId, deliveryStage])
+  @@index([dueDate, status])
+  @@index([archivedAt])
+}
+
+model WorkItem {
+  id                          String                 @id @default(uuid()) @db.Uuid
+  milestoneId                 String                 @db.Uuid
+  primaryWorkstreamId         String                 @db.Uuid
+  ownerId                     String?                @db.Uuid
+  code                        String                 @db.VarChar(40)
+  name                        String                 @db.VarChar(240)
+  description                 String?                @db.Text
+  acceptanceCriteria          String?                @db.Text
+  notes                       String?                @db.Text
+  status                      WorkItemStatus         @default(NOT_STARTED)
+  progress                    Int                    @default(0)
+  riskLevel                   RiskLevel              @default(LOW)
+  deliveryStage               DeliveryStageCode      @default(NOT_STARTED)
+  lifecycleStage              WorkPackageStage       @default(NS)
+  deploymentEnvironment       DeploymentEnvironment  @default(LOCAL)
+  releaseScope                ReleaseScope           @default(INTERNAL)
+  deliveryHealth              DeliveryHealth         @default(ON_TRACK)
+  plannedStartDate            DateTime?              @db.Date
+  plannedCheckDate            DateTime?              @db.Date
+  plannedProductionReadyDate  DateTime?              @db.Date
+  plannedGoLiveDate           DateTime?              @db.Date
+  actualStartDate             DateTime?              @db.Date
+  actualCheckDate             DateTime?              @db.Date
+  actualProductionReadyDate   DateTime?              @db.Date
+  actualGoLiveDate            DateTime?              @db.Date
+  startDate                   DateTime?              @db.Date
+  dueDate                     DateTime?              @db.Date
+  nextGate                    String?                @db.VarChar(240)
+  nextAction                  String?                @db.Text
+  blocker                     String?                @db.Text
+  blockerSummary              String?                @db.Text
+  implementationNotes         String?                @db.Text
+  archivedAt                  DateTime?              @db.Timestamptz(3)
+  createdAt                   DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt                   DateTime               @updatedAt @db.Timestamptz(3)
+  milestone                   Milestone              @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  primaryWorkstream           Workstream             @relation("PrimaryWorkItems", fields: [primaryWorkstreamId], references: [id], onDelete: Restrict)
+  owner                       User?                  @relation("WorkItemOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  supportingWorkstreams WorkItemWorkstream[]
+  deliveryStageHistory        DeliveryStageHistory[]
+  checkpoints                 WorkPackageCheckpoint[]
+  risks                       Risk[]
+  comments                    Comment[]
+
+  @@unique([milestoneId, code])
+  @@index([milestoneId, status, archivedAt])
+  @@index([primaryWorkstreamId, status])
+  @@index([ownerId, status])
+  @@index([deliveryStage, dueDate])
+  @@index([lifecycleStage, deliveryHealth])
+  @@index([archivedAt])
+}
+
+model WorkPackageCheckpoint {
+  id             String      @id @default(uuid()) @db.Uuid
+  workItemId     String      @db.Uuid
+  checkpointCode String      @db.VarChar(40)
+  plannedDate    DateTime?   @db.Date
+  actualDate     DateTime?   @db.Date
+  status         String      @default("Pending") @db.VarChar(40)
+  note           String?     @db.Text
+  createdAt      DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime    @updatedAt @db.Timestamptz(3)
+  workItem       WorkItem    @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+
+  @@unique([workItemId, checkpointCode])
+  @@index([workItemId, checkpointCode])
+}
+
+model SharedCapability {
+  id                    String                       @id @default(uuid()) @db.Uuid
+  projectId             String                       @db.Uuid
+  primaryWorkstreamId   String                       @db.Uuid
+  ownerId               String?                      @db.Uuid
+  code                  String                       @db.VarChar(40)
+  name                  String                       @db.VarChar(240)
+  description           String?                      @db.Text
+  acceptanceCriteria    String?                      @db.Text
+  notes                 String?                      @db.Text
+  status                WorkItemStatus               @default(NOT_STARTED)
+  progress              Int                          @default(0)
+  riskLevel             RiskLevel                    @default(LOW)
+  deliveryStage         DeliveryStageCode            @default(NOT_STARTED)
+  startDate             DateTime?                    @db.Date
+  dueDate               DateTime?                    @db.Date
+  nextGate              String?                      @db.VarChar(240)
+  blocker               String?                      @db.Text
+  archivedAt            DateTime?                    @db.Timestamptz(3)
+  createdAt             DateTime                     @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime                     @updatedAt @db.Timestamptz(3)
+  project               Project                      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  primaryWorkstream     Workstream                   @relation("PrimarySharedCapabilities", fields: [primaryWorkstreamId], references: [id], onDelete: Restrict)
+  owner                 User?                        @relation("SharedCapabilityOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  milestoneLinks        MilestoneSharedCapability[]
+  supportingWorkstreams SharedCapabilityWorkstream[]
+  deliveryStageHistory  DeliveryStageHistory[]
+  risks                 Risk[]
+  comments              Comment[]
+  pilotScopeLinks       PilotScopeCapability[]
+
+  @@unique([projectId, code])
+  @@unique([projectId, name])
+  @@unique([id, projectId])
+  @@index([projectId, status, archivedAt])
+  @@index([primaryWorkstreamId, status])
+  @@index([ownerId, status])
+  @@index([deliveryStage, dueDate])
+  @@index([archivedAt])
+}
+
+model MilestoneSharedCapability {
+  projectId          String           @db.Uuid
+  milestoneId        String           @db.Uuid
+  sharedCapabilityId String           @db.Uuid
+  sourceReference    String?          @db.VarChar(500)
+  dependencyNotes    String?          @db.Text
+  isCritical         Boolean          @default(false)
+  createdAt          DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime         @updatedAt @db.Timestamptz(3)
+  milestone          Milestone        @relation(fields: [milestoneId, projectId], references: [id, projectId], onDelete: Cascade)
+  sharedCapability   SharedCapability @relation(fields: [sharedCapabilityId, projectId], references: [id, projectId], onDelete: Cascade)
+
+  @@id([milestoneId, sharedCapabilityId])
+  @@index([sharedCapabilityId, milestoneId])
+}
+
+model Workstream {
+  id                           String                       @id @default(uuid()) @db.Uuid
+  projectId                    String                       @db.Uuid
+  code                         String                       @db.VarChar(40)
+  slug                         String                       @db.VarChar(80)
+  name                         String                       @db.VarChar(80)
+  description                  String?                      @db.VarChar(500)
+  colorToken                   String                       @db.VarChar(80)
+  iconKey                      String                       @default("layers") @db.VarChar(40)
+  sortOrder                    Int                          @default(0)
+  archivedAt                   DateTime?                    @db.Timestamptz(3)
+  createdAt                    DateTime                     @default(now()) @db.Timestamptz(3)
+  updatedAt                    DateTime                     @updatedAt @db.Timestamptz(3)
+  project                      Project                      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  primaryWorkItems             WorkItem[]                   @relation("PrimaryWorkItems")
+  supportingWorkItems          WorkItemWorkstream[]
+  primarySharedCapabilities    SharedCapability[]           @relation("PrimarySharedCapabilities")
+  supportingSharedCapabilities SharedCapabilityWorkstream[]
+  risks                        Risk[]
+  decisions                    DecisionWorkstream[]
+
+  @@unique([projectId, code])
+  @@unique([projectId, slug])
+  @@unique([projectId, name])
+  @@index([projectId, archivedAt, sortOrder])
+}
+
+model WorkItemWorkstream {
+  workItemId   String     @db.Uuid
+  workstreamId String     @db.Uuid
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(3)
+  workItem     WorkItem   @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  workstream   Workstream @relation(fields: [workstreamId], references: [id], onDelete: Restrict)
+
+  @@id([workItemId, workstreamId])
+  @@index([workstreamId, workItemId])
+}
+
+model SharedCapabilityWorkstream {
+  sharedCapabilityId String           @db.Uuid
+  workstreamId       String           @db.Uuid
+  createdAt          DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime         @updatedAt @db.Timestamptz(3)
+  sharedCapability   SharedCapability @relation(fields: [sharedCapabilityId], references: [id], onDelete: Cascade)
+  workstream         Workstream       @relation(fields: [workstreamId], references: [id], onDelete: Restrict)
+
+  @@id([sharedCapabilityId, workstreamId])
+  @@index([workstreamId, sharedCapabilityId])
+}
+
+model DeliveryStageHistory {
+  id                 String             @id @default(uuid()) @db.Uuid
+  workItemId         String?            @db.Uuid
+  sharedCapabilityId String?            @db.Uuid
+  fromStage          DeliveryStageCode?
+  toStage            DeliveryStageCode
+  changedById        String?            @db.Uuid
+  notes              String?            @db.Text
+  changedAt          DateTime           @default(now()) @db.Timestamptz(3)
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+  workItem           WorkItem?          @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  sharedCapability   SharedCapability?  @relation(fields: [sharedCapabilityId], references: [id], onDelete: Cascade)
+  changedBy          User?              @relation("DeliveryStageChangedBy", fields: [changedById], references: [id], onDelete: SetNull)
+
+  @@index([workItemId, changedAt(sort: Desc)])
+  @@index([sharedCapabilityId, changedAt(sort: Desc)])
+  @@index([changedById, changedAt(sort: Desc)])
+}
+
+model Risk {
+  id                  String            @id @default(uuid()) @db.Uuid
+  projectId           String            @db.Uuid
+  milestoneId         String?           @db.Uuid
+  workItemId          String?           @db.Uuid
+  sharedCapabilityId  String?           @db.Uuid
+  primaryWorkstreamId String?           @db.Uuid
+  ownerId             String?           @db.Uuid
+  title               String            @db.VarChar(240)
+  description         String            @db.Text
+  probability         Int
+  impact              Int
+  severity            RiskLevel
+  status              RiskStatus        @default(OPEN)
+  mitigation          String?           @db.Text
+  dueDate             DateTime?         @db.Date
+  archivedAt          DateTime?         @db.Timestamptz(3)
+  createdAt           DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime          @updatedAt @db.Timestamptz(3)
+  project             Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestone           Milestone?        @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  workItem            WorkItem?         @relation(fields: [workItemId], references: [id], onDelete: SetNull)
+  sharedCapability    SharedCapability? @relation(fields: [sharedCapabilityId], references: [id], onDelete: SetNull)
+  primaryWorkstream   Workstream?       @relation(fields: [primaryWorkstreamId], references: [id], onDelete: SetNull)
+  owner               User?             @relation("RiskOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  comments            Comment[]
+
+  @@index([projectId, status, severity])
+  @@index([projectId, dueDate])
+  @@index([milestoneId])
+  @@index([workItemId])
+  @@index([sharedCapabilityId])
+  @@index([primaryWorkstreamId, status])
+  @@index([ownerId, status])
+  @@index([archivedAt])
+}
+
+model Decision {
+  id                   String               @id @default(uuid()) @db.Uuid
+  projectId            String               @db.Uuid
+  milestoneId          String?              @db.Uuid
+  ownerId              String?              @db.Uuid
+  title                String               @db.VarChar(240)
+  description          String               @db.Text
+  requiredBy           DateTime?            @db.Date
+  recommendedDirection String?              @db.Text
+  status               DecisionStatus       @default(PENDING)
+  decisionText         String?              @db.Text
+  decidedAt            DateTime?            @db.Timestamptz(3)
+  archivedAt           DateTime?            @db.Timestamptz(3)
+  createdAt            DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime             @updatedAt @db.Timestamptz(3)
+  project              Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestone            Milestone?           @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  owner                User?                @relation("DecisionOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  affectedWorkstreams  DecisionWorkstream[]
+  comments             Comment[]
+
+  @@index([projectId, status, requiredBy])
+  @@index([milestoneId, status])
+  @@index([ownerId, status])
+  @@index([archivedAt])
+}
+
+model DecisionWorkstream {
+  decisionId   String     @db.Uuid
+  workstreamId String     @db.Uuid
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(3)
+  decision     Decision   @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  workstream   Workstream @relation(fields: [workstreamId], references: [id], onDelete: Restrict)
+
+  @@id([decisionId, workstreamId])
+  @@index([workstreamId, decisionId])
+}
+
+model Comment {
+  id                 String            @id @default(uuid()) @db.Uuid
+  projectId          String            @db.Uuid
+  authorId           String?           @db.Uuid
+  parentCommentId    String?           @db.Uuid
+  milestoneId        String?           @db.Uuid
+  workItemId         String?           @db.Uuid
+  sharedCapabilityId String?           @db.Uuid
+  riskId             String?           @db.Uuid
+  decisionId         String?           @db.Uuid
+  pilotScopeId       String?           @db.Uuid
+  body               String            @db.Text
+  editedAt           DateTime?         @db.Timestamptz(3)
+  archivedAt         DateTime?         @db.Timestamptz(3)
+  createdAt          DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime          @updatedAt @db.Timestamptz(3)
+  project            Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  author             User?             @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  parentComment      Comment?          @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies            Comment[]         @relation("CommentReplies")
+  milestone          Milestone?        @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  workItem           WorkItem?         @relation(fields: [workItemId], references: [id], onDelete: SetNull)
+  sharedCapability   SharedCapability? @relation(fields: [sharedCapabilityId], references: [id], onDelete: SetNull)
+  risk               Risk?             @relation(fields: [riskId], references: [id], onDelete: SetNull)
+  decision           Decision?         @relation(fields: [decisionId], references: [id], onDelete: SetNull)
+  pilotScope         PilotScope?       @relation(fields: [pilotScopeId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt(sort: Desc)])
+  @@index([authorId, createdAt(sort: Desc)])
+  @@index([parentCommentId])
+  @@index([milestoneId, createdAt(sort: Desc)])
+  @@index([workItemId, createdAt(sort: Desc)])
+  @@index([sharedCapabilityId, createdAt(sort: Desc)])
+  @@index([riskId, createdAt(sort: Desc)])
+  @@index([decisionId, createdAt(sort: Desc)])
+  @@index([pilotScopeId, createdAt(sort: Desc)])
+  @@index([archivedAt])
+}
+
+model PilotScope {
+  id                     String                 @id @default(uuid()) @db.Uuid
+  projectId              String                 @unique @db.Uuid
+  supportOwnerId         String?                @db.Uuid
+  rollbackOwnerId        String?                @db.Uuid
+  businessSignOffById    String?                @db.Uuid
+  technicalSignOffById   String?                @db.Uuid
+  businessSignOffStatus  PilotSignOffStatus     @default(PENDING)
+  technicalSignOffStatus PilotSignOffStatus     @default(PENDING)
+  name                   String                 @db.VarChar(200)
+  knownLimitations       String?                @db.Text
+  finalDecisionStatus    DecisionStatus         @default(PENDING)
+  finalDecision          String?                @db.Text
+  businessSignedOffAt    DateTime?              @db.Timestamptz(3)
+  technicalSignedOffAt   DateTime?              @db.Timestamptz(3)
+  archivedAt             DateTime?              @db.Timestamptz(3)
+  createdAt              DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime               @updatedAt @db.Timestamptz(3)
+  project                Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  supportOwner           User?                  @relation("PilotSupportOwner", fields: [supportOwnerId], references: [id], onDelete: SetNull)
+  rollbackOwner          User?                  @relation("PilotRollbackOwner", fields: [rollbackOwnerId], references: [id], onDelete: SetNull)
+  businessSignOffBy      User?                  @relation("PilotBusinessSignOff", fields: [businessSignOffById], references: [id], onDelete: SetNull)
+  technicalSignOffBy     User?                  @relation("PilotTechnicalSignOff", fields: [technicalSignOffById], references: [id], onDelete: SetNull)
+  teams                  PilotTeam[]
+  criteria               PilotCriterion[]
+  capabilities           PilotScopeCapability[]
+  comments               Comment[]
+  issues                 PilotIssue[]
+
+  @@unique([id, projectId])
+  @@index([finalDecisionStatus, archivedAt])
+  @@index([supportOwnerId])
+  @@index([rollbackOwnerId])
+}
+
+model PilotTeam {
+  id           String            @id @default(uuid()) @db.Uuid
+  pilotScopeId String            @db.Uuid
+  leadUserId   String?           @db.Uuid
+  name         String            @db.VarChar(160)
+  description  String?           @db.Text
+  archivedAt   DateTime?         @db.Timestamptz(3)
+  createdAt    DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime          @updatedAt @db.Timestamptz(3)
+  pilotScope   PilotScope        @relation(fields: [pilotScopeId], references: [id], onDelete: Cascade)
+  leadUser     User?             @relation("PilotTeamLead", fields: [leadUserId], references: [id], onDelete: SetNull)
+  members      PilotTeamMember[]
+
+  @@unique([pilotScopeId, name])
+  @@index([leadUserId])
+  @@index([archivedAt])
+}
+
+model PilotTeamMember {
+  pilotTeamId String    @db.Uuid
+  userId      String    @db.Uuid
+  archivedAt  DateTime? @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
+  pilotTeam   PilotTeam @relation(fields: [pilotTeamId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([pilotTeamId, userId])
+  @@index([userId, archivedAt])
+}
+
+model PilotCriterion {
+  id           String               @id @default(uuid()) @db.Uuid
+  pilotScopeId String               @db.Uuid
+  reviewerId   String?              @db.Uuid
+  code         String               @db.VarChar(40)
+  type         PilotCriterionType
+  title        String               @db.VarChar(240)
+  description  String?              @db.Text
+  isRequired   Boolean              @default(true)
+  status       PilotCriterionStatus @default(NOT_STARTED)
+  evidence     String?              @db.Text
+  reviewedAt   DateTime?            @db.Timestamptz(3)
+  createdAt    DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime             @updatedAt @db.Timestamptz(3)
+  pilotScope   PilotScope           @relation(fields: [pilotScopeId], references: [id], onDelete: Cascade)
+  reviewer     User?                @relation("PilotCriterionReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+
+  @@unique([pilotScopeId, code])
+  @@index([pilotScopeId, type, status])
+  @@index([reviewerId, status])
+}
+
+model PilotScopeCapability {
+  projectId          String                     @db.Uuid
+  pilotScopeId       String                     @db.Uuid
+  sharedCapabilityId String                     @db.Uuid
+  disposition        PilotCapabilityDisposition
+  notes              String?                    @db.Text
+  createdAt          DateTime                   @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime                   @updatedAt @db.Timestamptz(3)
+  pilotScope         PilotScope                 @relation(fields: [pilotScopeId, projectId], references: [id, projectId], onDelete: Cascade)
+  sharedCapability   SharedCapability           @relation(fields: [sharedCapabilityId, projectId], references: [id, projectId], onDelete: Cascade)
+
+  @@id([pilotScopeId, sharedCapabilityId])
+  @@index([sharedCapabilityId, disposition])
+}
+
+model PilotIssue {
+  id           String           @id @default(uuid()) @db.Uuid
+  pilotScopeId String           @db.Uuid
+  ownerId      String?          @db.Uuid
+  title        String           @db.VarChar(240)
+  description  String?          @db.Text
+  severity     RiskLevel        @default(MEDIUM)
+  status       PilotIssueStatus @default(OPEN)
+  isBlocking   Boolean          @default(true)
+  mitigation   String?          @db.Text
+  dueDate      DateTime?        @db.Date
+  resolvedAt   DateTime?        @db.Timestamptz(3)
+  archivedAt   DateTime?        @db.Timestamptz(3)
+  createdAt    DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime         @updatedAt @db.Timestamptz(3)
+  pilotScope   PilotScope       @relation(fields: [pilotScopeId], references: [id], onDelete: Cascade)
+  owner        User?            @relation("PilotIssueOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+
+  @@index([pilotScopeId, status, severity])
+  @@index([ownerId, status])
+  @@index([dueDate, status])
+  @@index([archivedAt])
+}
+
+model ReportSnapshot {
+  id            String    @id @default(uuid()) @db.Uuid
+  projectId     String    @db.Uuid
+  generatedById String?   @db.Uuid
+  reportType    String    @db.VarChar(100)
+  version       Int       @default(1)
+  title         String    @db.VarChar(240)
+  parameters    Json?
+  snapshot      Json
+  generatedAt   DateTime  @default(now()) @db.Timestamptz(3)
+  archivedAt    DateTime? @db.Timestamptz(3)
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(3)
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  generatedBy   User?     @relation(fields: [generatedById], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, reportType, version])
+  @@index([projectId, generatedAt(sort: Desc)])
+  @@index([generatedById, generatedAt(sort: Desc)])
+  @@index([archivedAt])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  projectId   String?  @db.Uuid
+  actorId     String?  @db.Uuid
+  action      String   @db.VarChar(120)
+  entityType  String   @db.VarChar(120)
+  entityId    String   @db.VarChar(120)
+  beforeState Json?
+  afterState  Json?
+  metadata    Json?
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  actor       User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt(sort: Desc)])
+  @@index([actorId, createdAt(sort: Desc)])
+  @@index([entityType, entityId, createdAt(sort: Desc)])
+  @@index([action, createdAt(sort: Desc)])
+}

@@ -1,0 +1,9 @@
+{
+  "name": "exceljs",
+  "version": "4.4.0",
+  "description": "Vendored ExcelJS distribution for offline installation.",
+  "main": "dist/exceljs.min.js",
+  "license": "MIT",
+  "type": "commonjs",
+  "types": "index.d.ts"
+}

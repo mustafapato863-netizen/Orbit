@@ -1,0 +1,88 @@
+# Progress
+
+## 2026-07-30
+- Started the configurable project-type and project-scoped workstream rearchitecture.
+- Selected planning-with-files, senior-fullstack, and code-reviewer.
+- Defined a non-destructive target: blank or templated projects, dynamic workstreams, and preserved legacy assignments.
+- Audited the schema and found the core constraint: global enum-backed workstreams with no project ownership.
+- Audited execution setup, workstream detail routing, pipeline calculations, reports, and seed logic; all contain fixed three-workstream assumptions.
+- Chose a project-scoped string-code/slug model with template-based initialization and a data-preserving reassignment migration.
+- Added the project-scoped Workstream schema and non-destructive reassignment migration.
+- Added project type/template definitions for Custom, Software, Business, Operations, Construction, Marketing, HR, and Procurement.
+- Added Workstream CRUD service/actions/form/routes and replaced the hard-coded Plan cards with project-derived cards.
+- First generated-client typecheck exposed compatibility updates still required; logged and started targeted corrections.
+- Generalised executive workstream calculations, pipeline dominant/count calculations, timeline colours, report datasets, and report labels.
+- Removed the fixed Frontend/Backend/Database tabs from the workstream detail screen.
+- Scoped execution and governance setup/validation queries by project.
+- Applied migration `20260730190000_project_scoped_workstreams` successfully.
+- Verified 3 existing projects, 3 project-scoped PMS workstreams, and zero cross-project relationship mismatches.
+- Focused dynamic-workstream suite passed: 6 files, 20 tests; TypeScript passed.
+- Started the user project access and private-project authorization task.
+- Selected planning-with-files, senior-fullstack, and code-reviewer skills.
+- Confirmed the change will preserve existing project and membership data.
+- Audited the Prisma User/Project/ProjectMember models, session authorization policy, project listing, access administration service, and existing membership mutation.
+- Chose an additive `isPrivate` project flag defaulting to public/member-visible, with Administrator-only private access.
+- Added the non-destructive project privacy column and migration, updated session-backed authorization, project queries, project forms, and Admin-only project labeling.
+- Extended account creation with initial project selection and membership role.
+- Added membership removal to the Users & access table and prevented assignment of Administrator-only projects to non-administrators.
+- Regenerated Prisma Client and passed TypeScript after resolving the initial cross-layer type errors.
+- Started the UI/UX information-architecture refresh.
+- Selected planning-with-files, ui-ux-pro-max, and ui-design-system skills.
+- Confirmed `.env` exists without reading or exposing its contents.
+- Audited the current shared project navigation, sidebar, overview composition, and planning history.
+- Recorded that the next implementation must separate executive overview from execution detail while preserving all project data/actions.
+- Reworked the executive Overview to retain snapshot and phase summary while moving delivery detail to Timeline and execution work to Plan.
+- Added a focused management panel for attention items and upcoming delivery checkpoints.
+- Renamed visible Plan language from technical capabilities to Shared work and clarified the work-by-team / milestone-plan destinations.
+- Fixed the duplicate PageHeader prop introduced during the Shared work terminology update.
+- Focused UI regression suite passed: 4 files, 6 tests.
+- TypeScript, ESLint, and production build passed; the build retains only pre-existing ExcelJS/JSZip vendor warnings.
+- Removed the duplicated phase summary from the Timeline delivery board; the summary remains on Overview and Timeline now proceeds directly to execution controls and the roadmap.
+- Simplified the desktop sidebar to global Workspace, Projects, and authorised system administration. Project-local destinations now live only in the sticky project navigation.
+- Added a focused sidebar regression test; 3 files and 5 tests passed, with TypeScript and ESLint also passing.
+- Started the connected-workspace and daily-timeline task.
+- Confirmed the read-only reference project exists at `D:\Projects\project_Management`.
+- Replaced the active task plan while preserving prior findings and verification history below.
+- Audited the reference frontend and identified its useful chronological milestone pattern.
+- Audited Orbit routes/sidebar and confirmed the project context is fragmented: Pipeline points to overview, Milestones is disabled, and no standalone Timeline destination is exposed.
+- Confirmed the standalone pipeline route is only a redirect and is safe to replace with a real project timeline page.
+- Confirmed the existing roadmap component already contains filters, zoom, focus, and edit actions that must remain available.
+- Added one persistent project workspace navigation bar through the dynamic project layout.
+- Exposed a real Timeline destination in the sidebar while keeping Pipeline as the project overview.
+- Replaced the standalone pipeline redirect with a real timeline page.
+- Added a derived daily plan with today's active work, progress, start/end dates, and a 30-day start/deadline agenda.
+- Added focused tests for the shared project navigation and daily timeline agenda.
+- Focused navigation/timeline/roadmap regression passed: 7 files, 12 tests.
+- TypeScript and ESLint passed after correcting the roadmap-item union field.
+- Component regression passed: 11 files, 19 tests.
+- Final TypeScript, ESLint, and Next.js production build passed.
+- Reviewed the implementation boundary: navigation and agenda are derived from current project data; no database/schema/seed changes were made.
+- Read the attached proposal.
+- Selected planning, full-stack implementation, and code-review skills.
+- Created persistent plan, findings, and progress files.
+- Repository audit started.
+- Audited package stack, Prisma schema, overview/pipeline/workstream component locations, and current hard-coded lifecycle/workstream constraints.
+- Audited the workstream summary, six-card pipeline summary, phase summary table, and lifecycle presentation mappings.
+- Audited the project header/navigation and the phase-board view-state flow.
+- Defined a non-destructive scope: generic presentation and derived summaries now; no enum replacement, destructive migration, or fake empty modules.
+- Implemented the generic executive snapshot, project health panel, data-derived workstream cards, unified phase delivery summary, and generic lifecycle labels.
+- Added compatibility handling for older partial test fixtures and updated focused tests to the new presentation contract.
+- Focused verification passed: 6 test files, 19 tests, TypeScript, and targeted ESLint.
+- Generalised timeline marker labels to REV/APR/DONE while retaining stored CHK/RPR/LIVE lifecycle values.
+- Full regression excluding the live-data checkpoint passed: 45 files, 121 tests.
+- ESLint, TypeScript, and production build passed.
+- Full suite has one non-introduced live-data drift failure: PMS at-risk count is 14 while the old integration checkpoint expects 13. No data was reset to force the old number.
+- Completed administrator-controlled project visibility during account creation, including initial project memberships and membership role selection.
+- Added membership removal from Users & access with protection against removing the final active Project Manager.
+- Added Administrator-only projects; only administrators can create/change this visibility and non-admin memberships cannot bypass it.
+- Applied the additive privacy migration without deleting or resetting existing project data.
+- Focused access/privacy suite passed: 6 files, 19 tests. TypeScript, ESLint, Prisma generation/status, and production build passed.
+- Full regression result: 129 passed and one pre-existing live-data assertion failed because the current database has 14 at-risk items while the fixed checkpoint expects 13.
+- Completed the configurable project-type and project-scoped workstream rearchitecture.
+- Added Custom, Software, Business, Operations, Construction, Marketing, HR, and Procurement project types with optional starting templates.
+- New Custom projects can start completely blank; no Frontend, Backend, or Database lanes are forced.
+- Added authorised project workstream create, edit, order, colour, icon, and guarded archive flows.
+- Migrated legacy workstream relations without resetting or deleting project delivery data.
+- Refactored Plan, workstream detail, execution/governance selectors, pipeline summaries, executive summaries, and exports to consume configured project workstreams dynamically.
+- Final regression excluding the known live-data checkpoint passed: 52 files and 135 tests.
+- Final Prisma migration status, TypeScript, ESLint, and production build passed.
