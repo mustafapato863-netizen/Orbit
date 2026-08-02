@@ -43,7 +43,12 @@ export class ProjectRepository extends Repository {
         _count: {
           select: {
             milestones: { where: { archivedAt: null } },
-            members: { where: { archivedAt: null } },
+            members: {
+              where: {
+                archivedAt: null,
+                user: { isActive: true, archivedAt: null },
+              },
+            },
           },
         },
       },
