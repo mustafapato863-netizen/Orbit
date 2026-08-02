@@ -60,9 +60,10 @@ export function SignInForm({ nextPath }: { nextPath?: string }) {
       ) : null}
       <div className="space-y-2">
         <Label htmlFor="email">Email address</Label>
-        <PasswordInput
+        <Input
           id="email"
           type="email"
+          inputMode="email"
           autoComplete="username"
           autoFocus
           aria-invalid={Boolean(errors.email)}
@@ -74,7 +75,7 @@ export function SignInForm({ nextPath }: { nextPath?: string }) {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input
+        <PasswordInput
           id="password"
           type="password"
           autoComplete="current-password"

@@ -40,7 +40,7 @@ export default async function EditWorkItemPage({
   const canUpdateAssigned =
     hasPermission(context.user, PERMISSIONS.WORK_ITEM_UPDATE_ASSIGNED) &&
     item.ownerId === context.user.id;
-  if (!canManage && !canUpdateAssigned) redirect("/forbidden");
+  if (!canManage && !canUpdateAssigned) redirect("/no-access");
   const [workstreams, members] = setup;
 
   return (

@@ -39,7 +39,7 @@ export default async function EditCapabilityPage({
       context.user,
       PERMISSIONS.SHARED_CAPABILITY_UPDATE_ASSIGNED,
     ) && capability.ownerId === context.user.id;
-  if (!canManage && !canUpdateAssigned) redirect("/forbidden");
+  if (!canManage && !canUpdateAssigned) redirect("/no-access");
   const [workstreams, members, milestones] = setup;
 
   return (

@@ -101,7 +101,7 @@ export async function requirePagePermission(
     !hasPermission(context.user, permission) ||
     (projectId && !canAccessProject(context.user, permission, projectId))
   ) {
-    redirect("/forbidden");
+    redirect("/no-access");
   }
 
   return context;
