@@ -34,6 +34,8 @@ import {
   type DeliveryPipelineView,
 } from "@/lib/pipeline/pipeline";
 import { cn } from "@/lib/utils";
+import { ActiveCollaboratorsBar } from "@/components/pipeline/active-collaborators-bar";
+import { SavedFilterPresetsBar, type PMFilterPreset } from "@/components/pipeline/saved-filter-presets-bar";
 import {
   TimelineRoadmapPanel,
   type RoadmapViewMode,
@@ -725,12 +727,85 @@ export function DeliveryPipelineBoard({
     [pipeline.timeline.months.length],
   );
 
+  const [activePreset, setActivePreset] = useState<PMFilterPreset>("ALL");
+
+  const presetCounts = useMemo(() => {
+    let blockers = 0;
+    let highRisk = 0;
+    let frontend = 0;
+    let backend = 0;
+    let database = 0;
+    let dueSoon = 0;
+    let all = 0;
+
+    const now = new Date().getTime();
+    const fourteenDaysMs = 14 * 24 * 60 * 60 * 1000;
+
+    for (const group of visibleGroups) {
+      for (const item of group.items) {
+        all++;
+        if (item.status === "BLOCKED") blockers++;
+        if (item.status === "AT_RISK" || item.riskLevel === "HIGH" || item.riskLevel === "CRITICAL") highRisk++;
+        const isFrontend = item.primaryWorkstream?.code === "FRONTEND" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "FRONTEND");
+        const isBackend = item.primaryWorkstream?.code === "BACKEND" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "BACKEND");
+        const isDatabase = item.primaryWorkstream?.code === "DATABASE" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "DATABASE");
+        if (isFrontend) frontend++;
+        if (isBackend) backend++;
+        if (isDatabase) database++;
+        if (item.dueDate && (new Date(item.dueDate).getTime() - now) <= fourteenDaysMs) dueSoon++;
+      }
+    }
+
+    return { all, blockers, highRisk, frontend, backend, database, dueSoon };
+  }, [visibleGroups]);
+
+  const presetFilteredGroups = useMemo(() => {
+    if (activePreset === "ALL") return filteredGroups;
+
+    const now = new Date().getTime();
+    const fourteenDaysMs = 14 * 24 * 60 * 60 * 1000;
+
+    return filteredGroups
+      .map((group) => {
+        const filteredItems = group.items.filter((item) => {
+          switch (activePreset) {
+            case "RELEASE_1_BLOCKERS":
+              return item.status === "BLOCKED";
+            case "HIGH_RISK":
+              return item.status === "AT_RISK" || item.riskLevel === "HIGH" || item.riskLevel === "CRITICAL";
+            case "FRONTEND":
+              return item.primaryWorkstream?.code === "FRONTEND" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "FRONTEND");
+            case "BACKEND":
+              return item.primaryWorkstream?.code === "BACKEND" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "BACKEND");
+            case "DATABASE":
+              return item.primaryWorkstream?.code === "DATABASE" || item.supportingWorkstreams?.some(ws => ws.workstream.code === "DATABASE");
+            case "DUE_SOON":
+              return item.dueDate ? new Date(item.dueDate).getTime() - now <= fourteenDaysMs : false;
+            default:
+              return true;
+          }
+        });
+        return { ...group, items: filteredItems };
+      })
+      .filter((group) => group.items.length > 0);
+  }, [filteredGroups, activePreset]);
+
   return (
     <>
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 mb-4">
+        <SavedFilterPresetsBar
+          activePreset={activePreset}
+          onSelectPreset={setActivePreset}
+          counts={presetCounts}
+          className="flex-1"
+        />
+        <ActiveCollaboratorsBar />
+      </div>
+
       <TimelineRoadmapPanel
         pipeline={pipeline}
         projectId={projectId}
-        groups={filteredGroups}
+        groups={presetFilteredGroups}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         permissions={permissions}
