@@ -14,10 +14,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { PERMISSIONS } from "@/lib/auth/permissions";
+import { hasPermission } from "@/lib/auth/policy";
+import type { SessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 type ProjectWorkspaceNavProps = {
   projectId: string;
+  user: Pick<SessionUser, "permissions">;
 };
 
 type ProjectNavItem = {
@@ -25,11 +29,24 @@ type ProjectNavItem = {
   href: string;
   icon: LucideIcon;
   active: (pathname: string) => boolean;
+  disabled?: boolean;
 };
 
-export function ProjectWorkspaceNav({ projectId }: ProjectWorkspaceNavProps) {
+export function ProjectWorkspaceNav({
+  projectId,
+  user,
+}: ProjectWorkspaceNavProps) {
   const pathname = usePathname();
   const projectRoot = `/projects/${projectId}`;
+  const canEditProject = hasPermission(user, PERMISSIONS.PROJECT_UPDATE);
+  const canManageMembers = hasPermission(
+    user,
+    PERMISSIONS.PROJECT_MANAGE_MEMBERS,
+  );
+  const canUseSettings = canEditProject || canManageMembers;
+  const settingsHref = canEditProject
+    ? `${projectRoot}/edit`
+    : `${projectRoot}/members`;
   const items: ProjectNavItem[] = [
     {
       label: "Overview",
@@ -79,11 +96,12 @@ export function ProjectWorkspaceNav({ projectId }: ProjectWorkspaceNavProps) {
     },
     {
       label: "Settings",
-      href: `${projectRoot}/edit`,
+      href: settingsHref,
       icon: Settings,
       active: (value) =>
         value === `${projectRoot}/edit` ||
         value.startsWith(`${projectRoot}/members`),
+      disabled: !canUseSettings,
     },
   ];
 
@@ -101,8 +119,17 @@ export function ProjectWorkspaceNav({ projectId }: ProjectWorkspaceNavProps) {
               key={item.label}
               href={item.href}
               aria-current={isActive ? "page" : undefined}
+              aria-disabled={item.disabled ? true : undefined}
+              tabIndex={item.disabled ? -1 : undefined}
+              onClick={
+                item.disabled
+                  ? (event) => event.preventDefault()
+                  : undefined
+              }
               className={cn(
                 "relative flex min-h-11 items-center gap-2 px-3 text-[0.75rem] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--orbit-purple)]",
+                item.disabled &&
+                  "cursor-not-allowed text-[var(--orbit-text-subtle)] opacity-60",
                 isActive
                   ? "text-[#6350c9]"
                   : "text-[var(--orbit-text-muted)] hover:text-[var(--orbit-text)]",

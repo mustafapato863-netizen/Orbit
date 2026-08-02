@@ -28,6 +28,34 @@ import { cn } from "@/lib/utils";
 type PipelineRoadmapItem =
   DeliveryPipelineView["roadmapGroups"][number]["items"][number];
 
+export type RoadmapEditPermissions = {
+  userId: string;
+  canManageMilestones: boolean;
+  canManageWorkItems: boolean;
+  canUpdateAssignedWorkItems: boolean;
+  canManageCapabilities: boolean;
+  canUpdateAssignedCapabilities: boolean;
+};
+
+export function canEditRoadmapItem(
+  item: PipelineRoadmapItem,
+  permissions: RoadmapEditPermissions,
+) {
+  if (item.itemKind === "specific") {
+    return (
+      permissions.canManageWorkItems ||
+      (permissions.canUpdateAssignedWorkItems &&
+        item.owner?.id === permissions.userId)
+    );
+  }
+
+  return (
+    permissions.canManageCapabilities ||
+    (permissions.canUpdateAssignedCapabilities &&
+      item.owner?.id === permissions.userId)
+  );
+}
+
 function shortDate(value: Date) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
@@ -228,11 +256,13 @@ export function RoadmapItemEditor({
   pipeline,
   milestoneId,
   projectId,
+  canEdit = true,
 }: {
   item: PipelineRoadmapItem;
   pipeline: DeliveryPipelineView;
   milestoneId: string;
   projectId: string;
+  canEdit?: boolean;
 }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
@@ -477,12 +507,17 @@ export function RoadmapItemEditor({
     <div className="min-w-0">
       <button
         type="button"
-        className="block w-full text-left text-[0.73rem] font-semibold leading-4 text-[var(--orbit-text)] outline-none transition hover:text-[#6350c9] hover:underline focus-visible:underline"
+        disabled={!canEdit}
+        className="block w-full text-left text-[0.73rem] font-semibold leading-4 text-[var(--orbit-text)] outline-none transition hover:text-[#6350c9] hover:underline focus-visible:underline disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:text-[var(--orbit-text)] disabled:hover:no-underline"
         onClick={() => {
           setIsEditing(true);
           setMessage(null);
         }}
-        title={`Edit ${baseTitle}`}
+        title={
+          canEdit
+            ? `Edit ${baseTitle}`
+            : "You do not have permission to edit this item"
+        }
       >
         <span className="line-clamp-2">{baseTitle}</span>
       </button>

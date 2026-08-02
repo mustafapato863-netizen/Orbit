@@ -11,8 +11,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   GroupRoadmapSummary,
+  canEditRoadmapItem,
   RoadmapItemEditor,
   TimelineLane,
+  type RoadmapEditPermissions,
 } from "@/components/pipeline/roadmap-row";
 import {
   pipelineStagePresentation,
@@ -25,6 +27,14 @@ import { cn } from "@/lib/utils";
 type RoadmapItem = DeliveryPipelineView["roadmapGroups"][number]["items"][number];
 type RoadmapGroup = DeliveryPipelineView["roadmapGroups"][number];
 export type RoadmapViewMode = "overall" | "business" | "technical";
+const DEFAULT_ROADMAP_EDIT_PERMISSIONS: RoadmapEditPermissions = {
+  userId: "",
+  canManageMilestones: true,
+  canManageWorkItems: true,
+  canUpdateAssignedWorkItems: true,
+  canManageCapabilities: true,
+  canUpdateAssignedCapabilities: true,
+};
 type RoadmapStatusFilter =
   | "all"
   | "active"
@@ -133,6 +143,7 @@ export function TimelineRoadmapPanel({
   groups,
   viewMode,
   onViewModeChange,
+  permissions = DEFAULT_ROADMAP_EDIT_PERMISSIONS,
   focusedGroupCode,
   onFocusedGroupHandled,
 }: {
@@ -141,6 +152,7 @@ export function TimelineRoadmapPanel({
   groups: DeliveryPipelineView["roadmapGroups"];
   viewMode: RoadmapViewMode;
   onViewModeChange: (viewMode: RoadmapViewMode) => void;
+  permissions?: RoadmapEditPermissions;
   focusedGroupCode?: string | null;
   onFocusedGroupHandled?: () => void;
 }) {
@@ -624,28 +636,56 @@ export function TimelineRoadmapPanel({
                 {isExpanded ? (
                   <div className="border-t border-[var(--orbit-border-soft)] bg-[#fafbfc]">
                     <div className="flex items-center gap-2 px-4 py-1.5">
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="h-7 gap-1.5 px-2.5 text-[0.66rem] font-bold text-[#6350c9] border-[#d8d3ff] bg-[#efebff]/60 hover:bg-[#efebff]"
-                      >
-                        <Link href={`/projects/${projectId}/milestones/${group.id}/work-items/new`}>
+                      {permissions.canManageWorkItems ? (
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="h-7 gap-1.5 border-[#d8d3ff] bg-[#efebff]/60 px-2.5 text-[0.66rem] font-bold text-[#6350c9] hover:bg-[#efebff]"
+                        >
+                          <Link href={`/projects/${projectId}/milestones/${group.id}/work-items/new`}>
+                            <Plus className="size-3" />
+                            Add Sub-Milestone
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled
+                          title="You do not have permission to add work items"
+                          className="h-7 cursor-not-allowed gap-1.5 px-2.5 text-[0.66rem] font-bold opacity-50"
+                        >
                           <Plus className="size-3" />
                           Add Sub-Milestone
-                        </Link>
-                      </Button>
-                      <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 gap-1.5 px-2 text-[0.66rem] font-semibold text-[var(--orbit-text-muted)]"
-                      >
-                        <Link href={`/projects/${projectId}/milestones/${group.id}/edit`}>
+                        </Button>
+                      )}
+                      {permissions.canManageMilestones ? (
+                        <Button
+                          asChild
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 gap-1.5 px-2 text-[0.66rem] font-semibold text-[var(--orbit-text-muted)]"
+                        >
+                          <Link href={`/projects/${projectId}/milestones/${group.id}/edit`}>
+                            <Pencil className="size-3" />
+                            Edit phase
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          disabled
+                          title="You do not have permission to edit phases"
+                          className="h-7 cursor-not-allowed gap-1.5 px-2 text-[0.66rem] font-semibold opacity-50"
+                        >
                           <Pencil className="size-3" />
                           Edit phase
-                        </Link>
-                      </Button>
+                        </Button>
+                      )}
                       <span className="ml-auto text-[0.66rem] text-[var(--orbit-text-subtle)]">
                         {group.specificCount} specific · {group.sharedCount} shared
                       </span>
@@ -663,6 +703,7 @@ export function TimelineRoadmapPanel({
                               pipeline={pipeline}
                               milestoneId={group.id}
                               projectId={projectId}
+                              canEdit={canEditRoadmapItem(item, permissions)}
                             />
                           </div>
                           <div className="relative min-h-[70px] px-4 py-2">

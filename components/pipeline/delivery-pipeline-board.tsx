@@ -38,6 +38,7 @@ import {
   TimelineRoadmapPanel,
   type RoadmapViewMode,
 } from "@/components/pipeline/timeline-roadmap-panel";
+import type { RoadmapEditPermissions } from "@/components/pipeline/roadmap-row";
 
 type PipelineRoadmapItem =
   DeliveryPipelineView["roadmapGroups"][number]["items"][number];
@@ -672,9 +673,11 @@ function MobileFeatureCard({
 export function DeliveryPipelineBoard({
   pipeline,
   projectId,
+  permissions,
 }: {
   pipeline: DeliveryPipelineView;
   projectId: string;
+  permissions?: RoadmapEditPermissions;
 }) {
   const visibleGroups = pipeline.roadmapGroups.filter(
     (group) => group.items.length > 0,
@@ -730,6 +733,7 @@ export function DeliveryPipelineBoard({
         groups={filteredGroups}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
+        permissions={permissions}
       />
 
       <section className="hidden orbit-panel overflow-hidden" aria-label="Business milestone roadmap">

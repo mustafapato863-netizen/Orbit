@@ -13,8 +13,10 @@ import { PhaseSummaryTable } from "@/components/projects/phase-summary-table";
 import { Button } from "@/components/ui/button";
 import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
+import { hasPermission } from "@/lib/auth/policy";
 import { buildDeliveryPipeline } from "@/lib/pipeline/pipeline";
 import { pipelineQueries } from "@/lib/pipeline/pipeline.service";
+import { cn } from "@/lib/utils";
 
 function dateLabel(value: Date) {
   return new Intl.DateTimeFormat("en-GB", {
@@ -34,7 +36,8 @@ export default async function ProjectPage({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  await requirePagePermission(PERMISSIONS.PROJECT_VIEW, projectId);
+  const context = await requirePagePermission(PERMISSIONS.PROJECT_VIEW, projectId);
+  const canEditProject = hasPermission(context.user, PERMISSIONS.PROJECT_UPDATE);
 
   const project = await pipelineQueries.getProjectPipeline(projectId);
   if (!project) notFound();
@@ -83,12 +86,26 @@ export default async function ProjectPage({
                 {dateLabel(pipeline.asOfDate)}
               </strong>
             </span>
-            <Button asChild variant="outline" size="sm" className={compactAction}>
-              <Link href={`/projects/${project.id}/edit`}>
+            {canEditProject ? (
+              <Button asChild variant="outline" size="sm" className={compactAction}>
+                <Link href={`/projects/${project.id}/edit`}>
+                  <Pencil className="size-3.5" />
+                  Edit project
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className={cn(compactAction, "cursor-not-allowed opacity-60")}
+                disabled
+                title="You do not have permission to edit this project"
+              >
                 <Pencil className="size-3.5" />
                 Edit project
-              </Link>
-            </Button>
+              </Button>
+            )}
             <Button asChild variant="outline" size="sm" className={compactAction}>
               <Link href={`/projects/${project.id}/pipeline`}>
                 <Route className="size-3.5" />

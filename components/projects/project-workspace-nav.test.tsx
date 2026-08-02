@@ -10,7 +10,10 @@ vi.mock("next/navigation", () => ({
 describe("ProjectWorkspaceNav", () => {
   it("connects all project destinations and marks the current page", () => {
     const markup = renderToStaticMarkup(
-      <ProjectWorkspaceNav projectId="project-1" />,
+      <ProjectWorkspaceNav
+        projectId="project-1"
+        user={{ permissions: ["project.update", "project.manage_members"] }}
+      />,
     );
 
     for (const href of [
@@ -31,5 +34,18 @@ describe("ProjectWorkspaceNav", () => {
     expect(markup).toContain("Plan");
     expect(markup).not.toContain("Deliverables");
     expect(markup).not.toContain("Resources");
+  });
+
+  it("keeps settings visible but disabled for read-only users", () => {
+    const markup = renderToStaticMarkup(
+      <ProjectWorkspaceNav
+        projectId="project-1"
+        user={{ permissions: ["project.view"] }}
+      />,
+    );
+
+    expect(markup).toContain('aria-disabled="true"');
+    expect(markup).toContain("Settings");
+    expect(markup).toContain('tabindex="-1"');
   });
 });

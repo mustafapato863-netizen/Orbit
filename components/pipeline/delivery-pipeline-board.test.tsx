@@ -222,4 +222,34 @@ describe("Delivery Pipeline roadmap presentation", () => {
       "Business milestones grouped by Business Milestone.",
     );
   });
+
+  it("disables roadmap editing controls for read-only users", () => {
+    const pipeline = buildDeliveryPipeline(
+      projectFixture(),
+      new Date("2026-03-01T00:00:00.000Z"),
+    );
+    const markup = renderToStaticMarkup(
+      <TimelineRoadmapPanel
+        pipeline={pipeline}
+        projectId="project"
+        groups={pipeline.roadmapGroups}
+        viewMode="business"
+        onViewModeChange={() => undefined}
+        permissions={{
+          userId: "viewer",
+          canManageMilestones: false,
+          canManageWorkItems: false,
+          canUpdateAssignedWorkItems: false,
+          canManageCapabilities: false,
+          canUpdateAssignedCapabilities: false,
+        }}
+      />,
+    );
+
+    expect(markup).toContain("Add Sub-Milestone");
+    expect(markup).toContain("Edit phase");
+    expect(markup).toContain('disabled=""');
+    expect(markup).not.toContain("/work-items/new");
+    expect(markup).not.toContain("/milestones/milestone-1/edit");
+  });
 });

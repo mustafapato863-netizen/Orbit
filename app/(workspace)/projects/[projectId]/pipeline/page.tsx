@@ -7,6 +7,7 @@ import { ProjectTimelineAgenda } from "@/components/pipeline/project-timeline-ag
 import { ProjectWorkstreamsSummary } from "@/components/workstreams/technical-workstreams-summary";
 import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
+import { hasPermission } from "@/lib/auth/policy";
 import { buildDeliveryPipeline } from "@/lib/pipeline/pipeline";
 import { pipelineQueries } from "@/lib/pipeline/pipeline.service";
 
@@ -25,7 +26,7 @@ export default async function DeliveryPipelinePage({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  await requirePagePermission(PERMISSIONS.PROJECT_VIEW, projectId);
+  const context = await requirePagePermission(PERMISSIONS.PROJECT_VIEW, projectId);
 
   const project = await pipelineQueries.getProjectPipeline(projectId);
   if (!project) notFound();
@@ -64,7 +65,33 @@ export default async function DeliveryPipelinePage({
       </header>
 
       <PipelineSummary pipeline={pipeline} />
-      <DeliveryPipelineBoard pipeline={pipeline} projectId={projectId} />
+      <DeliveryPipelineBoard
+        pipeline={pipeline}
+        projectId={projectId}
+        permissions={{
+          userId: context.user.id,
+          canManageMilestones: hasPermission(
+            context.user,
+            PERMISSIONS.MILESTONE_MANAGE,
+          ),
+          canManageWorkItems: hasPermission(
+            context.user,
+            PERMISSIONS.WORK_ITEM_MANAGE,
+          ),
+          canUpdateAssignedWorkItems: hasPermission(
+            context.user,
+            PERMISSIONS.WORK_ITEM_UPDATE_ASSIGNED,
+          ),
+          canManageCapabilities: hasPermission(
+            context.user,
+            PERMISSIONS.SHARED_CAPABILITY_MANAGE,
+          ),
+          canUpdateAssignedCapabilities: hasPermission(
+            context.user,
+            PERMISSIONS.SHARED_CAPABILITY_UPDATE_ASSIGNED,
+          ),
+        }}
+      />
       <ProjectWorkstreamsSummary pipeline={pipeline} />
       <ProjectTimelineAgenda pipeline={pipeline} projectId={projectId} />
     </div>
