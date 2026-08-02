@@ -182,8 +182,13 @@ export async function seedReferenceData(
     ? await hashPassword(passwordSchema.parse(options.localPassword))
     : undefined;
 
-  await database.$transaction((transaction) =>
-    upsertReferenceData(transaction, { localPasswordHash }),
+  // Supabase pooler connections can add enough round-trip latency for the
+  // reference/PMS seed to exceed Prisma's five-second interactive transaction
+  // default. Keep the whole seed atomic, but allow a bounded deployment-safe
+  // window for the complete idempotent dataset to finish.
+  await database.$transaction(
+    (transaction) => upsertReferenceData(transaction, { localPasswordHash }),
+    { maxWait: 30_000, timeout: 120_000 },
   );
 }
 

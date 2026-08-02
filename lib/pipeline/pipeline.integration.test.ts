@@ -38,11 +38,11 @@ describe("seeded PMS Delivery Pipeline projection", () => {
     const pipeline = buildDeliveryPipeline(project);
     expect(project.milestones).toHaveLength(14);
     expect(project.sharedCapabilities).toHaveLength(0);
-    expect(pipeline.totalCanonicalPackages).toBe(106);
+    expect(pipeline.totalCanonicalPackages).toBe(108);
     expect(pipeline.atRiskCount).toBe(13);
     expect(pipeline.stageCounts).toEqual({
       NOT_STARTED: 11,
-      IN_DEVELOPMENT: 39,
+      IN_DEVELOPMENT: 41,
       TECHNICAL_VERIFICATION: 20,
       BUSINESS_UAT: 3,
       STAGING: 15,
@@ -60,7 +60,7 @@ describe("seeded PMS Delivery Pipeline projection", () => {
       "PH-02": 8,
       "PH-03": 10,
       "PH-04": 12,
-      "PH-05": 12,
+      "PH-05": 14,
       "PH-06": 12,
       "PH-07": 10,
     });
