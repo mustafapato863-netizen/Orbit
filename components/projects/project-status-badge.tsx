@@ -15,9 +15,17 @@ const statusMap: Record<string, Status> = {
 export function ProjectStatusBadge({
   status,
   label,
+  className,
 }: {
   status: string;
   label: string;
+  className?: string;
 }) {
-  return <StatusBadge status={statusMap[status] ?? "not-started"} label={label} />;
+  return (
+    <StatusBadge
+      status={statusMap[status] ?? "not-started"}
+      label={label}
+      className={className}
+    />
+  );
 }

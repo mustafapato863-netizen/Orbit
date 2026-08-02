@@ -1,4 +1,12 @@
-import { CalendarDays, EyeOff, FolderKanban, Plus, Users } from "lucide-react";
+import {
+  ArrowUpRight,
+  CalendarDays,
+  EyeOff,
+  FolderKanban,
+  Layers3,
+  Plus,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 
 import { ProjectArchiveButton } from "@/components/projects/project-archive-button";
@@ -31,18 +39,24 @@ export default async function ProjectsPage() {
     context.user.id,
     isAdministrator,
   );
+  const activeCount = projects.filter((project) => project.status === "ACTIVE").length;
+  const planningCount = projects.filter((project) => project.status === "PLANNING").length;
+  const privateCount = projects.filter((project) => project.isPrivate).length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-7">
       <PageHeader
         eyebrow="Workspace"
         title="Projects"
-        description="Projects you are authorized to view, with concise milestone and membership summaries."
+        description="Your delivery portfolio, with the next action and health of every project in one view."
         actions={
           canCreate ? (
-            <Button asChild>
+            <Button
+              asChild
+              className="h-10 rounded-lg px-4 shadow-[0_6px_16px_rgba(110,90,230,0.18)]"
+            >
               <Link href="/projects/new">
-                <Plus />
+                <Plus className="size-4" />
                 Create project
               </Link>
             </Button>
@@ -68,78 +82,185 @@ export default async function ProjectsPage() {
           }
         />
       ) : (
-        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => (
-            <Card key={project.id} className="transition-shadow hover:shadow-md">
-              <CardHeader>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold text-muted-foreground">
-                      {project.code}
-                      {project.isPrivate ? (
-                        <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-[#efebff] px-2 py-0.5 text-[0.625rem] font-bold text-[#6350c9]">
-                          <EyeOff className="size-3" aria-hidden="true" />
-                          Admin only
+        <>
+          <section
+            className="orbit-panel grid gap-px overflow-hidden bg-[var(--orbit-border-soft)] sm:grid-cols-3"
+            aria-label="Project portfolio summary"
+          >
+            <div className="flex items-center gap-3 bg-white px-4 py-3.5 sm:px-5">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[var(--orbit-purple-soft)] text-[var(--orbit-purple)]">
+                <Layers3 className="size-[18px]" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[var(--orbit-text-subtle)]">
+                  Portfolio
+                </p>
+                <p className="mt-0.5 text-[0.78rem] font-medium text-[var(--orbit-text-muted)]">
+                  A clear view of what is moving
+                </p>
+              </div>
+            </div>
+            <SummaryMetric label="Active" value={activeCount} tone="text-[var(--orbit-blue)]" />
+            <SummaryMetric
+              label="Planning"
+              value={planningCount}
+              tone="text-[var(--orbit-text)]"
+              detail={privateCount ? `${privateCount} admin only` : undefined}
+            />
+          </section>
+
+          <section aria-labelledby="projects-heading">
+            <div className="mb-3.5 flex items-end justify-between gap-4">
+              <div>
+                <h2 id="projects-heading" className="text-[0.95rem] font-bold text-[var(--orbit-text)]">
+                  Your projects
+                </h2>
+                <p className="mt-1 text-[0.75rem] text-[var(--orbit-text-subtle)]">
+                  Select a project to open its command centre.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full border border-[var(--orbit-border)] bg-white px-2.5 py-1 text-[0.7rem] font-semibold text-[var(--orbit-text-muted)]">
+                {projects.length} {projects.length === 1 ? "project" : "projects"}
+              </span>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {projects.map((project) => (
+                <Card
+                  key={project.id}
+                  className="group overflow-hidden rounded-2xl border-[var(--orbit-border)] py-0 shadow-[var(--orbit-shadow-xs)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[#d8d3ff] hover:shadow-[0_12px_28px_rgba(16,24,40,0.08)]"
+                >
+                  <div className="h-1 bg-[var(--orbit-purple)] opacity-90" aria-hidden="true" />
+                  <CardHeader className="gap-0 px-5 pb-0 pt-5">
+                    <div className="flex min-w-0 items-start justify-between gap-3">
+                      <div className="flex min-w-0 items-start gap-3">
+                        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[var(--orbit-surface-muted)] text-[var(--orbit-purple)] ring-1 ring-inset ring-[var(--orbit-border-soft)]">
+                          <FolderKanban className="size-[18px]" aria-hidden="true" />
                         </span>
-                      ) : null}
-                    </p>
-                    <CardTitle className="mt-2 truncate text-lg">
-                      {project.name}
-                    </CardTitle>
-                  </div>
-                  <ProjectStatusBadge
-                    status={project.status}
-                    label={displayEnum(project.status)}
-                  />
-                </div>
-                <CardDescription className="line-clamp-2 min-h-10">
-                  {project.description || "No project description recorded."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="mt-auto space-y-5">
-                <div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-muted-foreground">Progress</span>
-                    <span className="font-semibold">{project.progress}%</span>
-                  </div>
-                  <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-primary"
-                      style={{ width: `${project.progress}%` }}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <FolderKanban className="size-3.5" />
-                    {project._count.milestones} milestones
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Users className="size-3.5" />
-                    {project._count.members} members
-                  </span>
-                  <span className="col-span-2 flex items-center gap-1.5">
-                    <CalendarDays className="size-3.5" />
-                    Target{" "}
-                    {project.targetDate?.toISOString().slice(0, 10) ?? "not set"}
-                  </span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Button asChild variant="outline" className="h-10 flex-1">
-                    <Link href={`/projects/${project.id}`}>View project</Link>
-                  </Button>
-                  {canArchive ? (
-                    <ProjectArchiveButton
-                      projectId={project.id}
-                      projectName={project.name}
-                    />
-                  ) : null}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </section>
+                        <div className="min-w-0">
+                          <div className="flex min-w-0 flex-wrap items-center gap-2">
+                            <p className="font-mono text-[0.68rem] font-semibold tracking-[0.04em] text-[var(--orbit-text-subtle)]">
+                              {project.code}
+                            </p>
+                            {project.isPrivate ? (
+                              <span className="inline-flex items-center gap-1 rounded-full bg-[var(--orbit-purple-soft)] px-2 py-0.5 text-[0.625rem] font-bold text-[var(--orbit-purple)]">
+                                <EyeOff className="size-3" aria-hidden="true" />
+                                Admin only
+                              </span>
+                            ) : null}
+                          </div>
+                          <CardTitle
+                            title={project.name}
+                            className="mt-1.5 truncate text-[1.08rem] leading-6 tracking-[-0.01em]"
+                          >
+                            {project.name}
+                          </CardTitle>
+                        </div>
+                      </div>
+                      <ProjectStatusBadge
+                        status={project.status}
+                        label={displayEnum(project.status)}
+                        className="shrink-0 text-[0.68rem]"
+                      />
+                    </div>
+                    <CardDescription className="mt-4 line-clamp-2 min-h-[42px] text-[0.8rem] leading-5">
+                      {project.description || "No project description recorded."}
+                    </CardDescription>
+                  </CardHeader>
+
+                  <CardContent className="mt-auto space-y-4 px-5 pb-5 pt-5">
+                    <div className="rounded-xl border border-[var(--orbit-border-soft)] bg-[var(--orbit-surface-muted)] p-3">
+                      <div className="flex items-center justify-between text-[0.72rem]">
+                        <span className="font-semibold text-[var(--orbit-text-muted)]">Overall progress</span>
+                        <span className="font-bold text-[var(--orbit-text)]">{project.progress}%</span>
+                      </div>
+                      <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-[#e5e7ef]">
+                        <div
+                          className="h-full rounded-full bg-[var(--orbit-purple)] transition-[width] duration-300"
+                          style={{ width: `${project.progress}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <dl className="grid grid-cols-2 divide-x divide-[var(--orbit-border-soft)] rounded-xl border border-[var(--orbit-border-soft)] bg-white">
+                      <MetaMetric icon={FolderKanban} label="Milestones" value={project._count.milestones} />
+                      <MetaMetric icon={Users} label="Members" value={project._count.members} />
+                    </dl>
+
+                    <div className="flex items-center justify-between gap-3 border-t border-[var(--orbit-border-soft)] pt-4">
+                      <div className="min-w-0 text-[0.7rem] text-[var(--orbit-text-muted)]">
+                        <span className="flex items-center gap-1.5 font-semibold text-[var(--orbit-text-subtle)]">
+                          <CalendarDays className="size-3.5" aria-hidden="true" />
+                          Target date
+                        </span>
+                        <span className="mt-0.5 block truncate font-semibold text-[var(--orbit-text)]">
+                          {project.targetDate?.toISOString().slice(0, 10) ?? "Not set"}
+                        </span>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <Button asChild size="sm" className="h-9 rounded-lg px-3 text-[0.72rem]">
+                          <Link href={`/projects/${project.id}`}>
+                            View project
+                            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                          </Link>
+                        </Button>
+                        {canArchive ? (
+                          <ProjectArchiveButton
+                            projectId={project.id}
+                            projectName={project.name}
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        </>
       )}
+    </div>
+  );
+}
+
+function SummaryMetric({
+  label,
+  value,
+  tone,
+  detail,
+}: {
+  label: string;
+  value: number;
+  tone: string;
+  detail?: string;
+}) {
+  return (
+    <div className="bg-white px-4 py-3.5 sm:px-5">
+      <p className="text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[var(--orbit-text-subtle)]">{label}</p>
+      <div className="mt-0.5 flex items-baseline gap-2">
+        <span className={`text-xl font-extrabold tracking-[-0.03em] ${tone}`}>{value}</span>
+        {detail ? <span className="text-[0.68rem] font-medium text-[var(--orbit-text-subtle)]">{detail}</span> : null}
+      </div>
+    </div>
+  );
+}
+
+function MetaMetric({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof FolderKanban;
+  label: string;
+  value: number;
+}) {
+  return (
+    <div className="flex items-center gap-2.5 px-3 py-2.5">
+      <Icon className="size-3.5 text-[var(--orbit-text-subtle)]" aria-hidden="true" />
+      <div>
+        <dt className="text-[0.65rem] font-medium text-[var(--orbit-text-subtle)]">{label}</dt>
+        <dd className="mt-0.5 text-[0.78rem] font-bold text-[var(--orbit-text)]">{value}</dd>
+      </div>
     </div>
   );
 }
