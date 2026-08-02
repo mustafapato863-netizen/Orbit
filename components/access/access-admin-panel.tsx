@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  ChevronDown,
   FolderLock,
   KeyRound,
   LoaderCircle,
@@ -353,7 +354,25 @@ export function AccessAdminPanel({
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <section aria-labelledby="access-management-heading" className="space-y-4">
+        <div>
+          <h2 id="access-management-heading" className="text-[1rem] font-bold text-[var(--orbit-text)]">
+            Manage access
+          </h2>
+          <p className="mt-1 text-[0.76rem] text-[var(--orbit-text-subtle)]">
+            Open only the area you need. Changes are validated and audited on the server.
+          </p>
+        </div>
+
+        <details open className="group rounded-2xl border border-[var(--orbit-border)] bg-white shadow-[var(--orbit-shadow-xs)]">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="block text-[0.88rem] font-bold text-[var(--orbit-text)]">Account setup</span>
+              <span className="mt-1 block text-[0.72rem] text-[var(--orbit-text-subtle)]">Create new accounts and assign their initial access.</span>
+            </span>
+            <ChevronDown className="size-4 shrink-0 text-[var(--orbit-text-muted)] transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <div className="grid gap-4 border-t border-[var(--orbit-border-soft)] p-4 xl:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Create account</CardTitle>
@@ -509,6 +528,18 @@ export function AccessAdminPanel({
             </form>
           </CardContent>
         </Card>
+          </div>
+        </details>
+
+        <details className="group rounded-2xl border border-[var(--orbit-border)] bg-white shadow-[var(--orbit-shadow-xs)]">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="block text-[0.88rem] font-bold text-[var(--orbit-text)]">Roles & profile</span>
+              <span className="mt-1 block text-[0.72rem] text-[var(--orbit-text-subtle)]">Control system roles and update user display names.</span>
+            </span>
+            <ChevronDown className="size-4 shrink-0 text-[var(--orbit-text-muted)] transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <div className="grid gap-4 border-t border-[var(--orbit-border-soft)] p-4 xl:grid-cols-2">
 
         <Card>
           <CardHeader>
@@ -569,7 +600,6 @@ export function AccessAdminPanel({
             </form>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Update display name</CardTitle>
@@ -643,6 +673,18 @@ export function AccessAdminPanel({
             </form>
           </CardContent>
         </Card>
+          </div>
+        </details>
+
+        <details className="group rounded-2xl border border-[var(--orbit-border)] bg-white shadow-[var(--orbit-shadow-xs)]">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="block text-[0.88rem] font-bold text-[var(--orbit-text)]">Project access & security</span>
+              <span className="mt-1 block text-[0.72rem] text-[var(--orbit-text-subtle)]">Manage memberships and reset credentials when needed.</span>
+            </span>
+            <ChevronDown className="size-4 shrink-0 text-[var(--orbit-text-muted)] transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <div className="border-t border-[var(--orbit-border-soft)] p-4 xl:max-w-xl">
 
         <Card>
           <CardHeader>
@@ -811,7 +853,9 @@ export function AccessAdminPanel({
             </form>
           </CardContent>
         </Card>
-      </div>
+          </div>
+        </details>
+      </section>
     </div>
   );
 }
