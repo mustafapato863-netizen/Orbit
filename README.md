@@ -126,6 +126,30 @@ All use the developer-supplied temporary password and must change it before work
 
 See [Authentication and authorization](docs/authentication.md) for the complete security model and role matrix.
 
+## Vercel deployment
+
+Import the repository into Vercel with the Next.js framework preset. No real
+secrets belong in the repository. Add these values in the Vercel Project
+Settings under Environment Variables for Preview and Production as needed:
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `DATABASE_URL` | Yes | Supabase PostgreSQL URL with the password URL-encoded and `sslmode=require` |
+| `APP_URL` | Recommended | The deployed Vercel URL, including `https://` |
+| `NEXT_PUBLIC_APP_NAME` | Optional | Defaults to `Orbit Project Manager` |
+| `AUTH_SECRET` | Optional | Reserved for future signed integrations; use a 32+ character value if set |
+
+The Vercel build runs `prisma generate` before `next build`. Apply database
+migrations from an authorised environment with:
+
+```bash
+npm run prisma:migrate:deploy
+```
+
+Do not run `prisma migrate reset` against Supabase. Keep the database password
+in Vercel's encrypted environment settings and never paste it into GitHub,
+README files, or build logs.
+
 ## Environment variables
 
 | Variable | Behavior |
