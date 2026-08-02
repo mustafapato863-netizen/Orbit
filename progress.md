@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-08-02 — Administrator-managed project groups
+- Started the project grouping feature from the existing Projects workspace.
+- Selected planning-with-files, senior-fullstack, and code-reviewer.
+- Audited Project, ProjectRepository, authorization permissions, project actions/forms, and the workspace listing.
+- Chosen model: additive `ProjectGroup` with optional one-to-many project membership, soft archive, and administrator-only mutations.
+- Added the additive Prisma schema and migration SQL; no existing project rows are modified by the migration.
+- Added administrator-only create, edit, project assignment, ordering, colour, and soft-archive actions with audit logging.
+- Added grouped project sections with an ungrouped fallback on the Projects workspace.
+- Added group ordering regression coverage; focused suite passed 3 files / 8 tests.
+- TypeScript and ESLint passed. Prisma migration application could not connect to the configured Supabase pooler in this environment.
+
 ## 2026-07-30
 - Started the configurable project-type and project-scoped workstream rearchitecture.
 - Selected planning-with-files, senior-fullstack, and code-reviewer.

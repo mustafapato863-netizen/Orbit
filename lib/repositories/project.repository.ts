@@ -29,6 +29,14 @@ export class ProjectRepository extends Repository {
         progress: true,
         isPrivate: true,
         projectType: true,
+        projectGroup: {
+          select: {
+            id: true,
+            name: true,
+            colorToken: true,
+            sortOrder: true,
+          },
+        },
         startDate: true,
         targetDate: true,
         updatedAt: true,

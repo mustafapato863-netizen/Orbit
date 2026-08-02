@@ -1,3 +1,41 @@
+# Current Task — Administrator-managed Project Groups
+
+## Goal
+Allow administrators to organize multiple projects under named workspace groups while preserving project-level visibility and access rules. Groups should be managed only by administrators; regular users should see the group structure only for projects they are already authorized to view.
+
+## Acceptance criteria
+- Add a non-destructive ProjectGroup data model and optional project membership.
+- Administrators can create, rename, reorder, archive, and assign projects to groups.
+- Non-administrators cannot call group mutations or see group management controls.
+- The Projects workspace displays authorized projects grouped by the group name, with an ungrouped section.
+- Existing projects remain visible and unchanged when no group is assigned.
+- Server-side authorization and validation protect every group mutation.
+- Migration, typecheck, lint, focused tests, and production build are verified.
+
+## Phases
+1. [complete] Audit current project listing, permissions, schema, and repository boundaries.
+2. [complete] Add additive ProjectGroup schema and migration with safe defaults.
+3. [complete] Implement administrator-only group CRUD/assignment actions and UI.
+4. [complete] Render grouped workspace projects without changing existing project authorization.
+5. [in_progress] Add regression tests and run migration/typecheck/lint/build verification.
+
+## Safety decisions
+- `ProjectGroup` is a separate model; projects keep their existing IDs, privacy, memberships, and data.
+- A project belongs to zero or one group to keep organization predictable and avoid duplicate portfolio cards.
+- Group visibility is derived from visible projects. A group never grants access to a project.
+- Archive is soft-delete; archiving a group unassigns no historical project data and leaves projects in the ungrouped section.
+- Only `system.manage` may create or change groups and assignments.
+
+## Errors encountered
+| Error | Attempt | Resolution |
+| --- | --- | --- |
+| `prisma migrate dev` could not start the schema engine against the configured Supabase pooler | 1 | Created the equivalent additive migration SQL manually; Prisma Client/type generation and deployment status will be verified separately without resetting data. |
+| `prisma migrate deploy` and a direct pg connectivity check could not reach the configured Supabase endpoint | 2 | Kept the migration additive and committed it for deployment; no destructive fallback or database reset was attempted. |
+
+## Verification evidence
+
+---
+
 # Configurable Project Types & Workstreams
 
 ## Goal

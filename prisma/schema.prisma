@@ -255,6 +255,7 @@ model Project {
   projectType        String             @default("CUSTOM") @db.VarChar(40)
   startDate          DateTime?          @db.Date
   targetDate         DateTime?          @db.Date
+  projectGroupId     String?            @db.Uuid
   archivedAt         DateTime?          @db.Timestamptz(3)
   createdAt          DateTime           @default(now()) @db.Timestamptz(3)
   updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
@@ -267,11 +268,28 @@ model Project {
   pilotScope         PilotScope?
   reportSnapshots    ReportSnapshot[]
   auditLogs          AuditLog[]
+  projectGroup       ProjectGroup?      @relation(fields: [projectGroupId], references: [id], onDelete: SetNull)
   workstreams        Workstream[]
 
   @@index([status, archivedAt])
   @@index([isPrivate, archivedAt])
   @@index([targetDate])
+  @@index([projectGroupId, archivedAt])
+}
+
+model ProjectGroup {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(160)
+  slug        String    @unique @db.VarChar(180)
+  description String?   @db.Text
+  colorToken  String    @default("#7157e8") @db.VarChar(80)
+  sortOrder   Int       @default(0)
+  archivedAt  DateTime? @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
+  projects    Project[]
+
+  @@index([archivedAt, sortOrder])
 }
 
 model ProjectMember {
@@ -328,49 +346,49 @@ model Milestone {
 }
 
 model WorkItem {
-  id                          String                 @id @default(uuid()) @db.Uuid
-  milestoneId                 String                 @db.Uuid
-  primaryWorkstreamId         String                 @db.Uuid
-  ownerId                     String?                @db.Uuid
-  code                        String                 @db.VarChar(40)
-  name                        String                 @db.VarChar(240)
-  description                 String?                @db.Text
-  acceptanceCriteria          String?                @db.Text
-  notes                       String?                @db.Text
-  status                      WorkItemStatus         @default(NOT_STARTED)
-  progress                    Int                    @default(0)
-  riskLevel                   RiskLevel              @default(LOW)
-  deliveryStage               DeliveryStageCode      @default(NOT_STARTED)
-  lifecycleStage              WorkPackageStage       @default(NS)
-  deploymentEnvironment       DeploymentEnvironment  @default(LOCAL)
-  releaseScope                ReleaseScope           @default(INTERNAL)
-  deliveryHealth              DeliveryHealth         @default(ON_TRACK)
-  plannedStartDate            DateTime?              @db.Date
-  plannedCheckDate            DateTime?              @db.Date
-  plannedProductionReadyDate  DateTime?              @db.Date
-  plannedGoLiveDate           DateTime?              @db.Date
-  actualStartDate             DateTime?              @db.Date
-  actualCheckDate             DateTime?              @db.Date
-  actualProductionReadyDate   DateTime?              @db.Date
-  actualGoLiveDate            DateTime?              @db.Date
-  startDate                   DateTime?              @db.Date
-  dueDate                     DateTime?              @db.Date
-  nextGate                    String?                @db.VarChar(240)
-  nextAction                  String?                @db.Text
-  blocker                     String?                @db.Text
-  blockerSummary              String?                @db.Text
-  implementationNotes         String?                @db.Text
-  archivedAt                  DateTime?              @db.Timestamptz(3)
-  createdAt                   DateTime               @default(now()) @db.Timestamptz(3)
-  updatedAt                   DateTime               @updatedAt @db.Timestamptz(3)
-  milestone                   Milestone              @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
-  primaryWorkstream           Workstream             @relation("PrimaryWorkItems", fields: [primaryWorkstreamId], references: [id], onDelete: Restrict)
-  owner                       User?                  @relation("WorkItemOwner", fields: [ownerId], references: [id], onDelete: SetNull)
-  supportingWorkstreams WorkItemWorkstream[]
-  deliveryStageHistory        DeliveryStageHistory[]
-  checkpoints                 WorkPackageCheckpoint[]
-  risks                       Risk[]
-  comments                    Comment[]
+  id                         String                  @id @default(uuid()) @db.Uuid
+  milestoneId                String                  @db.Uuid
+  primaryWorkstreamId        String                  @db.Uuid
+  ownerId                    String?                 @db.Uuid
+  code                       String                  @db.VarChar(40)
+  name                       String                  @db.VarChar(240)
+  description                String?                 @db.Text
+  acceptanceCriteria         String?                 @db.Text
+  notes                      String?                 @db.Text
+  status                     WorkItemStatus          @default(NOT_STARTED)
+  progress                   Int                     @default(0)
+  riskLevel                  RiskLevel               @default(LOW)
+  deliveryStage              DeliveryStageCode       @default(NOT_STARTED)
+  lifecycleStage             WorkPackageStage        @default(NS)
+  deploymentEnvironment      DeploymentEnvironment   @default(LOCAL)
+  releaseScope               ReleaseScope            @default(INTERNAL)
+  deliveryHealth             DeliveryHealth          @default(ON_TRACK)
+  plannedStartDate           DateTime?               @db.Date
+  plannedCheckDate           DateTime?               @db.Date
+  plannedProductionReadyDate DateTime?               @db.Date
+  plannedGoLiveDate          DateTime?               @db.Date
+  actualStartDate            DateTime?               @db.Date
+  actualCheckDate            DateTime?               @db.Date
+  actualProductionReadyDate  DateTime?               @db.Date
+  actualGoLiveDate           DateTime?               @db.Date
+  startDate                  DateTime?               @db.Date
+  dueDate                    DateTime?               @db.Date
+  nextGate                   String?                 @db.VarChar(240)
+  nextAction                 String?                 @db.Text
+  blocker                    String?                 @db.Text
+  blockerSummary             String?                 @db.Text
+  implementationNotes        String?                 @db.Text
+  archivedAt                 DateTime?               @db.Timestamptz(3)
+  createdAt                  DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt                  DateTime                @updatedAt @db.Timestamptz(3)
+  milestone                  Milestone               @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  primaryWorkstream          Workstream              @relation("PrimaryWorkItems", fields: [primaryWorkstreamId], references: [id], onDelete: Restrict)
+  owner                      User?                   @relation("WorkItemOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  supportingWorkstreams      WorkItemWorkstream[]
+  deliveryStageHistory       DeliveryStageHistory[]
+  checkpoints                WorkPackageCheckpoint[]
+  risks                      Risk[]
+  comments                   Comment[]
 
   @@unique([milestoneId, code])
   @@index([milestoneId, status, archivedAt])
@@ -382,16 +400,16 @@ model WorkItem {
 }
 
 model WorkPackageCheckpoint {
-  id             String      @id @default(uuid()) @db.Uuid
-  workItemId     String      @db.Uuid
-  checkpointCode String      @db.VarChar(40)
-  plannedDate    DateTime?   @db.Date
-  actualDate     DateTime?   @db.Date
-  status         String      @default("Pending") @db.VarChar(40)
-  note           String?     @db.Text
-  createdAt      DateTime    @default(now()) @db.Timestamptz(3)
-  updatedAt      DateTime    @updatedAt @db.Timestamptz(3)
-  workItem       WorkItem    @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  id             String    @id @default(uuid()) @db.Uuid
+  workItemId     String    @db.Uuid
+  checkpointCode String    @db.VarChar(40)
+  plannedDate    DateTime? @db.Date
+  actualDate     DateTime? @db.Date
+  status         String    @default("Pending") @db.VarChar(40)
+  note           String?   @db.Text
+  createdAt      DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime  @updatedAt @db.Timestamptz(3)
+  workItem       WorkItem  @relation(fields: [workItemId], references: [id], onDelete: Cascade)
 
   @@unique([workItemId, checkpointCode])
   @@index([workItemId, checkpointCode])

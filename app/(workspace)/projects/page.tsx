@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 
 import { ProjectArchiveButton } from "@/components/projects/project-archive-button";
+import { ProjectGroupManager } from "@/components/projects/project-group-manager";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +26,8 @@ import { hasPermission } from "@/lib/auth/policy";
 import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { projectQueries } from "@/lib/projects/project.service";
+import { groupProjectsByProjectGroup } from "@/lib/project-groups/group-projects";
+import { projectGroupQueries } from "@/lib/project-groups/project-group.service";
 import { displayEnum } from "@/lib/projects/project.utils";
 
 export default async function ProjectsPage() {
@@ -39,6 +42,10 @@ export default async function ProjectsPage() {
     context.user.id,
     isAdministrator,
   );
+  const groups = isAdministrator
+    ? await projectGroupQueries.listActiveGroups()
+    : [];
+  const projectSections = groupProjectsByProjectGroup(projects);
   const activeCount = projects.filter((project) => project.status === "ACTIVE").length;
   const planningCount = projects.filter((project) => project.status === "PLANNING").length;
   const privateCount = projects.filter((project) => project.isPrivate).length;
@@ -109,6 +116,28 @@ export default async function ProjectsPage() {
             />
           </section>
 
+          {isAdministrator ? (
+            <ProjectGroupManager
+              groups={groups.map((group) => ({
+                id: group.id,
+                name: group.name,
+                description: group.description,
+                colorToken: group.colorToken,
+                sortOrder: group.sortOrder,
+                projects: group.projects.map((project) => ({
+                  id: project.id,
+                  code: project.code,
+                  name: project.name,
+                })),
+              }))}
+              projects={projects.map((project) => ({
+                id: project.id,
+                code: project.code,
+                name: project.name,
+              }))}
+            />
+          ) : null}
+
           <section aria-labelledby="projects-heading">
             <div className="mb-3.5 flex items-end justify-between gap-4">
               <div>
@@ -124,8 +153,27 @@ export default async function ProjectsPage() {
               </span>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {projects.map((project) => (
+            <div className="space-y-6">
+              {projectSections.map((section) => (
+                <div key={section.group?.id ?? "ungrouped"}>
+                  <div className="mb-2.5 flex items-center gap-2.5">
+                    <span
+                      className="size-2.5 rounded-full"
+                      style={{
+                        backgroundColor:
+                          section.group?.colorToken ?? "#9ba3b7",
+                      }}
+                      aria-hidden="true"
+                    />
+                    <h3 className="text-sm font-bold text-[var(--orbit-text)]">
+                      {section.group?.name ?? "Ungrouped projects"}
+                    </h3>
+                    <span className="rounded-full bg-[var(--orbit-surface-muted)] px-2 py-0.5 text-[0.68rem] font-semibold text-[var(--orbit-text-subtle)]">
+                      {section.projects.length}
+                    </span>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {section.projects.map((project) => (
                 <Card
                   key={project.id}
                   className="group overflow-hidden rounded-2xl border-[var(--orbit-border)] py-0 shadow-[var(--orbit-shadow-xs)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[#d8d3ff] hover:shadow-[0_12px_28px_rgba(16,24,40,0.08)]"
@@ -213,7 +261,10 @@ export default async function ProjectsPage() {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </section>

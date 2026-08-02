@@ -1,5 +1,15 @@
 # Findings
 
+## Administrator-managed project groups request (2026-08-02)
+- The workspace root redirects to `/projects` for multiple projects, so the existing Projects page is the correct portfolio surface for grouping.
+- `Project` currently has no parent/group relation. It already has optional privacy, project-scoped memberships, and soft archival; all must remain unchanged.
+- `ProjectRepository.listProjects` already enforces non-admin visibility (`isPrivate: false` plus active membership), making it safe to add a selected group relation without exposing hidden projects.
+- The only administrator permission is `system.manage` (`PERMISSIONS.SYSTEM_MANAGE`); group mutations should use `requirePermission(SYSTEM_MANAGE)` and never rely on UI hiding.
+- The existing project service uses additive Prisma migrations and soft-delete/audit patterns. Project groups should follow the same pattern and should not be folded into project codes or project types.
+- A project should have at most one optional group (`Project.projectGroupId`) so the portfolio cannot render the same project in multiple group sections.
+- Group management can live on `/projects` as an administrator-only panel; this keeps the feature discoverable without inventing a separate workspace entity.
+- The configured Supabase pooler was unreachable from this environment for both Prisma's schema engine and a sanitized direct `pg` connectivity check; migration application remains pending until database connectivity is restored.
+
 ## Configurable project types and workstreams request (2026-07-30)
 - The current Plan screen exposes Frontend, Backend, and Database as if every project were a software/full-stack project.
 - The new target is project-agnostic: each project can use a blank setup or an optional starting template, and workstreams are configurable per project.
