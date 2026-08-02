@@ -97,3 +97,5 @@
 - Refactored Plan, workstream detail, execution/governance selectors, pipeline summaries, executive summaries, and exports to consume configured project workstreams dynamically.
 - Final regression excluding the known live-data checkpoint passed: 52 files and 135 tests.
 - Final Prisma migration status, TypeScript, ESLint, and production build passed.
+- Retried the Supabase connection successfully. Prisma's CLI pooler command remained hung, so the additive `20260802090000_project_groups` migration was applied directly through a PostgreSQL transaction and recorded in `_prisma_migrations`.
+- Post-migration verification passed: 4 existing projects remain, 0 are assigned to a group (preserving current data), the `ProjectGroup` table exists, and the foreign key/index migration is present.

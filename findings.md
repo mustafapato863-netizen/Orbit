@@ -101,3 +101,9 @@ Generalise Orbit from a software/full-stack-oriented tracker into a configurable
 - Replace the dual Technical/Business phase summary with one general `Phase Delivery Summary` supporting derived views by phase, workstream, owner, and status.
 - Generalise lifecycle display labels while preserving their stored legacy codes for history and API compatibility.
 - Do not add empty Deliverables/Resources modules or pretend that arbitrary project-scoped workstream/status configuration exists. Those require additive schema, CRUD, permissions, and migration work in a separate phase.
+
+## Project groups migration verification
+- Database connectivity is currently healthy through the normalized Supabase connection string.
+- The additive project-groups migration is recorded as finished in `public."_prisma_migrations"`.
+- Existing project data is preserved: 4 projects remain and none were assigned automatically to a group.
+- No destructive reset, delete, or data rewrite was performed.

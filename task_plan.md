@@ -17,12 +17,19 @@ Allow administrators to organize multiple projects under named workspace groups 
 2. [complete] Add additive ProjectGroup schema and migration with safe defaults.
 3. [complete] Implement administrator-only group CRUD/assignment actions and UI.
 4. [complete] Render grouped workspace projects without changing existing project authorization.
-5. [in_progress] Add regression tests and run migration/typecheck/lint/build verification.
+5. [complete] Add regression tests and run migration/typecheck/lint/build verification.
 
 ## Safety decisions
 - `ProjectGroup` is a separate model; projects keep their existing IDs, privacy, memberships, and data.
 - A project belongs to zero or one group to keep organization predictable and avoid duplicate portfolio cards.
 - Group visibility is derived from visible projects. A group never grants access to a project.
+
+## Verification evidence
+- Focused project-group and related regression tests passed before deployment.
+- TypeScript, ESLint, Prisma generation, and production build passed before deployment.
+- Supabase connectivity retry succeeded through PostgreSQL.
+- The additive project-groups migration was applied in a transaction and recorded in `_prisma_migrations`.
+- Database verification passed: 4 existing projects remain, 0 are assigned to a group, and the foreign key is present.
 - Archive is soft-delete; archiving a group unassigns no historical project data and leaves projects in the ungrouped section.
 - Only `system.manage` may create or change groups and assignments.
 

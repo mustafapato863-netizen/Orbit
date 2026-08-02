@@ -53,9 +53,9 @@ export default async function ProjectsPage() {
   return (
     <div className="space-y-7">
       <PageHeader
-        eyebrow="Workspace"
+        eyebrow="Projects"
         title="Projects"
-        description="Your delivery portfolio, with the next action and health of every project in one view."
+        description="Create, organize, and open the projects you are authorized to manage."
         actions={
           canCreate ? (
             <Button
