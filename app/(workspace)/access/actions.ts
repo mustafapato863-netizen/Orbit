@@ -10,6 +10,7 @@ import {
   removeProjectMembership,
   setProjectMembership,
   setUserAccountStatus,
+  updateUserDisplayName,
 } from "@/lib/auth/access.service";
 import {
   assignRoleSchema,
@@ -18,6 +19,7 @@ import {
   removeProjectMembershipSchema,
   resetPasswordSchema,
   setAccountStatusSchema,
+  updateDisplayNameSchema,
   type ActionResult,
 } from "@/lib/auth/auth.schemas";
 import { requirePermission } from "@/lib/auth/authorization";
@@ -90,5 +92,12 @@ export async function resetPasswordAction(input: unknown) {
   return runAccessAction(
     resetPasswordSchema.safeParse(input),
     resetUserPassword,
+  );
+}
+
+export async function updateDisplayNameAction(input: unknown) {
+  return runAccessAction(
+    updateDisplayNameSchema.safeParse(input),
+    updateUserDisplayName,
   );
 }

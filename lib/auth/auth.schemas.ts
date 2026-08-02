@@ -86,6 +86,15 @@ export const setAccountStatusSchema = z.object({
   isActive: z.boolean(),
 });
 
+export const updateDisplayNameSchema = z.object({
+  userId: z.uuid(),
+  displayName: z
+    .string()
+    .trim()
+    .min(2, "Display name must be at least 2 characters.")
+    .max(160, "Display name must be no more than 160 characters."),
+});
+
 export const resetPasswordSchema = z.object({
   userId: z.uuid(),
   temporaryPassword: passwordSchema,
@@ -100,6 +109,7 @@ export type RemoveProjectMembershipInput = z.infer<
   typeof removeProjectMembershipSchema
 >;
 export type SetAccountStatusInput = z.infer<typeof setAccountStatusSchema>;
+export type UpdateDisplayNameInput = z.infer<typeof updateDisplayNameSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
 export type ActionResult = {

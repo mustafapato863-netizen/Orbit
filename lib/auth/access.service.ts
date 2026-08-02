@@ -9,6 +9,7 @@ import {
   type RemoveProjectMembershipInput,
   type ResetPasswordInput,
   type SetAccountStatusInput,
+  type UpdateDisplayNameInput,
 } from "@/lib/auth/auth.schemas";
 import { hashPassword } from "@/lib/auth/password";
 import { prisma } from "@/lib/prisma";
@@ -348,6 +349,43 @@ export async function setUserAccountStatus(
       beforeState: { isActive: user.isActive },
       afterState: { isActive: input.isActive },
     });
+  });
+}
+
+export async function updateUserDisplayName(
+  actorId: string,
+  input: UpdateDisplayNameInput,
+) {
+  return prisma.$transaction(async (transaction) => {
+    const repository = new AccessRepository(transaction);
+    const user = await repository.findUser(input.userId);
+
+    if (!user) {
+      throw new AccessAdministrationError(
+        "The selected user is unavailable.",
+        "NOT_FOUND",
+      );
+    }
+
+    const displayName = input.displayName.trim();
+    if (displayName === user.displayName) {
+      return { changed: false, displayName };
+    }
+
+    await transaction.user.update({
+      where: { id: user.id },
+      data: { displayName },
+    });
+    await recordAuditEntry(transaction, {
+      actorId,
+      action: "access.user_display_name_updated",
+      entityType: "User",
+      entityId: user.id,
+      beforeState: { displayName: user.displayName },
+      afterState: { displayName },
+    });
+
+    return { changed: true, displayName };
   });
 }
 

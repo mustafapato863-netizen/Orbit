@@ -20,6 +20,7 @@ import {
   resetPasswordAction,
   setAccountStatusAction,
   setProjectMembershipAction,
+  updateDisplayNameAction,
 } from "@/app/(workspace)/access/actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +45,8 @@ import {
   type CreateUserInput,
   type ProjectMembershipInput,
   type ResetPasswordInput,
+  updateDisplayNameSchema,
+  type UpdateDisplayNameInput,
 } from "@/lib/auth/auth.schemas";
 
 type AccessAdminPanelProps = {
@@ -111,7 +114,12 @@ export function AccessAdminPanel({
   const [isPending, startTransition] = useTransition();
   const [results, setResults] = useState<
     Record<
-      "status" | "create" | "role" | "membership" | "reset",
+      | "status"
+      | "create"
+      | "role"
+      | "membership"
+      | "reset"
+      | "displayName",
       ActionResult | null
     >
   >({
@@ -120,6 +128,7 @@ export function AccessAdminPanel({
     role: null,
     membership: null,
     reset: null,
+    displayName: null,
   });
   const createForm = useForm<CreateUserInput>({
     resolver: zodResolver(createUserSchema),
@@ -152,6 +161,13 @@ export function AccessAdminPanel({
     defaultValues: {
       userId: users[0]?.id ?? "",
       temporaryPassword: "",
+    },
+  });
+  const displayNameForm = useForm<UpdateDisplayNameInput>({
+    resolver: zodResolver(updateDisplayNameSchema),
+    defaultValues: {
+      userId: users[0]?.id ?? "",
+      displayName: users[0]?.displayName ?? "",
     },
   });
 
@@ -549,6 +565,80 @@ export function AccessAdminPanel({
               <Button disabled={isPending || !users.length || !roles.length}>
                 <ShieldPlus />
                 Assign role
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Update display name</CardTitle>
+            <CardDescription>
+              Change the name shown in the sidebar, header, and project activity.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form
+              className="space-y-4"
+              onSubmit={displayNameForm.handleSubmit((values) =>
+                submit(
+                  "displayName",
+                  updateDisplayNameAction,
+                  values,
+                  () => displayNameForm.reset(values),
+                ),
+              )}
+            >
+              <div className="space-y-2">
+                <Label htmlFor="display-name-user">User</Label>
+                <select
+                  id="display-name-user"
+                  className={selectClasses}
+                  {...displayNameForm.register("userId", {
+                    onChange: (event) => {
+                      const selected = users.find(
+                        (user) => user.id === event.target.value,
+                      );
+                      displayNameForm.setValue(
+                        "displayName",
+                        selected?.displayName ?? "",
+                      );
+                    },
+                  })}
+                >
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.displayName} — {user.email}
+                    </option>
+                  ))}
+                </select>
+                <FieldError
+                  message={displayNameForm.formState.errors.userId?.message}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="display-name-value">Display name</Label>
+                <Input
+                  id="display-name-value"
+                  autoComplete="name"
+                  {...displayNameForm.register("displayName")}
+                />
+                <FieldError
+                  message={displayNameForm.formState.errors.displayName?.message}
+                />
+              </div>
+              <FormMessage
+                result={
+                  results.displayName?.success
+                    ? {
+                        ...results.displayName,
+                        message: "Display name updated.",
+                      }
+                    : results.displayName
+                }
+              />
+              <Button disabled={isPending || !users.length}>
+                Update name
               </Button>
             </form>
           </CardContent>
