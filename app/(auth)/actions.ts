@@ -77,6 +77,7 @@ export async function signOutAction() {
 
 export async function changePasswordAction(
   input: unknown,
+  redirectTo: "workspace" | "profile" = "workspace",
 ): Promise<ActionResult> {
   const context = await requireSession({ allowPasswordChange: true });
   const parsed = changePasswordSchema.safeParse(input);
@@ -93,5 +94,5 @@ export async function changePasswordAction(
     };
   }
 
-  redirect("/");
+  redirect(redirectTo === "profile" ? "/profile" : "/");
 }

@@ -9,6 +9,7 @@ import { signInAction } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   signInSchema,
   type SignInInput,
@@ -59,7 +60,7 @@ export function SignInForm({ nextPath }: { nextPath?: string }) {
       ) : null}
       <div className="space-y-2">
         <Label htmlFor="email">Email address</Label>
-        <Input
+        <PasswordInput
           id="email"
           type="email"
           autoComplete="username"

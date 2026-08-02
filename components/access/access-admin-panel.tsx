@@ -32,6 +32,7 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
   assignRoleSchema,
@@ -389,7 +390,7 @@ export function AccessAdminPanel({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="create-password">Temporary password</Label>
-                <Input
+                <PasswordInput
                   id="create-password"
                   type="password"
                   autoComplete="new-password"
@@ -691,7 +692,7 @@ export function AccessAdminPanel({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="reset-password">Temporary password</Label>
-                <Input
+                <PasswordInput
                   id="reset-password"
                   type="password"
                   autoComplete="new-password"

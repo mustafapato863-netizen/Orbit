@@ -9,6 +9,7 @@ import {
   ChevronRight,
   FolderKanban,
   LayoutDashboard,
+  UserCircle,
   Users,
 } from "lucide-react";
 
@@ -87,6 +88,15 @@ export function Sidebar({ user }: SidebarProps) {
       : []),
   ];
 
+  const accountItems: NavItem[] = [
+    {
+      label: "Profile",
+      href: "/profile",
+      icon: UserCircle,
+      activeWhen: (p) => p.startsWith("/profile"),
+    },
+  ];
+
   const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : "U";
 
   return (
@@ -128,6 +138,7 @@ export function Sidebar({ user }: SidebarProps) {
       <nav className={cn("flex-1 overflow-y-auto", isCollapsed && "px-0")}>
         <NavGroup label="Workspace" items={workspaceItems} pathname={pathname} collapsed={isCollapsed} />
         <NavGroup label="Administration" items={adminItems} pathname={pathname} collapsed={isCollapsed} />
+        <NavGroup label="Account" items={accountItems} pathname={pathname} collapsed={isCollapsed} />
       </nav>
 
       <div className={cn("mt-2.5 flex items-center gap-2.5 border-t border-[var(--sidebar-border)] pt-3", isCollapsed ? "justify-center px-0" : "pl-2.5 pr-1.5")}>

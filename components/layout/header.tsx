@@ -1,6 +1,7 @@
 "use client";
 
 import { Activity, ChevronDown, LogOut } from "lucide-react";
+import Link from "next/link";
 
 import { signOutAction } from "@/app/(auth)/actions";
 import { OrbitMark } from "@/components/layout/orbit-mark";
@@ -32,7 +33,12 @@ export function Header({ user }: { user: SessionUser }) {
             System healthy
           </span>
 
-          <div className="flex items-center gap-2.5 rounded-[10px] px-1.5 py-1 hover:bg-[var(--orbit-grey-soft)] cursor-pointer">
+          <Link
+            href="/profile"
+            className="flex items-center gap-2.5 rounded-[10px] px-1.5 py-1 hover:bg-[var(--orbit-grey-soft)]"
+            aria-label="Open profile"
+            title="Open profile"
+          >
             <div className="flex size-[30px] items-center justify-center rounded-full bg-gradient-to-br from-[#2A3350] to-[#12172A] text-[12px] font-bold text-white">
               {initials}
             </div>
@@ -45,7 +51,7 @@ export function Header({ user }: { user: SessionUser }) {
               </div>
             </div>
             <ChevronDown className="hidden size-3.5 text-[var(--orbit-text-subtle)] sm:block" />
-          </div>
+          </Link>
 
           <form action={signOutAction}>
             <button

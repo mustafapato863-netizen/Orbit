@@ -7,14 +7,18 @@ import { useForm } from "react-hook-form";
 
 import { changePasswordAction } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   changePasswordSchema,
   type ChangePasswordInput,
 } from "@/lib/auth/auth.schemas";
 
-export function ChangePasswordForm() {
+export function ChangePasswordForm({
+  redirectTo = "workspace",
+}: {
+  redirectTo?: "workspace" | "profile";
+} = {}) {
   const [isPending, startTransition] = useTransition();
   const {
     register,
@@ -32,7 +36,7 @@ export function ChangePasswordForm() {
 
   const onSubmit = handleSubmit((values) => {
     startTransition(async () => {
-      const result = await changePasswordAction(values);
+      const result = await changePasswordAction(values, redirectTo);
 
       if (!result.success) {
         setError("root", {
@@ -84,7 +88,7 @@ export function ChangePasswordForm() {
       ].map((field) => (
         <div key={field.name} className="space-y-2">
           <Label htmlFor={field.name}>{field.label}</Label>
-          <Input
+          <PasswordInput
             id={field.name}
             type="password"
             autoComplete={field.autoComplete}
