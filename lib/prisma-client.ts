@@ -15,6 +15,21 @@ type PrismaClientOptions = {
 export function normalizePostgresConnectionString(connectionString: string) {
   try {
     const url = new URL(connectionString);
+    const isSupabasePooler =
+      url.hostname === "pooler.supabase.com" ||
+      url.hostname.endsWith(".pooler.supabase.com");
+
+    // Vercel/Next.js creates short-lived server instances. Supabase's 5432
+    // endpoint is session pooling and caps the number of concurrently held
+    // clients (often at 15). Use the transaction pooler for application
+    // queries so idle serverless instances do not consume a dedicated
+    // database session. Prisma's pg adapter does not cache named prepared
+    // statements unless a statementNameGenerator is supplied, so it is
+    // compatible with transaction pooling.
+    if (isSupabasePooler && url.port === "5432") {
+      url.port = "6543";
+    }
+
     if (
       (url.protocol === "postgresql:" || url.protocol === "postgres:") &&
       url.searchParams.get("sslmode") === "require" &&
@@ -34,6 +49,10 @@ export function createPrismaClient(
 ) {
   const adapter = new PrismaPg({
     connectionString: normalizePostgresConnectionString(connectionString),
+    // Bound the client-side pool. Transaction pooling handles the database
+    // connection reuse; a small per-instance pool also prevents one server
+    // instance from monopolising Supavisor client slots.
+    max: 5,
   });
 
   return new PrismaClient({
