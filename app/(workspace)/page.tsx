@@ -17,6 +17,7 @@ import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { projectQueries } from "@/lib/projects/project.service";
 import { displayEnum } from "@/lib/projects/project.utils";
+import { groupProjectsByProjectGroup } from "@/lib/project-groups/group-projects";
 
 export default async function WorkspaceHome() {
   const context = await requirePagePermission(PERMISSIONS.PROJECT_VIEW);
@@ -30,6 +31,9 @@ export default async function WorkspaceHome() {
     ? Math.round(projects.reduce((total, project) => total + project.progress, 0) / projects.length)
     : 0;
   const recentProjects = projects.slice(0, 4);
+  const groupedProjects = groupProjectsByProjectGroup(projects).filter(
+    (section) => section.group,
+  );
 
   return (
     <div className="space-y-7">
@@ -71,6 +75,106 @@ export default async function WorkspaceHome() {
             <WorkspaceMetric label="Active" value={activeCount} detail="Currently moving" icon={TrendingUp} tone="blue" />
             <WorkspaceMetric label="Planning" value={planningCount} detail="Needs kickoff" icon={Layers3} tone="amber" />
             <WorkspaceMetric label="Average progress" value={`${averageProgress}%`} detail="Across visible projects" icon={TrendingUp} tone="green" />
+          </section>
+
+          <section aria-labelledby="workspace-groups-heading">
+            <div className="mb-3.5 flex items-end justify-between gap-4">
+              <div>
+                <h2 id="workspace-groups-heading" className="text-[0.95rem] font-bold text-[var(--orbit-text)]">
+                  Project groups
+                </h2>
+                <p className="mt-1 text-[0.75rem] text-[var(--orbit-text-subtle)]">
+                  Open a group to jump straight into the projects it contains.
+                </p>
+              </div>
+              <Link href="/projects" className="text-[0.75rem] font-semibold text-[var(--orbit-purple)] hover:underline">
+                Manage groups
+              </Link>
+            </div>
+            {groupedProjects.length ? (
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {groupedProjects.map((section) => {
+                  const group = section.group!;
+                  const progress = Math.round(
+                    section.projects.reduce((total, project) => total + project.progress, 0) /
+                      section.projects.length,
+                  );
+
+                  return (
+                    <Card
+                      key={group.id}
+                      className="overflow-hidden rounded-2xl border-[var(--orbit-border)] shadow-[var(--orbit-shadow-xs)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(16,24,40,0.08)]"
+                    >
+                      <div className="h-1" style={{ backgroundColor: group.colorToken }} aria-hidden="true" />
+                      <CardHeader className="px-5 pb-3 pt-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex min-w-0 items-start gap-3">
+                            <span
+                              className="flex size-10 shrink-0 items-center justify-center rounded-xl"
+                              style={{ backgroundColor: `${group.colorToken}18`, color: group.colorToken }}
+                            >
+                              <Layers3 className="size-[18px]" aria-hidden="true" />
+                            </span>
+                            <div className="min-w-0">
+                              <CardTitle className="truncate text-[1rem]" title={group.name}>{group.name}</CardTitle>
+                              <p className="mt-1 text-[0.72rem] text-[var(--orbit-text-subtle)]">
+                                {section.projects.length} {section.projects.length === 1 ? "project" : "projects"}
+                              </p>
+                            </div>
+                          </div>
+                          <Link
+                            href={`/projects#project-group-${group.id}`}
+                            className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-[var(--orbit-border)] text-[var(--orbit-text-muted)] transition-colors hover:border-[var(--orbit-purple)] hover:text-[var(--orbit-purple)]"
+                            aria-label={`Open ${group.name} in Projects`}
+                            title="Open group"
+                          >
+                            <ArrowUpRight className="size-4" />
+                          </Link>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4 px-5 pb-5 pt-0">
+                        <div>
+                          <div className="flex items-center justify-between text-[0.7rem]">
+                            <span className="font-semibold text-[var(--orbit-text-muted)]">Group progress</span>
+                            <span className="font-bold text-[var(--orbit-text)]">{progress}%</span>
+                          </div>
+                          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#e7e9f0]">
+                            <div className="h-full rounded-full" style={{ width: `${progress}%`, backgroundColor: group.colorToken }} />
+                          </div>
+                        </div>
+                        <div className="space-y-1.5">
+                          {section.projects.slice(0, 3).map((project) => (
+                            <Link
+                              key={project.id}
+                              href={`/projects/${project.id}`}
+                              className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-[0.75rem] text-[var(--orbit-text-muted)] transition-colors hover:bg-[var(--orbit-surface-muted)] hover:text-[var(--orbit-text)]"
+                            >
+                              <FolderKanban className="size-3.5 shrink-0" aria-hidden="true" />
+                              <span className="min-w-0 flex-1 truncate">{project.name}</span>
+                              <span className="shrink-0 text-[0.68rem] font-bold text-[var(--orbit-text-subtle)]">{project.progress}%</span>
+                            </Link>
+                          ))}
+                          {section.projects.length > 3 ? (
+                            <Link href={`/projects#project-group-${group.id}`} className="block px-2 pt-1 text-[0.7rem] font-semibold text-[var(--orbit-purple)] hover:underline">
+                              + {section.projects.length - 3} more projects
+                            </Link>
+                          ) : null}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            ) : (
+              <Card className="rounded-2xl border-dashed border-[var(--orbit-border)] bg-[var(--orbit-surface-muted)] shadow-none">
+                <CardContent className="flex flex-col items-center justify-center px-6 py-8 text-center">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-[var(--orbit-purple-soft)] text-[var(--orbit-purple)]"><Layers3 className="size-[18px]" /></span>
+                  <p className="mt-3 text-sm font-bold text-[var(--orbit-text)]">No groups yet</p>
+                  <p className="mt-1 max-w-md text-[0.75rem] text-[var(--orbit-text-subtle)]">Create a group from Projects to organize related work in this gallery.</p>
+                  <Button asChild variant="outline" size="sm" className="mt-4 h-9 rounded-lg"><Link href="/projects">Open Projects</Link></Button>
+                </CardContent>
+              </Card>
+            )}
           </section>
 
           <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">

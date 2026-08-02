@@ -155,7 +155,7 @@ export default async function ProjectsPage() {
 
             <div className="space-y-6">
               {projectSections.map((section) => (
-                <div key={section.group?.id ?? "ungrouped"}>
+                <div id={`project-group-${section.group?.id ?? "ungrouped"}`} key={section.group?.id ?? "ungrouped"}>
                   <div className="mb-2.5 flex items-center gap-2.5">
                     <span
                       className="size-2.5 rounded-full"
