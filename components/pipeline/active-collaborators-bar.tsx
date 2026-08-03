@@ -56,12 +56,12 @@ export function ActiveCollaboratorsBar({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/50 border border-slate-700/60 text-xs text-slate-300 shadow-sm backdrop-blur-md",
+        "inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs shadow-sm backdrop-blur-md",
         className
       )}
       title="Active Project Team Collaborators"
     >
-      <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+      <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -69,9 +69,9 @@ export function ActiveCollaboratorsBar({
         <span className="hidden sm:inline">Live Presence</span>
       </div>
 
-      <div className="h-3 w-px bg-slate-700 mx-0.5" />
+      <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-0.5" />
 
-      <div className="flex items-center -space-x-1.5 overflow-hidden">
+      <div className="flex items-center -space-x-2 overflow-hidden py-0.5">
         {collaborators.map((user) => (
           <div
             key={user.id}
@@ -79,24 +79,24 @@ export function ActiveCollaboratorsBar({
           >
             <div
               className={cn(
-                "relative flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold text-white ring-2 ring-slate-900 transition-transform group-hover:scale-110 group-hover:z-10",
+                "relative flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900 shadow-xs transition-transform group-hover:scale-110 group-hover:z-10",
                 user.color
               )}
             >
               {user.initials}
               <span
                 className={cn(
-                  "absolute bottom-0 right-0 h-2 w-2 rounded-full ring-1 ring-slate-900",
+                  "absolute bottom-0 right-0 h-2 w-2 rounded-full ring-1 ring-white dark:ring-slate-900",
                   user.status === "editing" ? "bg-amber-400" : "bg-emerald-400"
                 )}
               />
             </div>
 
             {/* Hover Tooltip */}
-            <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col items-start p-2 rounded-md bg-slate-950 border border-slate-700 text-[11px] text-slate-200 shadow-xl whitespace-nowrap z-50 pointer-events-none">
-              <span className="font-semibold text-white">{user.name}</span>
-              <span className="text-slate-400">{user.role}</span>
-              <span className="mt-1 flex items-center gap-1 text-[10px] text-emerald-400">
+            <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col items-start p-2.5 rounded-lg bg-slate-900 text-white border border-slate-800 text-[11px] shadow-xl whitespace-nowrap z-50 pointer-events-none">
+              <span className="font-bold">{user.name}</span>
+              <span className="text-slate-300">{user.role}</span>
+              <span className="mt-1 flex items-center gap-1 text-[10px] text-emerald-400 font-medium">
                 <Eye className="h-3 w-3" />
                 {user.status === "editing" ? "Editing" : "Viewing"}{" "}
                 {user.activeSection ? `• ${user.activeSection}` : ""}
@@ -106,7 +106,7 @@ export function ActiveCollaboratorsBar({
         ))}
       </div>
 
-      <span className="text-[11px] text-slate-400 font-medium pl-1 hidden md:inline">
+      <span className="text-[11px] text-slate-600 dark:text-slate-400 font-bold pl-0.5 hidden md:inline">
         {collaborators.length} online
       </span>
     </div>
