@@ -22,7 +22,7 @@ export class SignInError extends Error {
   }
 }
 
-function identityFingerprint(normalizedEmail: string) {
+export function identityFingerprint(normalizedEmail: string) {
   return createHash("sha256").update(normalizedEmail).digest("hex");
 }
 
@@ -43,7 +43,13 @@ async function isSignInThrottled(fingerprint: string) {
   const windowStart = new Date(Date.now() - SIGN_IN_WINDOW_MS);
   const lastSuccess = await prisma.auditLog.findFirst({
     where: {
-      action: "auth.sign_in_succeeded",
+      action: {
+        in: [
+          "auth.sign_in_succeeded",
+          "auth.lockout_cleared",
+          "access.password_reset",
+        ],
+      },
       entityType: "AuthenticationIdentity",
       entityId: fingerprint,
       createdAt: { gte: windowStart },

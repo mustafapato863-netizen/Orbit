@@ -4,6 +4,7 @@ import { recordAuditEntry } from "@/lib/audit/audit.service";
 import {
   normalizeEmail,
   type AssignRoleInput,
+  type ClearLockoutInput,
   type CreateUserInput,
   type ProjectMembershipInput,
   type RemoveProjectMembershipInput,
@@ -11,6 +12,7 @@ import {
   type SetAccountStatusInput,
   type UpdateDisplayNameInput,
 } from "@/lib/auth/auth.schemas";
+import { identityFingerprint } from "@/lib/auth/authentication.service";
 import { hashPassword } from "@/lib/auth/password";
 import { prisma } from "@/lib/prisma";
 import {
@@ -427,5 +429,40 @@ export async function resetUserPassword(
       beforeState: { mustChangePassword: user.mustChangePassword },
       afterState: { mustChangePassword: true, activeSessionsRevoked: true },
     });
+
+    const fingerprint = identityFingerprint(normalizeEmail(user.email));
+    await recordAuditEntry(transaction, {
+      actorId,
+      action: "auth.lockout_cleared",
+      entityType: "AuthenticationIdentity",
+      entityId: fingerprint,
+    });
+  });
+}
+
+export async function clearUserLockout(
+  actorId: string,
+  input: ClearLockoutInput,
+) {
+  return prisma.$transaction(async (transaction) => {
+    const repository = new AccessRepository(transaction);
+    const user = await repository.findUser(input.userId);
+
+    if (!user) {
+      throw new AccessAdministrationError(
+        "The selected user is unavailable.",
+        "NOT_FOUND",
+      );
+    }
+
+    const fingerprint = identityFingerprint(normalizeEmail(user.email));
+    await recordAuditEntry(transaction, {
+      actorId,
+      action: "auth.lockout_cleared",
+      entityType: "AuthenticationIdentity",
+      entityId: fingerprint,
+    });
+
+    return { email: user.email };
   });
 }

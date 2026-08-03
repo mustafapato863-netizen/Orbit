@@ -1168,3 +1168,17 @@ generate a secure value automatically using Node.js:
 
 ```bash
 node -e "process.stdout.write(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
+============================================================
+SKILL SELECTION & DE-DUPLICATION POLICY
+============================================================
+
+1. Maximum 3 Skills Per Task:
+   Never activate or load more than 3 skills for a single task.
+
+2. Domain De-duplication:
+   - UI/UX: Use `ui-ux-pro-max` (dashboards/layouts) OR `frontend-design` (styling/animations). Never both.
+   - Backend/Full-stack: Use `senior-fullstack` (Next.js App Router/Actions) OR `senior-backend` (DB/Prisma/Reports). Never both.
+   - Code Quality: Use `clean-code` (refactoring/SOLID) OR `code-reviewer` (security/PR audit). Never both.
+   - Diagnostics/Tests: Use `debugger` (bug fixing/log analysis) OR `webapp-testing` (Vitest/Playwright tests). Never both.

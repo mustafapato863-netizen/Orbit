@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import {
   AccessAdministrationError,
   assignUserRole,
+  clearUserLockout,
   createUser,
   resetUserPassword,
   removeProjectMembership,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/auth/access.service";
 import {
   assignRoleSchema,
+  clearLockoutSchema,
   createUserSchema,
   projectMembershipSchema,
   removeProjectMembershipSchema,
@@ -22,6 +24,13 @@ import {
   updateDisplayNameSchema,
   type ActionResult,
 } from "@/lib/auth/auth.schemas";
+
+export async function clearLockoutAction(input: unknown) {
+  return runAccessAction(
+    clearLockoutSchema.safeParse(input),
+    clearUserLockout,
+  );
+}
 import { requirePermission } from "@/lib/auth/authorization";
 import { SYSTEM_MANAGE_PERMISSION } from "@/lib/auth/permissions";
 

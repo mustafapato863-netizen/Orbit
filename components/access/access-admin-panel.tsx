@@ -6,6 +6,7 @@ import {
   FolderLock,
   KeyRound,
   LoaderCircle,
+  RotateCcw,
   ShieldPlus,
   UserPlus,
   Users,
@@ -16,6 +17,7 @@ import { useForm } from "react-hook-form";
 
 import {
   assignRoleAction,
+  clearLockoutAction,
   createUserAction,
   removeProjectMembershipAction,
   resetPasswordAction,
@@ -309,41 +311,71 @@ export function AccessAdminPanel({
                         </div>
                       </td>
                       <td className="px-3 py-4 text-right">
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          disabled={
-                            isPending ||
-                            (user.id === currentUserId && user.isActive)
-                          }
-                          title={
-                            user.id === currentUserId && user.isActive
-                              ? "You cannot deactivate your own account."
-                              : undefined
-                          }
-                          onClick={() =>
-                            startTransition(async () => {
-                              const result = await setAccountStatusAction({
-                                userId: user.id,
-                                isActive: !user.isActive,
-                              });
-                              setResults((current) => ({
-                                ...current,
-                                status: {
-                                  ...result,
-                                  message:
-                                    result.message ??
-                                    (result.success
-                                      ? "Account status updated."
-                                      : "Account status was not updated."),
-                                },
-                              }));
-                            })
-                          }
-                        >
-                          {user.isActive ? "Deactivate" : "Activate"}
-                        </Button>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            disabled={isPending}
+                            title="Zero out unsuccessful login attempts lockout timer for this user"
+                            onClick={() =>
+                              startTransition(async () => {
+                                const result = await clearLockoutAction({
+                                  userId: user.id,
+                                });
+                                setResults((current) => ({
+                                  ...current,
+                                  status: {
+                                    ...result,
+                                    message:
+                                      result.message ??
+                                      (result.success
+                                        ? `Lockout timer cleared for ${user.displayName}. User can attempt sign-in immediately.`
+                                        : "Lockout timer could not be cleared."),
+                                  },
+                                }));
+                              })
+                            }
+                          >
+                            <RotateCcw className="size-3.5" aria-hidden="true" />
+                            <span>Reset Lockout</span>
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            disabled={
+                              isPending ||
+                              (user.id === currentUserId && user.isActive)
+                            }
+                            title={
+                              user.id === currentUserId && user.isActive
+                                ? "You cannot deactivate your own account."
+                                : undefined
+                            }
+                            onClick={() =>
+                              startTransition(async () => {
+                                const result = await setAccountStatusAction({
+                                  userId: user.id,
+                                  isActive: !user.isActive,
+                                });
+                                setResults((current) => ({
+                                  ...current,
+                                  status: {
+                                    ...result,
+                                    message:
+                                      result.message ??
+                                      (result.success
+                                        ? "Account status updated."
+                                        : "Account status was not updated."),
+                                  },
+                                }));
+                              })
+                            }
+                          >
+                            {user.isActive ? "Deactivate" : "Activate"}
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -789,8 +821,7 @@ export function AccessAdminPanel({
           <CardHeader>
             <CardTitle>Issue temporary password</CardTitle>
             <CardDescription>
-              Resets the password, revokes active sessions, and requires a
-              first-login change.
+              Resets the password, zeroes out any active login lockout timer, revokes active sessions, and requires a first-login change.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -841,7 +872,7 @@ export function AccessAdminPanel({
                   results.reset?.success
                     ? {
                         ...results.reset,
-                        message: "Temporary password issued.",
+                        message: "Temporary password issued & lockout timer cleared. User can sign in immediately.",
                       }
                     : results.reset
                 }

@@ -100,6 +100,10 @@ export const resetPasswordSchema = z.object({
   temporaryPassword: passwordSchema,
 });
 
+export const clearLockoutSchema = z.object({
+  userId: z.uuid(),
+});
+
 export type SignInInput = z.infer<typeof signInSchema>;
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
 export type CreateUserInput = z.infer<typeof createUserSchema>;
@@ -111,6 +115,7 @@ export type RemoveProjectMembershipInput = z.infer<
 export type SetAccountStatusInput = z.infer<typeof setAccountStatusSchema>;
 export type UpdateDisplayNameInput = z.infer<typeof updateDisplayNameSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+export type ClearLockoutInput = z.infer<typeof clearLockoutSchema>;
 
 export type ActionResult = {
   success: boolean;
