@@ -102,7 +102,7 @@ export function Sidebar({ user }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "sticky top-0 hidden h-svh shrink-0 flex-col border-r border-[#3b387e]/40 bg-[linear-gradient(160deg,#1e1b4b,#312e81,#4c1d95)] p-3.5 text-[#b8c0e0] transition-[width] duration-200 ease-out lg:flex",
+        "sticky top-0 hidden h-svh shrink-0 flex-col border-r border-[#1e293b] bg-[#0c101d] p-3.5 text-slate-300 transition-[width] duration-200 ease-out lg:flex",
         isCollapsed ? "w-[84px]" : "w-[236px]",
       )}
     >
@@ -116,8 +116,8 @@ export function Sidebar({ user }: SidebarProps) {
           <OrbitMark />
           {!isCollapsed ? (
             <div className="leading-tight">
-              <div className="text-[15px] font-bold text-white">Orbit</div>
-              <div className="text-[11.5px] text-[#7981a0]">Project Manager</div>
+              <div className="text-[15px] font-bold text-slate-100">Orbit</div>
+              <div className="text-[11.5px] text-slate-400 font-medium">Project Manager</div>
             </div>
           ) : null}
         </div>
@@ -127,7 +127,7 @@ export function Sidebar({ user }: SidebarProps) {
           aria-pressed={isCollapsed}
           onClick={() => setIsCollapsed((current) => !current)}
           className={cn(
-            "absolute right-0 top-1 inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-[var(--sidebar-border)] bg-white/[0.04] text-[#c8cde0] transition hover:bg-white/[0.07] hover:text-white",
+            "absolute right-0 top-1 inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-[#1e293b] bg-slate-800/40 text-slate-300 transition hover:bg-slate-800 hover:text-white cursor-pointer",
             isCollapsed && "right-1 top-1",
           )}
         >
@@ -141,19 +141,19 @@ export function Sidebar({ user }: SidebarProps) {
         <NavGroup label="Account" items={accountItems} pathname={pathname} collapsed={isCollapsed} />
       </nav>
 
-      <div className={cn("mt-2.5 flex items-center gap-2.5 border-t border-[var(--sidebar-border)] pt-3", isCollapsed ? "justify-center px-0" : "pl-2.5 pr-1.5")}>
+      <div className={cn("mt-2.5 flex items-center gap-2.5 border-t border-[#1e293b] pt-3", isCollapsed ? "justify-center px-0" : "pl-2.5 pr-1.5")}>
         <span className="size-[7px] shrink-0 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(34,197,94,0.18)]" />
         {!isCollapsed ? (
           <div className="min-w-0 leading-tight">
-            <div className="truncate text-[12px] font-semibold text-[#d7dae8]">
+            <div className="truncate text-[12px] font-semibold text-slate-200">
               Secure session active
             </div>
-            <div className="truncate text-[11px] text-[#666f8c]">
+            <div className="truncate text-[11px] text-slate-400">
               Workspace access is verified
             </div>
           </div>
         ) : null}
-        <div className={cn("flex size-7 shrink-0 items-center justify-center rounded-full border border-[var(--sidebar-border)] bg-[#171e33] text-[12px] font-bold text-white", isCollapsed && "ml-0")}>
+        <div className={cn("flex size-7 shrink-0 items-center justify-center rounded-full border border-[#1e293b] bg-slate-800 text-[12px] font-bold text-slate-100", isCollapsed && "ml-0")}>
           {initials}
         </div>
       </div>
@@ -185,7 +185,7 @@ function NavGroup({
   return (
     <div className="mb-1">
       {!collapsed ? (
-        <div className="px-2.5 pb-1.5 pt-3.5 text-[10.5px] font-bold uppercase tracking-[0.08em] text-[#4a5170]">
+        <div className="px-2.5 pb-1.5 pt-3.5 text-[10.5px] font-bold uppercase tracking-[0.08em] text-slate-400">
           {label}
         </div>
       ) : null}
@@ -211,12 +211,12 @@ function NavRow({
 
   const content = (
     <>
-      <Icon className={cn("size-4 shrink-0", isActive ? "text-[#c4b5fd]" : "opacity-85")} />
+      <Icon className={cn("size-4 shrink-0", isActive ? "text-purple-400" : "text-slate-400")} />
       {!collapsed ? (
         <>
           <span className="min-w-0 flex-1 truncate">{item.label}</span>
           {item.tag ? (
-            <span className="ml-auto shrink-0 rounded-[5px] border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] font-bold tracking-[.04em] text-[#9ca3af]">
+            <span className="ml-auto shrink-0 rounded-[5px] border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold tracking-[.04em] text-slate-400">
               {item.tag}
             </span>
           ) : null}
@@ -228,9 +228,9 @@ function NavRow({
   const rowClasses = cn(
     "relative flex items-center rounded-lg py-2 text-[13.5px] font-medium transition-all",
     collapsed ? "justify-center px-0" : "gap-2.5 px-2.5",
-    isActive && "bg-white/15 text-white font-semibold shadow-sm ring-1 ring-white/15 backdrop-blur-xs",
-    !isActive && !isDisabled && "text-[#c7d2fe]/90 hover:bg-white/10 hover:text-white",
-    isDisabled && "cursor-not-allowed text-white/30",
+    isActive && "bg-purple-500/15 text-white font-semibold border-l-2 border-purple-500 shadow-2xs",
+    !isActive && !isDisabled && "text-slate-300 hover:bg-slate-800/60 hover:text-white",
+    isDisabled && "cursor-not-allowed text-slate-600",
   );
 
   if (isDisabled) {
@@ -243,14 +243,6 @@ function NavRow({
 
   return (
     <Link href={item.href!} className={rowClasses}>
-      {isActive ? (
-        <span
-          className={cn(
-            "absolute top-1.5 bottom-1.5 w-[3px] rounded-r-[3px] bg-[var(--sidebar-primary)]",
-            collapsed ? "-left-1" : "-left-[14px]",
-          )}
-        />
-      ) : null}
       {content}
     </Link>
   );
