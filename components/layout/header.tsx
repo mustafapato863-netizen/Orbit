@@ -4,6 +4,7 @@ import { Activity, ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
 
 import { signOutAction } from "@/app/(auth)/actions";
+import { HeaderTodoWidget } from "@/components/layout/header-todo-widget";
 import { OrbitMark } from "@/components/layout/orbit-mark";
 import type { SessionUser } from "@/lib/auth/session";
 
@@ -32,6 +33,8 @@ export function Header({ user }: { user: SessionUser }) {
             <Activity className="size-[13px]" />
             System healthy
           </span>
+
+          <HeaderTodoWidget />
 
           <Link
             href="/profile"
