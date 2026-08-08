@@ -18,6 +18,12 @@ export class AccessRepository extends Repository {
         mustChangePassword: true,
         lastLoginAt: true,
         createdAt: true,
+        sessions: {
+          where: { revokedAt: null, expiresAt: { gt: new Date() } },
+          select: { lastSeenAt: true },
+          orderBy: { lastSeenAt: "desc" },
+          take: 1,
+        },
         userRoles: {
           where: { role: { archivedAt: null } },
           select: { role: { select: { id: true, name: true } } },

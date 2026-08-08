@@ -34,7 +34,10 @@ import {
   type DeliveryPipelineView,
 } from "@/lib/pipeline/pipeline";
 import { cn } from "@/lib/utils";
-import { ActiveCollaboratorsBar } from "@/components/pipeline/active-collaborators-bar";
+import {
+  ActiveCollaboratorsBar,
+  type Collaborator,
+} from "@/components/pipeline/active-collaborators-bar";
 import { SavedFilterPresetsBar, type PMFilterPreset } from "@/components/pipeline/saved-filter-presets-bar";
 import {
   TimelineRoadmapPanel,
@@ -676,10 +679,12 @@ export function DeliveryPipelineBoard({
   pipeline,
   projectId,
   permissions,
+  collaborators,
 }: {
   pipeline: DeliveryPipelineView;
   projectId: string;
   permissions?: RoadmapEditPermissions;
+  collaborators?: Collaborator[];
 }) {
   const visibleGroups = pipeline.roadmapGroups.filter(
     (group) => group.items.length > 0,
@@ -799,7 +804,7 @@ export function DeliveryPipelineBoard({
           counts={presetCounts}
           className="flex-1"
         />
-        <ActiveCollaboratorsBar />
+        <ActiveCollaboratorsBar collaborators={collaborators} />
       </div>
 
       <TimelineRoadmapPanel

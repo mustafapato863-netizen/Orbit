@@ -105,6 +105,15 @@ export async function getSessionByToken(
     include: activeSessionInclude,
   });
 
+  if (session && Date.now() - session.lastSeenAt.getTime() > 30_000) {
+    void prisma.session
+      .update({
+        where: { id: session.id },
+        data: { lastSeenAt: new Date() },
+      })
+      .catch(() => {});
+  }
+
   return session ? toSessionContext(session) : null;
 }
 

@@ -11,6 +11,8 @@ import { hasPermission } from "@/lib/auth/policy";
 import { buildDeliveryPipeline } from "@/lib/pipeline/pipeline";
 import { pipelineQueries } from "@/lib/pipeline/pipeline.service";
 
+import { getProjectActiveCollaborators } from "@/lib/auth/presence.service";
+
 function dateLabel(value: Date) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
@@ -32,6 +34,7 @@ export default async function DeliveryPipelinePage({
   if (!project) notFound();
 
   const pipeline = buildDeliveryPipeline(project, new Date());
+  const collaborators = await getProjectActiveCollaborators(projectId);
 
   return (
     <div className="space-y-5">
@@ -68,6 +71,7 @@ export default async function DeliveryPipelinePage({
       <DeliveryPipelineBoard
         pipeline={pipeline}
         projectId={projectId}
+        collaborators={collaborators}
         permissions={{
           userId: context.user.id,
           canManageMilestones: hasPermission(

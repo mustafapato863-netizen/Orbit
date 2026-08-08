@@ -38,6 +38,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { cn } from "@/lib/utils";
 import {
   assignRoleSchema,
   createUserSchema,
@@ -61,6 +62,7 @@ type AccessAdminPanelProps = {
     isActive: boolean;
     mustChangePassword: boolean;
     lastLoginAt: Date | null;
+    sessions?: Array<{ lastSeenAt: Date }>;
     userRoles: Array<{ role: { id: string; name: string } }>;
     projectMemberships: Array<{
       role: string;
@@ -105,6 +107,20 @@ function FieldError({ message }: { message?: string }) {
   return message ? (
     <p className="text-xs text-destructive">{message}</p>
   ) : null;
+}
+
+function formatDateTime(value: Date | string | null) {
+  if (!value) return "Never signed in";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Never signed in";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(date);
 }
 
 export function AccessAdminPanel({
@@ -218,26 +234,63 @@ export function AccessAdminPanel({
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id} className="border-b last:border-0">
-                      <td className="px-3 py-4">
-                        <p className="font-medium">{user.displayName}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {user.email}
-                        </p>
-                        <p className="mt-1 text-[0.6875rem] text-muted-foreground">
-                          {user.lastLoginAt
-                            ? `Last login ${user.lastLoginAt.toISOString().slice(0, 10)}`
-                            : "Never signed in"}
-                        </p>
-                      </td>
-                      <td className="px-3 py-4">
-                        {user.userRoles
-                          .map(({ role }) => role.name)
-                          .join(", ") || "None"}
-                      </td>
-                      <td className="px-3 py-4 text-muted-foreground">
-                        {user.projectMemberships.length
+                  {users.map((user) => {
+                    const lastSeen = user.sessions?.[0]?.lastSeenAt;
+                    const isOnline = Boolean(
+                      lastSeen &&
+                        Date.now() - new Date(lastSeen).getTime() <= 5 * 60 * 1000,
+                    );
+
+                    return (
+                      <tr key={user.id} className="border-b last:border-0">
+                        <td className="px-3 py-4">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-semibold text-slate-900 dark:text-slate-100">
+                              {user.displayName}
+                            </p>
+                            <span
+                              className={cn(
+                                "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.625rem] font-bold shadow-2xs",
+                                isOnline
+                                  ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/30 dark:bg-emerald-950/60 dark:text-emerald-300"
+                                  : "bg-slate-100 text-slate-500 ring-1 ring-slate-300/50 dark:bg-slate-800 dark:text-slate-400",
+                              )}
+                              title={
+                                isOnline
+                                  ? `Online now (Last active: ${formatDateTime(lastSeen ?? null)})`
+                                  : lastSeen
+                                    ? `Offline (Last active: ${formatDateTime(lastSeen ?? null)})`
+                                    : "Offline"
+                              }
+                            >
+                              <span
+                                className={cn(
+                                  "size-1.5 rounded-full",
+                                  isOnline
+                                    ? "bg-emerald-500 animate-pulse"
+                                    : "bg-slate-400",
+                                )}
+                              />
+                              {isOnline ? "Online" : "Offline"}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">{user.email}</p>
+                          <div className="mt-1 text-[0.6875rem] text-muted-foreground space-y-0.5">
+                            <p>
+                              Last login:{" "}
+                              <strong className="text-slate-700 dark:text-slate-300 font-semibold">
+                                {formatDateTime(user.lastLoginAt)}
+                              </strong>
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-3 py-4">
+                          {user.userRoles
+                            .map(({ role }) => role.name)
+                            .join(", ") || "None"}
+                        </td>
+                        <td className="px-3 py-4 text-muted-foreground">
+                          {user.projectMemberships.length
                           ? (
                               <div className="flex max-w-md flex-wrap gap-1.5">
                                 {user.projectMemberships.map(
@@ -378,7 +431,8 @@ export function AccessAdminPanel({
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  );
+                })}
                 </tbody>
               </table>
             </div>
