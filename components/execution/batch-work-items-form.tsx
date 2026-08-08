@@ -157,6 +157,7 @@ export function BatchWorkItemsForm({
         projectId,
         milestoneId,
         name: r.name.trim(),
+        description: "",
         primaryWorkstreamId: r.primaryWorkstreamId,
         supportingWorkstreamIds: [],
         status: "NOT_STARTED" as const,
