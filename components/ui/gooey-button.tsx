@@ -115,9 +115,9 @@ export const GooeyButton = forwardRef<HTMLButtonElement, GooeyButtonProps>(
         </span>
 
         {/* Foreground Content */}
-        <span className="relative z-10 flex items-center gap-2">
-          {icon && <span className="shrink-0">{icon}</span>}
-          <span>{children}</span>
+        <span className="relative z-10 flex flex-row items-center justify-center gap-2 whitespace-nowrap font-bold">
+          {icon && <span className="shrink-0 flex items-center justify-center">{icon}</span>}
+          <span className="truncate">{children}</span>
         </span>
       </button>
     );

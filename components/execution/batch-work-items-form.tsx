@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { GooeyButton } from "@/components/ui/gooey-button";
 import { executionRiskLevels } from "@/lib/execution/execution.schemas";
 import { displayEnum } from "@/lib/projects/project.utils";
+import { cn } from "@/lib/utils";
 
 type WorkstreamOption = {
   id: string;
@@ -115,14 +116,39 @@ export function BatchWorkItemsForm({
     );
   };
 
+  const [rowErrors, setRowErrors] = useState<Record<number, { name?: string; startDate?: string; dueDate?: string }>>({});
+
   const handleSubmitBatch = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
+    setRowErrors({});
 
-    // Validate rows
-    const invalidRow = rows.find((r) => !r.name.trim());
-    if (invalidRow) {
-      setErrorMessage("Please enter a name for all sub-milestone items.");
+    const newRowErrors: Record<number, { name?: string; startDate?: string; dueDate?: string }> = {};
+    let firstErrorMsg = "";
+
+    // Detailed client-side row validation
+    rows.forEach((r, idx) => {
+      const errors: { name?: string; startDate?: string; dueDate?: string } = {};
+      if (!r.name || r.name.trim().length < 2) {
+        errors.name = "Name must be at least 2 characters.";
+        if (!firstErrorMsg) firstErrorMsg = `Row #${idx + 1}: Name must be at least 2 characters.`;
+      }
+      if (r.startDate && r.dueDate) {
+        if (new Date(r.startDate) > new Date(r.dueDate)) {
+          errors.startDate = "Start date cannot be after due date.";
+          errors.dueDate = "Due date must be on or after start date.";
+          if (!firstErrorMsg)
+            firstErrorMsg = `Row #${idx + 1}: Start date cannot be after due date.`;
+        }
+      }
+      if (Object.keys(errors).length > 0) {
+        newRowErrors[idx] = errors;
+      }
+    });
+
+    if (Object.keys(newRowErrors).length > 0) {
+      setRowErrors(newRowErrors);
+      setErrorMessage(firstErrorMsg || "Please fix the highlighted row issues.");
       return;
     }
 
@@ -137,9 +163,9 @@ export function BatchWorkItemsForm({
         progress: 0,
         deliveryStage: "NOT_STARTED" as const,
         nextGate: "",
-        startDate: r.startDate || undefined,
-        dueDate: r.dueDate || undefined,
-        ownerId: r.ownerId || undefined,
+        startDate: r.startDate ? r.startDate : "",
+        dueDate: r.dueDate ? r.dueDate : "",
+        ownerId: r.ownerId ? r.ownerId : "",
         riskLevel: r.riskLevel,
         blocker: "",
         notes: "",
@@ -153,7 +179,9 @@ export function BatchWorkItemsForm({
       });
 
       if (!result.success) {
-        setErrorMessage(result.message ?? "Failed to save sub-milestones batch.");
+        setErrorMessage(
+          result.message ?? "Failed to save sub-milestones batch. Please check row entries.",
+        );
         return;
       }
 
@@ -186,67 +214,104 @@ export function BatchWorkItemsForm({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-            {rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
-              >
-                <td className="p-3 text-center font-bold text-slate-400">
-                  {index + 1}
-                </td>
-                <td className="p-2">
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Database schema setup"
-                    value={row.name}
-                    onChange={(e) => updateRowField(row.id, "name", e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
-                </td>
-                <td className="p-2">
-                  <select
-                    value={row.primaryWorkstreamId}
-                    onChange={(e) =>
-                      updateRowField(row.id, "primaryWorkstreamId", e.target.value)
-                    }
-                    className={selectClasses}
-                  >
-                    {workstreams.map((ws) => (
-                      <option key={ws.id} value={ws.id}>
-                        {ws.name}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td className="p-2">
-                  <input
-                    type="date"
-                    value={row.startDate}
-                    onChange={(e) => updateRowField(row.id, "startDate", e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
-                </td>
-                <td className="p-2">
-                  <input
-                    type="number"
-                    min={0}
-                    placeholder="Days"
-                    value={row.durationDays}
-                    onChange={(e) =>
-                      updateRowField(row.id, "durationDays", e.target.value)
-                    }
-                    className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
-                </td>
-                <td className="p-2">
-                  <input
-                    type="date"
-                    value={row.dueDate}
-                    onChange={(e) => updateRowField(row.id, "dueDate", e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
-                </td>
+            {rows.map((row, index) => {
+              const errs = rowErrors[index];
+              return (
+                <tr
+                  key={row.id}
+                  className={cn(
+                    "transition-colors",
+                    errs
+                      ? "bg-rose-50/40 dark:bg-rose-950/20 hover:bg-rose-50/70"
+                      : "hover:bg-slate-50/50 dark:hover:bg-slate-800/30",
+                  )}
+                >
+                  <td className="p-3 text-center font-bold text-slate-400">
+                    {index + 1}
+                  </td>
+                  <td className="p-2">
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Database schema setup"
+                      value={row.name}
+                      onChange={(e) => updateRowField(row.id, "name", e.target.value)}
+                      className={cn(
+                        "w-full rounded-lg border bg-white px-3 py-1.5 text-xs font-medium text-slate-900 focus:outline-none dark:bg-slate-800 dark:text-slate-100",
+                        errs?.name
+                          ? "border-rose-500 ring-2 ring-rose-500/30 dark:border-rose-500"
+                          : "border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700",
+                      )}
+                    />
+                    {errs?.name && (
+                      <p className="mt-0.5 text-[0.625rem] font-semibold text-rose-600 dark:text-rose-400">
+                        {errs.name}
+                      </p>
+                    )}
+                  </td>
+                  <td className="p-2">
+                    <select
+                      value={row.primaryWorkstreamId}
+                      onChange={(e) =>
+                        updateRowField(row.id, "primaryWorkstreamId", e.target.value)
+                      }
+                      className={selectClasses}
+                    >
+                      {workstreams.map((ws) => (
+                        <option key={ws.id} value={ws.id}>
+                          {ws.name}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="p-2">
+                    <input
+                      type="date"
+                      value={row.startDate}
+                      onChange={(e) => updateRowField(row.id, "startDate", e.target.value)}
+                      className={cn(
+                        "w-full rounded-lg border bg-white px-2 py-1.5 text-xs text-slate-900 dark:bg-slate-800 dark:text-slate-100",
+                        errs?.startDate
+                          ? "border-rose-500 ring-2 ring-rose-500/30 dark:border-rose-500"
+                          : "border-slate-200 dark:border-slate-700",
+                      )}
+                    />
+                    {errs?.startDate && (
+                      <p className="mt-0.5 text-[0.625rem] font-semibold text-rose-600 dark:text-rose-400">
+                        {errs.startDate}
+                      </p>
+                    )}
+                  </td>
+                  <td className="p-2">
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="Days"
+                      value={row.durationDays}
+                      onChange={(e) =>
+                        updateRowField(row.id, "durationDays", e.target.value)
+                      }
+                      className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    />
+                  </td>
+                  <td className="p-2">
+                    <input
+                      type="date"
+                      value={row.dueDate}
+                      onChange={(e) => updateRowField(row.id, "dueDate", e.target.value)}
+                      className={cn(
+                        "w-full rounded-lg border bg-white px-2 py-1.5 text-xs text-slate-900 dark:bg-slate-800 dark:text-slate-100",
+                        errs?.dueDate
+                          ? "border-rose-500 ring-2 ring-rose-500/30 dark:border-rose-500"
+                          : "border-slate-200 dark:border-slate-700",
+                      )}
+                    />
+                    {errs?.dueDate && (
+                      <p className="mt-0.5 text-[0.625rem] font-semibold text-rose-600 dark:text-rose-400">
+                        {errs.dueDate}
+                      </p>
+                    )}
+                  </td>
                 <td className="p-2">
                   <select
                     value={row.ownerId}
@@ -291,7 +356,8 @@ export function BatchWorkItemsForm({
                   </button>
                 </td>
               </tr>
-            ))}
+            );
+          })}
           </tbody>
         </table>
       </div>
@@ -311,13 +377,15 @@ export function BatchWorkItemsForm({
           type="submit"
           variant="purple"
           disabled={isPending}
+          icon={
+            isPending ? (
+              <LoaderCircle className="animate-spin size-4" />
+            ) : (
+              <Zap className="size-4 fill-white text-white" />
+            )
+          }
           className="px-6 py-2.5 text-xs font-bold"
         >
-          {isPending ? (
-            <LoaderCircle className="animate-spin size-4" />
-          ) : (
-            <Zap className="size-4" />
-          )}
           {isPending ? "Submitting..." : "Submit"}
         </GooeyButton>
       </div>
