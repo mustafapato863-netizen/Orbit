@@ -23,6 +23,10 @@ import {
   buildOverviewJourney,
   type DeliveryPipelineView,
 } from "@/lib/pipeline/pipeline";
+import {
+  calculateDurationDays,
+  calculateEndDateFromDuration,
+} from "@/lib/projects/project.utils";
 import { cn } from "@/lib/utils";
 
 type PipelineRoadmapItem =
@@ -198,7 +202,7 @@ export function TimelineLane({
       </div>
       <span
         aria-hidden="true"
-        className="absolute inset-y-0 z-10 w-0.5 border-r border-[#e8890c]/40 bg-[#e8890c]/70"
+        className="absolute inset-y-0 z-10 w-0.5 bg-[#e8890c]/70 border-r border-[#e8890c]/40"
         style={{ left: `${today}%` }}
       />
 
@@ -266,6 +270,7 @@ export function RoadmapItemEditor({
 }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [draftMilestoneId, setDraftMilestoneId] = useState(milestoneId);
   const [draftName, setDraftName] = useState(item.name);
   const [draftStatus, setDraftStatus] = useState<string>(item.status);
   const [draftProgress, setDraftProgress] = useState(
@@ -273,8 +278,42 @@ export function RoadmapItemEditor({
   );
   const [draftStartDate, setDraftStartDate] = useState(dateInputValue(item.startDate));
   const [draftDueDate, setDraftDueDate] = useState(dateInputValue(item.dueDate));
+  const [draftDurationDays, setDraftDurationDays] = useState<number | "">(() =>
+    calculateDurationDays(dateInputValue(item.startDate), dateInputValue(item.dueDate)),
+  );
   const [message, setMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const handleStartDateChange = (newStart: string) => {
+    setDraftStartDate(newStart);
+    if (typeof draftDurationDays === "number" && draftDurationDays >= 0) {
+      const newDue = calculateEndDateFromDuration(newStart, draftDurationDays);
+      if (newDue) setDraftDueDate(newDue);
+    } else if (draftDueDate) {
+      setDraftDurationDays(calculateDurationDays(newStart, draftDueDate));
+    }
+  };
+
+  const handleDueDateChange = (newDue: string) => {
+    setDraftDueDate(newDue);
+    setDraftDurationDays(calculateDurationDays(draftStartDate, newDue));
+  };
+
+  const handleDurationChange = (val: string) => {
+    if (val === "") {
+      setDraftDurationDays("");
+      return;
+    }
+    const parsed = parseInt(val, 10);
+    if (!Number.isNaN(parsed) && parsed >= 0) {
+      setDraftDurationDays(parsed);
+      if (draftStartDate) {
+        const newDue = calculateEndDateFromDuration(draftStartDate, parsed);
+        if (newDue) setDraftDueDate(newDue);
+      }
+    }
+  };
+
   const progress =
     draftStatus === "IN_PROGRESS"
       ? Number(draftProgress || progressForStatus(item.status, item.progress))
@@ -310,7 +349,7 @@ export function RoadmapItemEditor({
         item.itemKind === "specific"
           ? await updateWorkItemAction({
               ...payload,
-              milestoneId,
+              milestoneId: draftMilestoneId,
               workItemId: item.id,
             })
           : await updateCapabilityAction({
@@ -423,14 +462,45 @@ export function RoadmapItemEditor({
             </div>
           ) : null}
 
-          <div className="grid grid-cols-2 gap-1.5">
+          {item.itemKind === "specific" && pipeline.milestones.length > 1 ? (
+            <div>
+              <label className="text-[0.58rem] font-semibold text-[var(--orbit-text-muted)]">
+                Assigned Milestone
+              </label>
+              <select
+                value={draftMilestoneId}
+                onChange={(event) => setDraftMilestoneId(event.target.value)}
+                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-2 text-[0.68rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
+                aria-label="Assigned milestone"
+              >
+                {pipeline.milestones.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
+          <div className="grid grid-cols-3 gap-1.5">
             <div>
               <label className="text-[0.58rem] font-semibold text-[var(--orbit-text-muted)]">Start Date</label>
               <input
                 type="date"
                 value={draftStartDate}
-                onChange={(event) => setDraftStartDate(event.target.value)}
-                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-1.5 text-[0.65rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
+                onChange={(event) => handleStartDateChange(event.target.value)}
+                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-1 text-[0.63rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
+              />
+            </div>
+            <div>
+              <label className="text-[0.58rem] font-semibold text-[var(--orbit-text-muted)]">Days</label>
+              <input
+                type="number"
+                min={0}
+                placeholder="Days"
+                value={draftDurationDays}
+                onChange={(event) => handleDurationChange(event.target.value)}
+                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-1 text-[0.63rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
               />
             </div>
             <div>
@@ -438,8 +508,8 @@ export function RoadmapItemEditor({
               <input
                 type="date"
                 value={draftDueDate}
-                onChange={(event) => setDraftDueDate(event.target.value)}
-                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-1.5 text-[0.65rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
+                onChange={(event) => handleDueDateChange(event.target.value)}
+                className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-1 text-[0.63rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
               />
             </div>
           </div>

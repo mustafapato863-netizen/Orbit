@@ -24,7 +24,11 @@ import {
   riskLevels,
   type CreateMilestoneInput,
 } from "@/lib/projects/project.schemas";
-import { displayEnum } from "@/lib/projects/project.utils";
+import {
+  calculateDurationDays,
+  calculateEndDateFromDuration,
+  displayEnum,
+} from "@/lib/projects/project.utils";
 
 export function MilestoneForm({
   projectId,
@@ -41,6 +45,8 @@ export function MilestoneForm({
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CreateMilestoneInput>({
     resolver: zodResolver(createMilestoneSchema),
@@ -61,6 +67,45 @@ export function MilestoneForm({
       firstReleaseImpact: "",
     },
   });
+
+  const startDateValue = watch("startDate");
+  const dueDateValue = watch("dueDate");
+  const [durationDays, setDurationDays] = useState<number | "">(() =>
+    calculateDurationDays(startDateValue || "", dueDateValue || ""),
+  );
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStart = e.target.value;
+    setValue("startDate", newStart, { shouldValidate: true });
+    if (typeof durationDays === "number" && durationDays >= 0) {
+      const newDue = calculateEndDateFromDuration(newStart, durationDays);
+      if (newDue) setValue("dueDate", newDue, { shouldValidate: true });
+    } else if (dueDateValue) {
+      setDurationDays(calculateDurationDays(newStart, dueDateValue));
+    }
+  };
+
+  const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDue = e.target.value;
+    setValue("dueDate", newDue, { shouldValidate: true });
+    setDurationDays(calculateDurationDays(startDateValue, newDue));
+  };
+
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val === "") {
+      setDurationDays("");
+      return;
+    }
+    const parsed = parseInt(val, 10);
+    if (!Number.isNaN(parsed) && parsed >= 0) {
+      setDurationDays(parsed);
+      if (startDateValue) {
+        const newDue = calculateEndDateFromDuration(startDateValue, parsed);
+        if (newDue) setValue("dueDate", newDue, { shouldValidate: true });
+      }
+    }
+  };
 
   const submit = handleSubmit((values) => {
     setMessage(null);
@@ -176,7 +221,7 @@ export function MilestoneForm({
           </select>
         </FormField>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-3">
         <FormField
           id="milestone-start-date"
           label="Start date"
@@ -187,6 +232,20 @@ export function MilestoneForm({
             type="date"
             aria-invalid={Boolean(errors.startDate)}
             {...register("startDate")}
+            onChange={handleStartDateChange}
+          />
+        </FormField>
+        <FormField
+          id="milestone-duration"
+          label="Duration (Days)"
+        >
+          <Input
+            id="milestone-duration"
+            type="number"
+            min={0}
+            placeholder="e.g. 14"
+            value={durationDays}
+            onChange={handleDurationChange}
           />
         </FormField>
         <FormField
@@ -199,6 +258,7 @@ export function MilestoneForm({
             type="date"
             aria-invalid={Boolean(errors.dueDate)}
             {...register("dueDate")}
+            onChange={handleDueDateChange}
           />
         </FormField>
       </div>

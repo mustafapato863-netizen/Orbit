@@ -22,7 +22,11 @@ import {
   projectStatuses,
   type CreateProjectInput,
 } from "@/lib/projects/project.schemas";
-import { displayEnum } from "@/lib/projects/project.utils";
+import {
+  calculateDurationDays,
+  calculateEndDateFromDuration,
+  displayEnum,
+} from "@/lib/projects/project.utils";
 import {
   projectTypes,
   workstreamTemplates,
@@ -43,6 +47,8 @@ export function ProjectForm({
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CreateProjectInput>({
     resolver: zodResolver(createProjectSchema),
@@ -58,6 +64,45 @@ export function ProjectForm({
       targetDate: "",
     },
   });
+
+  const startDateValue = watch("startDate");
+  const targetDateValue = watch("targetDate");
+  const [durationDays, setDurationDays] = useState<number | "">(() =>
+    calculateDurationDays(startDateValue || "", targetDateValue || ""),
+  );
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStart = e.target.value;
+    setValue("startDate", newStart, { shouldValidate: true });
+    if (typeof durationDays === "number" && durationDays >= 0) {
+      const newTarget = calculateEndDateFromDuration(newStart, durationDays);
+      if (newTarget) setValue("targetDate", newTarget, { shouldValidate: true });
+    } else if (targetDateValue) {
+      setDurationDays(calculateDurationDays(newStart, targetDateValue));
+    }
+  };
+
+  const handleTargetDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTarget = e.target.value;
+    setValue("targetDate", newTarget, { shouldValidate: true });
+    setDurationDays(calculateDurationDays(startDateValue, newTarget));
+  };
+
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val === "") {
+      setDurationDays("");
+      return;
+    }
+    const parsed = parseInt(val, 10);
+    if (!Number.isNaN(parsed) && parsed >= 0) {
+      setDurationDays(parsed);
+      if (startDateValue) {
+        const newTarget = calculateEndDateFromDuration(startDateValue, parsed);
+        if (newTarget) setValue("targetDate", newTarget, { shouldValidate: true });
+      }
+    }
+  };
 
   const submit = handleSubmit((values) => {
     setMessage(null);
@@ -187,6 +232,20 @@ export function ProjectForm({
             type="date"
             aria-invalid={Boolean(errors.startDate)}
             {...register("startDate")}
+            onChange={handleStartDateChange}
+          />
+        </FormField>
+        <FormField
+          id="project-duration"
+          label="Duration (Days)"
+        >
+          <Input
+            id="project-duration"
+            type="number"
+            min={0}
+            placeholder="e.g. 30"
+            value={durationDays}
+            onChange={handleDurationChange}
           />
         </FormField>
         <FormField
@@ -199,6 +258,7 @@ export function ProjectForm({
             type="date"
             aria-invalid={Boolean(errors.targetDate)}
             {...register("targetDate")}
+            onChange={handleTargetDateChange}
           />
         </FormField>
       </div>

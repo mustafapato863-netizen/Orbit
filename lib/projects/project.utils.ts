@@ -34,3 +34,27 @@ export function displayEnum(value: string) {
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 }
+
+export function calculateDurationDays(
+  startDateStr: string,
+  endDateStr: string,
+): number | "" {
+  if (!startDateStr || !endDateStr) return "";
+  const start = new Date(`${startDateStr}T00:00:00.000Z`).getTime();
+  const end = new Date(`${endDateStr}T00:00:00.000Z`).getTime();
+  if (Number.isNaN(start) || Number.isNaN(end) || end < start) return "";
+  const diffDays = Math.round((end - start) / (24 * 60 * 60 * 1000));
+  return diffDays >= 0 ? diffDays : "";
+}
+
+export function calculateEndDateFromDuration(
+  startDateStr: string,
+  durationDays: number,
+): string {
+  if (!startDateStr || Number.isNaN(durationDays) || durationDays < 0)
+    return "";
+  const start = new Date(`${startDateStr}T00:00:00.000Z`);
+  if (Number.isNaN(start.getTime())) return "";
+  start.setUTCDate(start.getUTCDate() + durationDays);
+  return start.toISOString().slice(0, 10);
+}

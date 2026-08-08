@@ -5,7 +5,11 @@ import {
   createMilestoneSchema,
   createProjectSchema,
 } from "@/lib/projects/project.schemas";
-import { slugifyProject } from "@/lib/projects/project.utils";
+import {
+  calculateDurationDays,
+  calculateEndDateFromDuration,
+  slugifyProject,
+} from "@/lib/projects/project.utils";
 
 describe("project and milestone validation", () => {
   it("accepts a valid project without asking for a code", () => {
@@ -107,5 +111,12 @@ describe("project and milestone validation", () => {
         subMilestones: [],
       }).success,
     ).toBe(false);
+  });
+
+  it("calculates duration in days and end dates correctly", () => {
+    expect(calculateDurationDays("2026-08-01", "2026-08-10")).toBe(9);
+    expect(calculateDurationDays("2026-08-01", "")).toBe("");
+    expect(calculateEndDateFromDuration("2026-08-01", 9)).toBe("2026-08-10");
+    expect(calculateEndDateFromDuration("2026-08-01", 30)).toBe("2026-08-31");
   });
 });

@@ -262,6 +262,14 @@ export class ExecutionService {
     if (!existing) {
       throw new ExecutionDomainError("Work Item not found.", "NOT_FOUND");
     }
+    const targetMilestone = await this.repository.findMilestone(
+      input.projectId,
+      input.milestoneId,
+    );
+    if (!targetMilestone) {
+      throw new ExecutionDomainError("Milestone not found.", "NOT_FOUND");
+    }
+
     await this.validateRelations(
       input.projectId,
       input.primaryWorkstreamId,
@@ -271,7 +279,10 @@ export class ExecutionService {
 
     const updated = await this.repository.updateWorkItem(
       input.workItemId,
-      executionData(input),
+      {
+        milestoneId: input.milestoneId,
+        ...executionData(input),
+      },
     );
     await this.repository.replaceWorkItemSupporting(
       updated.id,
@@ -284,6 +295,10 @@ export class ExecutionService {
       updated.deliveryStage,
     );
     await this.repository.refreshMilestoneSchedule(existing.milestoneId);
+    if (existing.milestoneId !== input.milestoneId) {
+      await this.repository.refreshMilestoneSchedule(input.milestoneId);
+    }
+
     await recordAuditEntry(this.database, {
       actorId,
       projectId: input.projectId,
@@ -292,7 +307,10 @@ export class ExecutionService {
       entityId: updated.id,
       beforeState: executionState(existing),
       afterState: executionState(updated),
-      metadata: { milestoneId: existing.milestoneId },
+      metadata: {
+        milestoneId: updated.milestoneId,
+        previousMilestoneId: existing.milestoneId,
+      },
     });
 
     return updated;

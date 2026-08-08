@@ -17,6 +17,10 @@ import {
   createMilestonePlanSchema,
   type CreateMilestonePlanInput,
 } from "@/lib/projects/project.schemas";
+import {
+  calculateDurationDays,
+  calculateEndDateFromDuration,
+} from "@/lib/projects/project.utils";
 
 const emptySubMilestone = {
   name: "",
@@ -32,6 +36,8 @@ export function MilestoneBuilder({ projectId }: { projectId: string }) {
     control,
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CreateMilestonePlanInput>({
     resolver: zodResolver(createMilestonePlanSchema),
@@ -146,7 +152,41 @@ export function MilestoneBuilder({ projectId }: { projectId: string }) {
                     id={`sub-start-${index}`}
                     type="date"
                     aria-invalid={Boolean(rowErrors?.startDate)}
-                    {...register(`subMilestones.${index}.startDate`)}
+                    {...register(`subMilestones.${index}.startDate`, {
+                      onChange: (e) => {
+                        const start = e.target.value;
+                        const due = watch(`subMilestones.${index}.dueDate`);
+                        const duration = (e.target as any)._duration;
+                        if (typeof duration === "number" && duration >= 0) {
+                          const newDue = calculateEndDateFromDuration(start, duration);
+                          if (newDue) setValue(`subMilestones.${index}.dueDate`, newDue, { shouldValidate: true });
+                        }
+                      },
+                    })}
+                  />
+                </FormField>
+                <FormField
+                  id={`sub-duration-${index}`}
+                  label="Days"
+                >
+                  <Input
+                    id={`sub-duration-${index}`}
+                    type="number"
+                    min={0}
+                    placeholder="Days"
+                    value={calculateDurationDays(
+                      watch(`subMilestones.${index}.startDate`) || "",
+                      watch(`subMilestones.${index}.dueDate`) || ""
+                    )}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      const parsed = parseInt(val, 10);
+                      const start = watch(`subMilestones.${index}.startDate`);
+                      if (!Number.isNaN(parsed) && parsed >= 0 && start) {
+                        const newDue = calculateEndDateFromDuration(start, parsed);
+                        if (newDue) setValue(`subMilestones.${index}.dueDate`, newDue, { shouldValidate: true });
+                      }
+                    }}
                   />
                 </FormField>
                 <FormField
