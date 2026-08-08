@@ -4,6 +4,7 @@ import {
   Check,
   CheckCircle2,
   Circle,
+  Copy,
   ListTodo,
   Plus,
   Search,
@@ -51,6 +52,7 @@ export function HeaderTodoWidget() {
   const [newPriority, setNewPriority] = useState<TodoPriority>("medium");
   const [filterTab, setFilterTab] = useState<"all" | "active" | "completed">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -146,6 +148,16 @@ export function HeaderTodoWidget() {
 
   const handleDeleteTodo = (id: string) => {
     setTodos((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const handleCopyTodo = (text: string, id: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1500);
+    } catch (err) {
+      console.error("Failed to copy note text", err);
+    }
   };
 
   const handleClearCompleted = () => {
@@ -358,6 +370,18 @@ export function HeaderTodoWidget() {
                     >
                       {todo.priority}
                     </span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyTodo(todo.text, todo.id)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer"
+                      title="Copy note text"
+                    >
+                      {copiedId === todo.id ? (
+                        <Check className="size-3.5 text-emerald-500 animate-in zoom-in-50 duration-150" />
+                      ) : (
+                        <Copy className="size-3.5" />
+                      )}
+                    </button>
                     <button
                       type="button"
                       onClick={() => handleDeleteTodo(todo.id)}
