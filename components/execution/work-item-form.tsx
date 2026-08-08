@@ -58,6 +58,8 @@ export function WorkItemForm({
     register,
     control,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<CreateWorkItemInput>({
     resolver: zodResolver(createWorkItemSchema),
@@ -81,6 +83,18 @@ export function WorkItemForm({
       acceptanceCriteria: "",
     },
   });
+
+  const [durationDays, setDurationDays] = useState<string>(() => {
+    if (initialValues?.startDate && initialValues?.dueDate) {
+      const d1 = new Date(initialValues.startDate);
+      const d2 = new Date(initialValues.dueDate);
+      const diffTime = d2.getTime() - d1.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays >= 0 ? String(diffDays) : "";
+    }
+    return "";
+  });
+
   const primaryWorkstreamId = useWatch({
     control,
     name: "primaryWorkstreamId",
@@ -89,6 +103,52 @@ export function WorkItemForm({
     control,
     name: "status",
   });
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const start = e.target.value;
+    setValue("startDate", start);
+    if (start && durationDays) {
+      const days = parseInt(durationDays, 10);
+      if (!isNaN(days) && days >= 0) {
+        const d = new Date(start);
+        d.setDate(d.getDate() + days);
+        setValue("dueDate", d.toISOString().split("T")[0]);
+      }
+    } else if (start && getValues("dueDate")) {
+      const d1 = new Date(start);
+      const d2 = new Date(getValues("dueDate"));
+      const diffTime = d2.getTime() - d1.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays >= 0) setDurationDays(String(diffDays));
+    }
+  };
+
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const daysStr = e.target.value;
+    setDurationDays(daysStr);
+    const start = getValues("startDate");
+    if (start && daysStr) {
+      const days = parseInt(daysStr, 10);
+      if (!isNaN(days) && days >= 0) {
+        const d = new Date(start);
+        d.setDate(d.getDate() + days);
+        setValue("dueDate", d.toISOString().split("T")[0]);
+      }
+    }
+  };
+
+  const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const due = e.target.value;
+    setValue("dueDate", due);
+    const start = getValues("startDate");
+    if (start && due) {
+      const d1 = new Date(start);
+      const d2 = new Date(due);
+      const diffTime = d2.getTime() - d1.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays >= 0) setDurationDays(String(diffDays));
+    }
+  };
 
   const submit = handleSubmit((values) => {
     setMessage(null);
@@ -238,7 +298,7 @@ export function WorkItemForm({
           </select>
         </FormField>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         <FormField
           id="work-owner"
           label="Owner"
@@ -269,14 +329,34 @@ export function WorkItemForm({
           label="Start date"
           error={errors.startDate?.message}
         >
-          <Input id="work-start" type="date" {...register("startDate")} />
+          <Input
+            id="work-start"
+            type="date"
+            {...register("startDate")}
+            onChange={handleStartDateChange}
+          />
+        </FormField>
+        <FormField id="work-duration" label="Duration (Days)">
+          <Input
+            id="work-duration"
+            type="number"
+            min={0}
+            placeholder="e.g. 7"
+            value={durationDays}
+            onChange={handleDurationChange}
+          />
         </FormField>
         <FormField
           id="work-due"
           label="Due date"
           error={errors.dueDate?.message}
         >
-          <Input id="work-due" type="date" {...register("dueDate")} />
+          <Input
+            id="work-due"
+            type="date"
+            {...register("dueDate")}
+            onChange={handleDueDateChange}
+          />
         </FormField>
       </div>
       <div className="grid gap-5 lg:grid-cols-3">

@@ -51,6 +51,8 @@ async function command(
   }
 }
 
+import { z } from "zod";
+
 export async function createWorkItemAction(input: unknown) {
   const parsed = createWorkItemSchema.safeParse(input);
   if (!parsed.success) return validationFailure(parsed.error);
@@ -61,6 +63,34 @@ export async function createWorkItemAction(input: unknown) {
   const result = await command(parsed.data.projectId, () =>
     executionCommands.createWorkItem(context.user.id, parsed.data),
   );
+  return result.success
+    ? {
+        ...result,
+        redirectTo: `/projects/${parsed.data.projectId}`,
+      }
+    : result;
+}
+
+export async function createBatchWorkItemsAction(input: unknown) {
+  const batchSchema = z.object({
+    projectId: z.string().min(1),
+    milestoneId: z.string().min(1),
+    items: z.array(createWorkItemSchema).min(1, "Add at least one sub-milestone item."),
+  });
+  const parsed = batchSchema.safeParse(input);
+  if (!parsed.success) return validationFailure(parsed.error);
+
+  const context = await requirePermission(
+    PERMISSIONS.WORK_ITEM_MANAGE,
+    parsed.data.projectId,
+  );
+
+  const result = await command(parsed.data.projectId, async () => {
+    for (const item of parsed.data.items) {
+      await executionCommands.createWorkItem(context.user.id, item);
+    }
+  });
+
   return result.success
     ? {
         ...result,

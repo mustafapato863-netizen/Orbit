@@ -1,12 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { WorkItemForm } from "@/components/execution/work-item-form";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { NewWorkItemContainer } from "@/components/execution/new-work-item-container";
 import { PageHeader } from "@/components/ui/page-header";
 import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
@@ -32,22 +26,15 @@ export default async function NewWorkItemPage({
     <div className="space-y-8">
       <PageHeader
         eyebrow={`${project.code} · ${milestone.code}`}
-        title="Create Milestone-Specific Work Item"
+        title="Create Milestone-Specific Work Items"
         description={`Add delivery work owned by ${milestone.name}.`}
       />
-      <Card>
-        <CardHeader>
-          <CardTitle>Work Item details</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <WorkItemForm
-            projectId={projectId}
-            milestoneId={milestoneId}
-            workstreams={workstreams}
-            members={members}
-          />
-        </CardContent>
-      </Card>
+      <NewWorkItemContainer
+        projectId={projectId}
+        milestoneId={milestoneId}
+        workstreams={workstreams}
+        members={members}
+      />
     </div>
   );
 }
