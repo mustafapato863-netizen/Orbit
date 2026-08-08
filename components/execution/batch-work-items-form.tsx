@@ -191,7 +191,7 @@ export function BatchWorkItemsForm({
   };
 
   return (
-    <form onSubmit={handleSubmitBatch} className="space-y-6">
+    <form onSubmit={handleSubmitBatch} className="space-y-6" noValidate>
       {errorMessage ? (
         <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-300">
           ⚠️ {errorMessage}
@@ -232,7 +232,6 @@ export function BatchWorkItemsForm({
                   <td className="p-2">
                     <input
                       type="text"
-                      required
                       placeholder="e.g. Database schema setup"
                       value={row.name}
                       onChange={(e) => updateRowField(row.id, "name", e.target.value)}
