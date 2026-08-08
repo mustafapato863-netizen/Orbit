@@ -102,7 +102,7 @@ export function Sidebar({ user }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "sticky top-0 hidden h-svh shrink-0 flex-col border-r border-[var(--sidebar-border)] bg-[var(--sidebar)] p-3.5 text-[var(--sidebar-foreground)] transition-[width] duration-200 ease-out lg:flex",
+        "sticky top-0 hidden h-svh shrink-0 flex-col border-r border-[#3b387e]/40 bg-[linear-gradient(160deg,#1e1b4b,#312e81,#4c1d95)] p-3.5 text-[#b8c0e0] transition-[width] duration-200 ease-out lg:flex",
         isCollapsed ? "w-[84px]" : "w-[236px]",
       )}
     >
@@ -211,12 +211,12 @@ function NavRow({
 
   const content = (
     <>
-      <Icon className={cn("size-4 shrink-0", isActive ? "text-[#a79cff]" : "opacity-85")} />
+      <Icon className={cn("size-4 shrink-0", isActive ? "text-[#c4b5fd]" : "opacity-85")} />
       {!collapsed ? (
         <>
           <span className="min-w-0 flex-1 truncate">{item.label}</span>
           {item.tag ? (
-            <span className="ml-auto shrink-0 rounded-[5px] border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] font-bold tracking-[.04em] text-[#68719099]">
+            <span className="ml-auto shrink-0 rounded-[5px] border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] font-bold tracking-[.04em] text-[#9ca3af]">
               {item.tag}
             </span>
           ) : null}
@@ -226,11 +226,11 @@ function NavRow({
   );
 
   const rowClasses = cn(
-    "relative flex items-center rounded-lg py-2 text-[13.5px] font-medium",
+    "relative flex items-center rounded-lg py-2 text-[13.5px] font-medium transition-all",
     collapsed ? "justify-center px-0" : "gap-2.5 px-2.5",
-    isActive && "bg-[var(--sidebar-accent)] text-white",
-    !isActive && !isDisabled && "text-[var(--sidebar-foreground)] hover:bg-white/[0.045] hover:text-[#d6daeb]",
-    isDisabled && "cursor-not-allowed text-[#4a5170]",
+    isActive && "bg-white/15 text-white font-semibold shadow-sm ring-1 ring-white/15 backdrop-blur-xs",
+    !isActive && !isDisabled && "text-[#c7d2fe]/90 hover:bg-white/10 hover:text-white",
+    isDisabled && "cursor-not-allowed text-white/30",
   );
 
   if (isDisabled) {

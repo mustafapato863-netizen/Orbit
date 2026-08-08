@@ -4,7 +4,7 @@
 :root {
   color-scheme: light;
   --radius: 0.75rem;
-  --background: #f4f5f8;
+  --background: #f8fafc;
   --foreground: #10131c;
   --card: #ffffff;
   --card-foreground: #10131c;
@@ -19,23 +19,23 @@
   --accent: #efebff;
   --accent-foreground: #6350c9;
   --destructive: #e4483c;
-  --border: #e6e8ef;
-  --input: #e6e8ef;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
   --ring: #6e5ae6;
-  --sidebar: #0c1122;
-  --sidebar-foreground: #8b92ac;
-  --sidebar-primary: #6e5ae6;
+  --sidebar: linear-gradient(160deg, #18153b, #25225d, #3c1979);
+  --sidebar-foreground: #b8c0e0;
+  --sidebar-primary: #a894ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #161d33;
+  --sidebar-accent: rgba(255, 255, 255, 0.12);
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #1e2540;
-  --sidebar-ring: #6e5ae6;
+  --sidebar-border: rgba(255, 255, 255, 0.12);
+  --sidebar-ring: #a894ff;
   --workstream-frontend: #6e5ae6;
   --workstream-backend: #2f6fe4;
   --workstream-database: #0e9f8e;
   --release-phase-two: #6e5ae6;
 
-  --orbit-bg: #f4f5f8;
+  --orbit-bg: #f8fafc;
   --orbit-surface: #ffffff;
   --orbit-surface-muted: #fafbfc;
   --orbit-border: #e6e8ef;
