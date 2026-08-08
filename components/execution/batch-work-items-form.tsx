@@ -318,9 +318,7 @@ export function BatchWorkItemsForm({
           ) : (
             <Zap className="size-4" />
           )}
-          {isPending
-            ? "Saving Batch..."
-            : `Save ${rows.length} Sub-Milestone${rows.length > 1 ? "s" : ""}`}
+          {isPending ? "Submitting..." : "Submit"}
         </GooeyButton>
       </div>
     </form>
