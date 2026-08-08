@@ -83,6 +83,7 @@ const milestoneFields = z
     progress: z.number().int().min(0).max(100),
     riskLevel: z.enum(riskLevels),
     releaseHorizon: z.enum(releaseHorizons),
+    ownerId: z.string().uuid().optional().or(z.literal("")),
     startDate: optionalDate,
     dueDate: optionalDate,
     deliveredScope: optionalText(10_000),

@@ -30,14 +30,20 @@ import {
   displayEnum,
 } from "@/lib/projects/project.utils";
 
+type MemberOption = {
+  user: { id: string; displayName: string; email: string };
+};
+
 export function MilestoneForm({
   projectId,
   milestoneId,
   initialValues,
+  members,
 }: {
   projectId: string;
   milestoneId?: string;
   initialValues?: CreateMilestoneInput;
+  members?: MemberOption[];
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -58,6 +64,7 @@ export function MilestoneForm({
       progress: 0,
       riskLevel: "LOW",
       releaseHorizon: "RELEASE_1",
+      ownerId: "",
       startDate: "",
       dueDate: "",
       deliveredScope: "",
@@ -220,6 +227,41 @@ export function MilestoneForm({
             ))}
           </select>
         </FormField>
+      </div>
+
+      {members && members.length > 0 ? (
+        <FormField
+          id="milestone-owner"
+          label="Assigned Person (Owner / Lead)"
+          error={errors.ownerId?.message}
+        >
+          <select
+            id="milestone-owner"
+            className={selectClasses}
+            {...register("ownerId")}
+          >
+            <option value="">Unassigned</option>
+            {members.map(({ user }) => (
+              <option key={user.id} value={user.id}>
+                {user.displayName} ({user.email})
+              </option>
+            ))}
+          </select>
+        </FormField>
+      ) : null}
+
+      <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 text-xs dark:border-slate-800 dark:bg-slate-900/40">
+        <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-slate-200 mb-1">
+          <span className="flex size-5 items-center justify-center rounded-md bg-indigo-100 text-indigo-700 text-[0.65rem] dark:bg-indigo-950 dark:text-indigo-300">
+            ℹ️
+          </span>
+          <span>Technical Workstreams Relation</span>
+        </div>
+        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+          Business Milestones structure high-level business capabilities.
+          Technical tasks inside this milestone belong to 🔵 <strong>Frontend</strong>, 🟢 <strong>Backend</strong>, or 🟠 <strong>Database</strong> workstreams.
+          Orbit automatically aggregates underlying tasks to derive the milestone&apos;s <strong>Dominant Workstream</strong>.
+        </p>
       </div>
       <div className="grid gap-5 sm:grid-cols-3">
         <FormField

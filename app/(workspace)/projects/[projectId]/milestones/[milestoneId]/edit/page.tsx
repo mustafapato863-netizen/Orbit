@@ -11,6 +11,7 @@ import {
 import { PageHeader } from "@/components/ui/page-header";
 import { requirePagePermission } from "@/lib/auth/authorization";
 import { PERMISSIONS } from "@/lib/auth/permissions";
+import { executionQueries } from "@/lib/execution/execution.service";
 import { projectQueries } from "@/lib/projects/project.service";
 import { dateInputValue } from "@/lib/projects/project.utils";
 
@@ -21,11 +22,13 @@ export default async function EditMilestonePage({
 }) {
   const { projectId, milestoneId } = await params;
   await requirePagePermission(PERMISSIONS.MILESTONE_MANAGE, projectId);
-  const [project, milestone] = await Promise.all([
+  const [project, milestone, setup] = await Promise.all([
     projectQueries.getProject(projectId),
     projectQueries.getMilestone(projectId, milestoneId),
+    executionQueries.getSetup(projectId),
   ]);
   if (!project || !milestone) notFound();
+  const [, members] = setup;
 
   return (
     <div className="space-y-8">
@@ -42,6 +45,7 @@ export default async function EditMilestonePage({
           <MilestoneForm
             projectId={projectId}
             milestoneId={milestoneId}
+            members={members}
             initialValues={{
               projectId,
               code: milestone.code,
