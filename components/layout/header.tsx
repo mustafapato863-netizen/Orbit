@@ -4,6 +4,7 @@ import { Activity, ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
 
 import { signOutAction } from "@/app/(auth)/actions";
+import { FeatureHighlightsModal } from "@/components/layout/feature-highlights-modal";
 import { HeaderTodoWidget } from "@/components/layout/header-todo-widget";
 import { OrbitMark } from "@/components/layout/orbit-mark";
 import type { SessionUser } from "@/lib/auth/session";
@@ -34,6 +35,7 @@ export function Header({ user }: { user: SessionUser }) {
             System healthy
           </span>
 
+          <FeatureHighlightsModal />
           <HeaderTodoWidget />
 
           <Link
