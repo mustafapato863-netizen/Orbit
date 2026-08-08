@@ -179,13 +179,31 @@ export function BatchWorkItemsForm({
       });
 
       if (!result.success) {
+        if (result.fieldErrors) {
+          const serverRowErrors: Record<number, { name?: string; startDate?: string; dueDate?: string }> = {};
+          Object.entries(result.fieldErrors).forEach(([fieldKey, messages]) => {
+            const match = fieldKey.match(/^items\.(\d+)\.(.+)$/);
+            if (match && messages?.[0]) {
+              const rowIdx = parseInt(match[1], 10);
+              const propName = match[2] as "name" | "startDate" | "dueDate";
+              if (!serverRowErrors[rowIdx]) serverRowErrors[rowIdx] = {};
+              serverRowErrors[rowIdx][propName] = messages[0];
+            }
+          });
+          if (Object.keys(serverRowErrors).length > 0) {
+            setRowErrors(serverRowErrors);
+          }
+        }
+
         setErrorMessage(
           result.message ?? "Failed to save sub-milestones batch. Please check row entries.",
         );
         return;
       }
 
-      if (result.redirectTo) router.push(result.redirectTo);
+      if ("redirectTo" in result && typeof result.redirectTo === "string") {
+        router.push(result.redirectTo);
+      }
       router.refresh();
     });
   };

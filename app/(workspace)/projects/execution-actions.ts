@@ -78,7 +78,23 @@ export async function createBatchWorkItemsAction(input: unknown) {
     items: z.array(createWorkItemSchema).min(1, "Add at least one sub-milestone item."),
   });
   const parsed = batchSchema.safeParse(input);
-  if (!parsed.success) return validationFailure(parsed.error);
+  if (!parsed.success) {
+    const issueMessages = parsed.error.issues.map((issue) => {
+      const pathStr = issue.path.join(".");
+      const match = pathStr.match(/^items\.(\d+)\.(.+)$/);
+      if (match) {
+        const rowIdx = parseInt(match[1], 10) + 1;
+        const fieldName = match[2];
+        return `Row #${rowIdx} (${fieldName}): ${issue.message}`;
+      }
+      return issue.message;
+    });
+    return {
+      success: false,
+      message: issueMessages.length > 0 ? issueMessages.join(" | ") : "Review the highlighted fields.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
 
   const context = await requirePermission(
     PERMISSIONS.WORK_ITEM_MANAGE,
