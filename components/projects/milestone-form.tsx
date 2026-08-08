@@ -130,15 +130,6 @@ export function MilestoneForm({
     });
   });
 
-  const textAreas = [
-    ["businessPurpose", "Business purpose"],
-    ["deliveredScope", "Delivered scope"],
-    ["remainingScope", "Remaining scope"],
-    ["currentBlockers", "Current blockers"],
-    ["nextAction", "Next action"],
-    ["firstReleaseImpact", "First-release impact"],
-  ] as const;
-
   return (
     <form onSubmit={submit} className="space-y-6" noValidate>
       {message ? (
@@ -304,23 +295,18 @@ export function MilestoneForm({
           />
         </FormField>
       </div>
-      <div className="grid gap-5 lg:grid-cols-2">
-        {textAreas.map(([name, label]) => (
-          <FormField
-            key={name}
-            id={`milestone-${name}`}
-            label={label}
-            error={errors[name]?.message}
-            className={name === "businessPurpose" ? "lg:col-span-2" : undefined}
-          >
-            <Textarea
-              id={`milestone-${name}`}
-              aria-invalid={Boolean(errors[name])}
-              {...register(name)}
-            />
-          </FormField>
-        ))}
-      </div>
+      <FormField
+        id="milestone-businessPurpose"
+        label="Milestone Objectives & Executive Summary"
+        error={errors.businessPurpose?.message}
+      >
+        <Textarea
+          id="milestone-businessPurpose"
+          placeholder="Briefly describe the key objectives and business purpose of this milestone..."
+          aria-invalid={Boolean(errors.businessPurpose)}
+          {...register("businessPurpose")}
+        />
+      </FormField>
       <div className="flex justify-end">
         <Button type="submit" disabled={isPending}>
           {isPending ? (
