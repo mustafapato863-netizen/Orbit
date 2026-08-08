@@ -616,6 +616,7 @@ export function buildDeliveryPipeline(
     nextEvents,
     roadmapGroups,
     timeline: timeline(project),
+    members: project.members?.map(({ user }) => user) ?? [],
     milestones: project.milestones.map((milestone) => {
       const workstreams = milestoneWorkstreamSummary(milestone);
       return {

@@ -166,6 +166,18 @@ export class DeliveryPipelineRepository extends Repository {
           orderBy: [{ name: "asc" }, { code: "asc" }],
           select: capabilitySelection,
         },
+        members: {
+          where: {
+            archivedAt: null,
+            user: { is: { isActive: true, archivedAt: null } },
+          },
+          orderBy: { user: { displayName: "asc" } },
+          select: {
+            user: {
+              select: { id: true, displayName: true, email: true },
+            },
+          },
+        },
       },
     });
   }

@@ -271,6 +271,7 @@ export function RoadmapItemEditor({
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [draftMilestoneId, setDraftMilestoneId] = useState(milestoneId);
+  const [draftOwnerId, setDraftOwnerId] = useState(item.owner?.id ?? "");
   const [draftName, setDraftName] = useState(item.name);
   const [draftStatus, setDraftStatus] = useState<string>(item.status);
   const [draftProgress, setDraftProgress] = useState(
@@ -337,7 +338,7 @@ export function RoadmapItemEditor({
       nextGate: item.nextGate ?? "",
       startDate: draftStartDate,
       dueDate: draftDueDate,
-      ownerId: item.owner?.id ?? "",
+      ownerId: draftOwnerId,
       riskLevel: item.riskLevel,
       blocker: item.blocker ?? "",
       notes: item.notes ?? "",
@@ -482,6 +483,25 @@ export function RoadmapItemEditor({
             </div>
           ) : null}
 
+          <div>
+            <label className="text-[0.58rem] font-semibold text-[var(--orbit-text-muted)]">
+              Assigned Person (Owner)
+            </label>
+            <select
+              value={draftOwnerId}
+              onChange={(event) => setDraftOwnerId(event.target.value)}
+              className="h-7 w-full rounded-md border border-[var(--orbit-border)] bg-white px-2 text-[0.68rem] font-semibold text-[var(--orbit-text)] outline-none focus:border-[var(--orbit-purple)]"
+              aria-label="Assigned person"
+            >
+              <option value="">Unassigned</option>
+              {pipeline.members?.map((member) => (
+                <option key={member.id} value={member.id}>
+                  {member.displayName}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="grid grid-cols-3 gap-1.5">
             <div>
               <label className="text-[0.58rem] font-semibold text-[var(--orbit-text-muted)]">Start Date</label>
@@ -534,6 +554,8 @@ export function RoadmapItemEditor({
                   setIsEditing(false);
                   setDraftName(item.name);
                   setDraftStatus(item.status);
+                  setDraftOwnerId(item.owner?.id ?? "");
+                  setDraftMilestoneId(milestoneId);
                   setDraftProgress(String(progressForStatus(item.status, item.progress)));
                   setDraftStartDate(dateInputValue(item.startDate));
                   setDraftDueDate(dateInputValue(item.dueDate));

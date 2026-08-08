@@ -38,6 +38,7 @@ describe("buildWorkstreamView", () => {
       description: null,
       startDate: null,
       targetDate: null,
+      members: [],
       milestones: [
         {
           id: "m1",
