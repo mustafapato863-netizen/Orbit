@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
+import { GooeySvgFilter } from "@/components/ui/gooey-button";
 import type { SessionUser } from "@/lib/auth/session";
 
 type ApplicationShellProps = {
@@ -12,6 +13,7 @@ type ApplicationShellProps = {
 export function ApplicationShell({ children, user }: ApplicationShellProps) {
   return (
     <div className="flex min-h-svh bg-[var(--orbit-bg)]">
+      <GooeySvgFilter />
       <Sidebar user={user} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Header user={user} />

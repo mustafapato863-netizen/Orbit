@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { GooeyButton } from "@/components/ui/gooey-button";
 import { cn } from "@/lib/utils";
 
 const HIGHLIGHTS_VERSION = "orbit_seen_feature_highlights_v2.4";
@@ -223,13 +223,13 @@ export function FeatureHighlightsModal() {
                 <CheckCircle2 className="size-4 text-emerald-500" />
                 <span>All systems operational</span>
               </div>
-              <Button
-                type="button"
+              <GooeyButton
+                variant="purple"
                 onClick={handleClose}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-bold px-5 h-9 rounded-xl shadow-md cursor-pointer"
+                className="h-9 px-5 text-xs"
               >
                 Got it, Let&apos;s Explore!
-              </Button>
+              </GooeyButton>
             </div>
           </div>
         </div>
